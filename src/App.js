@@ -1,25 +1,25 @@
-import logo from './logo.svg';
+import React from "react";
+import {BrowserRouter as Router, Route, Routes} from "react-router-dom"
 import './App.css';
-
-function App() {
+import Login from "./components/Login/login";
+import Dashboard from "./components/Dashboard/dashboard";
+import Inventory from "./components/Inventory/inventory";
+import Enquiries from "./components/Enquiries/enquiries";
+import StockPage from "./components/Pages/StockPage/StockPage";
+/* import ProductStock from "./components/Products/ProductStocks";
+ */const App = () => {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Router>
+        <Routes>
+        <Route path='/' exact Component ={Login}/>
+          <Route path='/login' exact Component ={Login}/>
+          <Route path='/dashboard' Component ={Dashboard}/>
+          <Route path="inventory" Component={Inventory}/>
+          <Route path="/enquiries" Component={Enquiries}/>
+          <Route path="/stocks" Component={StockPage}/>
+{/*           <Route path="/productstocks" Component={ProductStock} />
+ */}        </Routes>
+    </Router>
   );
-}
-
+};
 export default App;
