@@ -119,8 +119,8 @@ const StockPage = () => {
               />
             )}
 
-            <button onClick={handleSaveStock}>Generate +</button>
-          </div>
+{/*             <button onClick={handleSaveStock}>Generate +</button>
+ */}          </div>
         </div>
       </div>
     </div>

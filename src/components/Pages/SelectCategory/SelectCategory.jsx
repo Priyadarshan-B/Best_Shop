@@ -23,8 +23,7 @@ const SelectCategoryCard = ({ category, gender, brand, model }) => (
     {model && (
       <>
         <img src={model.imageURL} alt={`${model.model} image`} /> 
-        {/* <h2>{model.model}</h2>
-        <h2>{model.modelNo}</h2> */}
+    
       </>
     )}
     {!category && <h2>Select your category</h2>}

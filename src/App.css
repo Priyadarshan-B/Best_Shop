@@ -346,3 +346,99 @@
 .addstock{
 height: 600px;
 }
+.product-dashboard {
+ width: 900px;
+ margin-left: 150px;
+  margin-top: 10px;
+  background-color: #ffffff;
+  border-radius: 12px;
+  box-shadow: 1px 2px 6px 2px #00000040;
+  padding: 20px;
+  
+}
+
+.product-dashboard-filters{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.cost-filter{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+.cost-filter > select{
+  width: 189px;
+  height: 50px;
+  border-radius: 15px;
+  padding: 10px;
+  background-color: #f8fafc;
+}
+
+.sort-by{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+.sort-by > input{
+  width: 247px;
+  height: 35px;
+  border-radius: 25px;
+  padding: 10px;
+}
+
+.product-dashboard-grid {
+  display: flex;
+  justify-content: space-between; /* Add this line to create space between elements */
+  gap: 20px;
+}
+
+.category-select-card {
+  height: 466px;
+  width: 236px;
+  background-color: #f8fafc;
+  border: 1px solid;
+  border-color: #0000002e;
+  border-radius: 12px;
+  padding: 20px;
+}
+
+.category-select-card input {
+  margin-bottom: 30px; /* Adjust the value as needed */
+}
+
+ .product-info-table{
+   flex: 1;
+ }
+
+.product-info-table table {
+  border-collapse: collapse;
+  width: 100%;
+  justify-content: center;
+  overflow: hidden; /* Ensure the border-radius is applied */
+}
+
+/* Table header styles */
+.product-info-table thead tr th {
+  background-color: #f8fafc;
+  border-color: #0000002e;
+  font-size: 18px;
+  padding: 15px;
+  border: 1px solid #eeeeee;
+  text-align: center;
+  color: var(--greyscale-400, #94A3B8);
+}
+
+/* Table body cell styles */
+.product-info-table tbody tr td {
+  text-align: center;
+  padding: 70px;
+}

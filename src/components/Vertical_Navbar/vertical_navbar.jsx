@@ -31,9 +31,13 @@ const VerticalNavbar = () => {
     console.log('Stocks clicked');
   };
   const handleProductStocksClick = () => {
-    navigate("/productstocks");
+    navigate("/productdashboard");
     console.log('Productstocks clicked');
   };
+
+  const handleNavigate=(path)=>{
+    navigate(path)
+  } 
 
   return (
     <div className="vertical-navbar">
@@ -44,7 +48,9 @@ const VerticalNavbar = () => {
         <li onClick={handleDashboardClick}><b>Dashboard</b></li>
         <li onClick={handleInventoryClick}><b>Inventory</b></li>
         <li onClick={handleEnquiriesClick}><b>Enquiries</b></li>
-        <li onClick={handleStocksClick}><b>Add Stocks</b></li>
+        <li onClick={()=>{
+          handleNavigate("/addStock")
+        }}><b>Add Stocks</b></li>
         <li onClick={handleProductStocksClick}><b>Products</b></li>
 
 

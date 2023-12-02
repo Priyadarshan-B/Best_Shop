@@ -21,7 +21,7 @@ const GenderComponent = ({ onSelectGender }) => {
         <GenderCard
           key={gender}
           gender={gender}
-          imageURL={imageURL}
+          imageURL={imageURL}   
           onSelectGender={onSelectGender}
         />
       ))}

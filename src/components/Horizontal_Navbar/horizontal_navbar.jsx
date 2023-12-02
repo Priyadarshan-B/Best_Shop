@@ -8,7 +8,7 @@ const Navbar = () => {
 
   return (
     <nav className="navbar">
-      <div className="logo">Your Logo</div>
+      <div className="logo">Logo</div>
 
       <div className="icons">
         <div className="icon" onClick={() => setNotifications(notifications + 1)}>

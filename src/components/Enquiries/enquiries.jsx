@@ -11,8 +11,8 @@ class Enquiries extends React.Component {
     this.state = {
       series: [
         {
-          name: 'Inflation',
-          data: [2.3, 3.1, 4.0, 10.1, 4.0, 3.6, 3.2, 2.3, 1.4, 0.8, 0.5, 0.2]
+          name: 'Availability',
+          data: [2.3, 3.1, 4.0, 10.1, 4.0, 3.6, , , , , , ]
         }
       ],
       options: {
@@ -39,7 +39,7 @@ class Enquiries extends React.Component {
           },
         },
         xaxis: {
-          categories: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
+          categories: ["Oil", "Bags", "Pencil", "Cap", "Key Chain", "Mobile Case", "", "", "", "", "", ""],
           position: 'top',
           axisBorder: {
             show: false,

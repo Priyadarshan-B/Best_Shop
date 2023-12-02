@@ -11,8 +11,8 @@ class Inventory extends React.Component {
     this.state = {
       series: [
         {
-          name: 'Inflation',
-          data: [2.3, 3.1, 4.0]
+          name: 'Stocks',
+          data: [2.3, 3.1, 4.0, 3.5,5.1,2.0]
         }
       ],
       options: {
@@ -26,6 +26,7 @@ class Inventory extends React.Component {
             dataLabels: {
               position: 'top',
             },
+            columnWidth: '40%', 
           },
         },
         dataLabels: {
@@ -40,7 +41,7 @@ class Inventory extends React.Component {
           },
         },
         xaxis: {
-          categories: ["Jan", "Feb", "Mar"],
+          categories: ["10%", "20%", "30%","40%", "50%", "60%"],
           position: 'top',
           axisBorder: {
             show: false,
