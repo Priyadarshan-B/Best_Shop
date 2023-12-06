@@ -7,8 +7,14 @@ import Inventory from "./components/Inventory/inventory";
 import Enquiries from "./components/Enquiries/enquiries";
 import StockPage from "./components/Pages/StockPage/StockPage";
 import ProductDashboard from "./components/Products/ProductDashboard";
-import DashboardWrapper from "./components/Dashboard/dashboard";
 import AddStocks from "./components/add_product";
+import Master from "./components/Master/master";
+import Master_Box from "./components/Master/master_category";
+import CategoryTable from "./components/Tables/category_table";
+import FieldTable from "./components/Tables/field_table";
+import DetailTable from "./components/Tables/detail_table";
+import AddFieldDetailsForm from "./components/Master/fromfieldadd";
+
 const App = () => {
   return (
     <Router>
@@ -21,6 +27,14 @@ const App = () => {
           <Route path="/stocks" Component={StockPage}/>
           <Route path="/addStock" Component={AddStocks}/>
           <Route path="/productdashboard" Component={ProductDashboard} />
+          <Route path="/master" Component={Master} />
+          <Route path="/masterbox" Component={Master_Box} />
+          <Route path="/categorytable" Component={CategoryTable} />
+          <Route path="/fieldtable" Component={FieldTable} />
+          <Route path="/detailtable" Component={DetailTable} />
+          <Route path="/addfieldform" Component={AddFieldDetailsForm} />
+
+
         </Routes>
     </Router>
   );

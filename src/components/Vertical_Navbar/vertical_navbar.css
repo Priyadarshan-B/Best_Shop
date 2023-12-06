@@ -91,7 +91,41 @@
   color: #ff0202c7; 
 
 }
+.sub-menu {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.sub-navbar {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
 
+.sub-menu li {
+  cursor: pointer;
+  margin-bottom: 5px;
+}
+.fa-angle-up,
+.fa-angle-down {
+  margin-left: 5px;
+}
+
+.sub-navbar.show-submenu .sub-menu {
+  display: block;
+}
+
+
+/* Add hover effect to sub-menu items */
+.sub-menu li:hover {
+  background-color:#d3caffc7; /* Change the background color on hover */
+}
+
+/* Optional: Add transition for a smoother effect */
+.sub-navbar,
+.sub-menu li {
+  transition: background-color 0.3s ease;
+}
 
 @media (max-width: 999px) {
   .vertical-navbar {

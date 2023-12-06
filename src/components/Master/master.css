@@ -1,0 +1,77 @@
+/* 
+div {
+    margin: 20px;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+
+  form {
+    display: flex;
+    flex-direction: column;
+    max-width: 400px;
+  }
+ 
+  label {
+    margin-bottom: 8px;
+  }
+
+  input {
+    margin-bottom: 16px;
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+  }
+  
+  button {
+    padding: 10px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+
+  button:hover {
+    background-color: #0056b3;
+  }
+   */
+   
+    .c_name {
+        /* outline: none; */
+        border-radius: 4px;
+        border-color: black;
+        min-width: 300px;
+        min-height: 40px;
+        font-size: 17px;
+        margin-top: 5px;
+        background-color: #e8e4fcc7;
+        padding-left: 10px;
+      }
+      .add_form label{
+        font-weight: 600;
+      }
+      .dash-body{
+        height: 100vh;
+        display: flex;
+        flex-direction: column;
+      }
+      .category_box{
+        border-radius: 10px;
+        border-color: black;
+      }
+      .add_form{
+        border-radius: 10px;
+        border-color: black;
+        background-color: white;
+        padding: 20px;
+      }
+      .c_name-file-input {
+        margin-top: 8px;
+      }
+      
+      /* label[for="image"] {
+        display: block; 
+        margin-bottom: 8px; 
+      } */
+   
