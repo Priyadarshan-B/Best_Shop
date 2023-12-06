@@ -11,6 +11,8 @@ import DialogTitle from "@mui/material/DialogTitle";
 import Slide from "@mui/material/Slide";
 import apiHost from "../../utils/api";
 import DialogContentText from "@mui/material/DialogContentText";
+import EditIcon from '@mui/icons-material/Edit';
+import DeleteIcon from '@mui/icons-material/Delete';
 
 
 
@@ -108,12 +110,12 @@ const CategoryTable = () => {
   };
 
   const columns = [
-    { field: "id", headerName: <b>S.No</b>, width: 100 },
-    { field: "category_name", headerName: <b>Category Name</b>, width: 200 },
+    { field: "id", headerName: <b>S.No</b>, width: 120 },
+    { field: "category_name", headerName: <b>Category Name</b>, width: 240 },
     {
       field: "actions",
       headerName: <b>Actions</b>,
-      width: 200,
+      width: 150,
       renderCell: (params) => (
         <div
           style={{
@@ -122,24 +124,20 @@ const CategoryTable = () => {
             gap: "10px",
           }}
         >
-          <Button
+          <EditIcon
             style={{
-              backgroundColor: "#5676f5",
-              color: "white",
+              color: "#5676f5",
+              cursor: "pointer",
             }}
             onClick={() => handleEdit(params.row.id)}
-          >
-            Edit{" "}
-          </Button>
-          <Button
+          />
+          <DeleteIcon
             style={{
-              backgroundColor: "#ed4545",
-              color: "white",
+              color: "#ed4545",
+              cursor: "pointer",
             }}
             onClick={() => handleDelete(params.row.id)}
-          >
-            Delete
-          </Button>
+          />
         </div>
       ),
     },
@@ -161,7 +159,7 @@ const CategoryTable = () => {
               style={{
                 display: "flex",
                 flexDirection: "row",
-                gap: "40px",
+                gap: "280px",
               }}
             >
               <h2>Category Table</h2>
@@ -177,6 +175,7 @@ const CategoryTable = () => {
                   fontSize: 20,
                   borderRadius: 4,
                   letterSpacing: 1.4,
+                  cursor:'pointer'
                 }}
               >
                 Add

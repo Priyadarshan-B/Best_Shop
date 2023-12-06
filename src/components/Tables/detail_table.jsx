@@ -111,7 +111,7 @@ const DetailTable = () => {
     {
       field: 'actions',
       headerName: <b>Actions</b>,
-      width: 200,
+      width: 180,
       renderCell: (params) => (
         <div style={{
           display:'flex',
@@ -159,7 +159,7 @@ const DetailTable = () => {
            <div style={{
             display:'flex',
             flexDirection:'row',
-            gap:'40px'
+            gap:'500px'
            }}><h2 style={{
               fontFamily:'sans-serif'
             }}>Category with Detail Table</h2><button
@@ -170,14 +170,14 @@ const DetailTable = () => {
               color:'white',
               border: 'none',
               outline: "none",
-              
-              padding: 10,
-              fontSize: 20,
-              borderRadius: 4,
+              width:'100px',
+              padding: '10px',
+              fontSize: 25,
+              borderRadius: 6,
               letterSpacing: 1.4,
             }}
           >
-            Add
+            <b>Add +</b>
           </button>
     </div>
             {categories && categories.length > 0 ? (

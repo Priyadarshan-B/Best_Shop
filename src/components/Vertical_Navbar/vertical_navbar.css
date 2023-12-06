@@ -11,6 +11,8 @@
   align-items: flex-start;
   z-index: 2;
   position: relative;
+  font-size: 17px;
+  font-weight: 27px;
 }
 
 .menu-icon {
