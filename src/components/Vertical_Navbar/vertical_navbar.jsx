@@ -1,8 +1,16 @@
 import React, { useState } from 'react';
 import { FaBars, FaAngleDown, FaAngleUp } from 'react-icons/fa';
-import { FiSettings, FiLogOut } from 'react-icons/fi';
 import { Link, useNavigate } from 'react-router-dom';
 import './vertical_navbar.css';
+import SpaceDashboardIcon from '@mui/icons-material/SpaceDashboard';
+import InventoryIcon from '@mui/icons-material/Inventory';
+import QueryStatsIcon from '@mui/icons-material/QueryStats';
+import AddBusinessIcon from '@mui/icons-material/AddBusiness';
+import CategoryIcon from '@mui/icons-material/Category';
+import SupervisorAccountIcon from '@mui/icons-material/SupervisorAccount';
+import TableChartIcon from '@mui/icons-material/TableChart';
+import InfoIcon from '@mui/icons-material/Info';
+import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 
 const VerticalNavbar = () => {
   const [showMenu, setShowMenu] = useState(false);
@@ -16,6 +24,8 @@ const VerticalNavbar = () => {
   const toggleMasterSubMenu = () => {
     setShowMasterSubMenu(!showMasterSubMenu);
   };
+
+  
 
   const handleDashboardClick = () => {
     navigate("/dashboard");
@@ -32,10 +42,7 @@ const VerticalNavbar = () => {
     console.log('Enquiries clicked');
   };
 
-  const handleStocksClick = () => {
-    navigate("/stocks");
-    console.log('Stocks clicked');
-  };
+ 
 
   const handleProductStocksClick = () => {
     navigate("/productdashboard");
@@ -61,34 +68,33 @@ const VerticalNavbar = () => {
         <FaBars />
       </div>
       <ul className={showMenu ? 'nav-links show' : 'nav-links'}>
-        <li onClick={handleDashboardClick}><b>Dashboard</b></li>
-        <li onClick={handleInventoryClick}><b>Inventory</b></li>
-        <li onClick={handleEnquiriesClick}><b>Enquiries</b></li>
-        <li onClick={() => { handleNavigate("/addStock") }}><b>Add Stocks</b></li>
-        <li onClick={handleProductStocksClick}><b>Products</b></li>
+        <li onClick={handleDashboardClick}><SpaceDashboardIcon 
+        style={{
+          marginRight: "10px",
+        }}/><b>Dashboard </b></li>
+        <li onClick={handleInventoryClick}><InventoryIcon style={{marginRight: "10px",}}/><b>Inventory</b></li>
+        <li onClick={handleEnquiriesClick}><QueryStatsIcon style={{marginRight: "10px",}}/><b>Enquiries</b></li>
+        <li onClick={() => { handleNavigate("/addStock") }}><AddBusinessIcon style={{marginRight: "10px",}}/><b>Add Stocks</b></li>
+        <li onClick={handleProductStocksClick}><ShoppingCartIcon style={{marginRight: "10px",}}/><b>Products</b></li>
         <div className='sub-navbar'>
         <li onClick={handleMasterClick}>
+          <SupervisorAccountIcon style={{marginRight: "10px",}}/>
           <b>
             Master
-            {showMasterSubMenu ? <FaAngleUp /> : <FaAngleDown />}
+            {showMasterSubMenu ? <FaAngleUp className='fa-angle-up'/> : <FaAngleDown className='fa-angle-down' />}
           </b>
           {showMasterSubMenu && (
             <ul className="sub-menu">
-              <li onClick={handleAddCategoryClick}><b>Category</b></li>
-              <li onClick={() => { handleNavigate("/fieldtable") }}><b>Fields</b></li>
-              <li onClick={() => { handleNavigate("/detailtable") }}><b>Field Details</b></li>
+              <li onClick={handleAddCategoryClick}><CategoryIcon style={{marginRight: "10px",}}/><b>Category</b></li>
+              <li onClick={() => { handleNavigate("/fieldtable") }}><TableChartIcon style={{marginRight: "10px",}}/><b>Fields</b></li>
+              <li onClick={() => { handleNavigate("/detailtable") }}><InfoIcon style={{marginRight: "10px",}}/><b>Field Details</b></li>
 
             </ul>
           )}
         </li>
         </div>
       </ul>
-      <div className='down-vertical-navbar'>
-        <ul className='sep-vertical'>
-          <li><FiSettings /><b>Settings</b></li>
-          <li className='logout'><FiLogOut /> <b>Logout</b></li>
-        </ul>
-      </div>
+     
     </div>
   );
 };

@@ -3,7 +3,6 @@ import ReactApexChart from 'react-apexcharts';
 import HorizontalNavbar from '../Horizontal_Navbar/horizontal_navbar'; 
 import VerticalNavbar from '../Vertical_Navbar/vertical_navbar';
 import '../Dashboard/dashboard.css';
-import StockPage from '../Pages/StockPage/StockPage'; 
 import { useNavigate } from 'react-router-dom';
 
 const DashboardWrapper = () => {

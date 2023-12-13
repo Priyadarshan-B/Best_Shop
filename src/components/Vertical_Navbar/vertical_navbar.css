@@ -1,7 +1,7 @@
 .vertical-navbar {
   width: 250px;
   background-color: #ffffff;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
   border-radius: 10;
   border-right-width: 20px;
   color: #060606;
@@ -11,8 +11,8 @@
   align-items: flex-start;
   z-index: 2;
   position: relative;
-  font-size: 17px;
-  font-weight: 27px;
+  font-size: 15px;
+  text-align: center;
 }
 
 .menu-icon {
@@ -26,24 +26,29 @@
   list-style: none;
   padding: 0;
   width: 100%;
+  text-align: center;
 }
 
 .nav-links li {
+  display: flex; 
+  align-items: center; 
   margin-bottom: 10px;
   cursor: pointer;
   text-decoration: none; 
   color: #333;
   transition: color 0.5s ease-in-out; 
   padding: 15px;
-/*   border: 1px solid #ddd;
-  border-radius: 5px; 
-  box-shadow: 0 0 5px rgba(0, 0, 0, 0.2); */
-  text-align: center;
- 
+  border-radius: 10px;
+  text-align:center;
+  
+
+  
+
 
   &:hover  {
-    background-color: #e8e4fcc7; 
-    box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+    background-color: #d3caffc7; 
+    transition: background-color 1s ease;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.4);
   }
 }
 
@@ -51,58 +56,28 @@
   display: flex;
   flex-direction: column;
 }
-.down-vertical-navbar{
 
-  text-decoration: none;
-  position: absolute;
-  display: flex;
-  bottom: 0;
-  
-  
-
-}
-.sep-vertical li{
- margin-bottom: 10px;
-  cursor: pointer;
-  text-decoration: none; 
-  list-style: none;
-  color: #333;
-  transition: color 0.5s ease-in-out; 
-  padding: 15px;
- /*  border: 1px solid #ddd; */
- /*  border-radius: 5px;  */
-  /* box-shadow: 0 0 5px rgba(0, 0, 0, 0.2); */
-  display: flex;
-  flex: 3;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-
-  
-}
-.sep-vertical li:hover{
-  background-color: #e8e4fcc7;
-  box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
-
-}
-.sep-vertical li b{
-  margin-left: 10px;
-}
-
-.logout:hover{
-  color: #ff0202c7; 
-
-}
 .sub-menu {
   list-style: none;
   padding: 0;
   margin: 0;
+  font-size: 15px;
 }
+
 .sub-navbar {
   list-style: none;
   padding: 0;
   margin: 0;
+  position: relative; /* Add position relative to create a stacking context */
 }
+
+.sub-navbar .sub-menu {
+  position: absolute;
+  top: 100%; 
+  left: 40px;
+  z-index: 1;
+}
+
 
 .sub-menu li {
   cursor: pointer;
@@ -110,7 +85,7 @@
 }
 .fa-angle-up,
 .fa-angle-down {
-  margin-left: 5px;
+  margin-left: 65px;
 }
 
 .sub-navbar.show-submenu .sub-menu {
@@ -120,13 +95,16 @@
 
 /* Add hover effect to sub-menu items */
 .sub-menu li:hover {
-  background-color:#d3caffc7; /* Change the background color on hover */
+  background-color:#a99af6c7; /* Change the background color on hover */
+  text-align: right;
 }
 
 /* Optional: Add transition for a smoother effect */
 .sub-navbar,
 .sub-menu li {
-  transition: background-color 0.3s ease;
+  margin-top: 10px;
+  transition: background-color 1s ease;
+  border-radius: 10px;
 }
 
 @media (max-width: 999px) {

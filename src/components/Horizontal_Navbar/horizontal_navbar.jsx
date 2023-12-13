@@ -1,14 +1,23 @@
 import React, { useState } from 'react';
 import { FaBell, FaUser, FaEnvelope } from 'react-icons/fa';
-import './horizontal_navbar.css'
+import Popup from 'reactjs-popup';
+import 'reactjs-popup/dist/index.css';
+import './horizontal_navbar.css';
+import { useNavigate } from 'react-router-dom';
+import assets from '../../assets/img/bestshop.jpg'
 
-const Navbar = () => {
+const HorizontalNavbar = () => {
   const [notifications, setNotifications] = useState(0);
   const [messages, setMessages] = useState(0);
-
+  const navigate = useNavigate();
+  const handleNavigate = (path) => {
+    navigate(path);
+  };
   return (
     <nav className="navbar">
-      <div className="logo">Logo</div>
+      <div className="logo">
+        {/* <img src="../../assets/img/bestshop.jpg" alt="Logo" style={{ width: '50px', height: '50px' }} /> */}
+      </div>
 
       <div className="icons">
         <div className="icon" onClick={() => setNotifications(notifications + 1)}>
@@ -21,12 +30,23 @@ const Navbar = () => {
           {messages > 0 && <span className="badge">{messages}</span>}
         </div>
 
-        <div className="icon">
-          <FaUser />
-        </div>
+  <Popup className="popup-container" trigger={<button style={{
+    border:'none',
+    background:'white',
+    fontSize:'20px',
+    cursor:'pointer'
+  }}><FaUser /></button>} position="bottom right">
+    <div className="popup-content">
+      <div className="popup-text">Hi Best Shop</div>
+      <button className="popup-button" onClick={() => { handleNavigate("/login") }}>Logout</button>
+    </div>
+  </Popup>
+
+
+
       </div>
     </nav>
   );
 };
 
-export default Navbar;
+export default HorizontalNavbar;

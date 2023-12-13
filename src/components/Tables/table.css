@@ -1,0 +1,134 @@
+.dashboard-container {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .vandc-container {
+    display: flex;
+    height: 100%;
+    width: 100%;
+  }
+  
+  .dashboard-body{
+    height: 100%;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color:#e8e4fcc7 ;
+  }
+  
+  /* .category-table-container {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  } */
+  
+  .category-header-container {
+    display: flex;
+    flex-direction: row;
+    gap:500px
+  }
+  .category-header-container h2{
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin-top: 10px;
+  }
+  .add-button {
+    background-color: #2fcc54;
+    color: white;
+    border: none;
+    outline: none;
+    width: 80px;
+    padding: 10px;
+    cursor: pointer;
+    font-size: 17px;
+    border-radius: 6px;
+    letter-spacing: 1.4;
+    margin-top: 5px;
+  }
+  
+  .data-grid-container {
+    background-color: white;
+    margin-top: 20px;
+    height: 580px;
+    width: 900px;
+    border-radius: 30px;
+    padding: 35px;
+    box-shadow: 0 0 14px rgba(0, 0, 0, 0.1);
+    font-size: 15px;
+  }
+  
+  /* .dialog-container {
+    width: 500px;
+    height: 350px;
+    padding: 20px;
+  } */
+  
+  .form-label {
+    width: 20px;
+    height: 8px;
+  }
+  
+  .form-select {
+    margin-left: 10px;
+    width: 200px;
+    height: 35px;
+    border: none;
+    outline: none;
+    background-color: #e8e4fcc7;
+    border-radius: 5px;
+    margin-top: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+
+  }
+  
+  .form-input {
+    width: 250px;
+    height: 35px;
+    padding-left: 10px;
+    font-size: 20px;
+    background-color: #e8e4fcc7;
+    border-radius: 5px;
+    border: none;
+    outline: none;
+    margin-top: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+
+  }
+  
+  .form-checkbox {
+    height: 17px;
+    width: 17px;
+    padding-left: 10px;
+    margin-top: 6px;
+  }
+  
+  /* .form-image{
+   font-size: 18px;
+   background-color:#e8e4fcc7 ;
+  width: 300px;
+   box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+
+  } */
+
+  .custom-file-input {
+    display: none;
+  }
+
+  .custom-file-label {
+    margin-top: 10px;
+    background-color: #e8e4fcc7;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    padding: 8px;
+    border: none;
+    cursor: pointer;
+    border-radius: 8px;
+    font-size: 15px;
+    width: 350px;
+    height: 70px;
+  }
+
+  .custom-file-label:hover {
+    background-color: #b4a5ffc7;
+  }

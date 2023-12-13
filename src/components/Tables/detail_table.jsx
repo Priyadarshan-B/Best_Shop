@@ -1,68 +1,109 @@
 import React, { useState, useEffect } from 'react';
 import VerticalNavbar from '../Vertical_Navbar/vertical_navbar';
 import HorizontalNavbar from '../Horizontal_Navbar/horizontal_navbar';
-import requestApi from '../../utils/axios';
 import { DataGrid } from '@mui/x-data-grid';
 import Button from '@mui/material/Button';
-import TextField from '@mui/material/TextField';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
+import EditIcon from '@mui/icons-material/Edit';
+import DeleteIcon from '@mui/icons-material/Delete';
+import requestApi from '../../utils/axios';
 import apiHost from '../../utils/api';
-import './style.css'
+import { toast,  ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import './table.css'
 
 const API_BASE_URL = `${apiHost}`;
-
 
 const DetailTable = () => {
   const [categories, setCategories] = useState([]);
   const [open, setOpen] = useState(false);
   const [categoryOptions, setCategoryOptions] = useState([]);
   const [fieldOptions, setFieldOptions] = useState([]);
-  const [formData, setFormData] = useState({
-    category_name: '',
-    field_name: '',
-    details_name: '',
-    image: null,
-  });
 
-  useEffect(() => {
-    fetchData();
-    fetch(`${API_BASE_URL}/dropdown/category`)
-      .then(response => response.json())
-      .then(data => {
-        setCategoryOptions(data);
+ 
+  const addFieldDetails = () => {
+    const formData = new FormData();
+
+    formData.append('category_name', document.getElementById('category_name').value);
+    formData.append('field_id', document.getElementById('field_name').value.split(',')[0]); // Extract field_id
+    formData.append('field_name', document.getElementById('field_name').value.split(',')[1]); // Extract field_name
+    formData.append('details_name', document.getElementById('details_name').value);
+    const imageInput = document.getElementById('image');
+    formData.append('image', imageInput.files[0]);
+
+    console.log('Form Data:', formData);
+
+    fetch(`${API_BASE_URL}/field-details`, {
+      method: 'POST',
+      body: formData,
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        // alert(data.message);
+        notifySuccess('Field added successfully');
       })
-      .catch(error => {
+      .catch((error) => {
+        console.error('Error:', error);
+        notifyError('Failed to add field');
+      });
+  };
+
+  const getCategoryOptions = () => {
+    fetch(`${API_BASE_URL}/dropdown/category`)
+      .then((response) => response.json())
+      .then((data) => {
+        console.log('Category Data:', data);
+        setCategoryOptions(['', ...data]);
+      })
+      .catch((error) => {
         console.error('Error fetching category data:', error);
       });
-  }, []);
+  };
 
-  const handleCategoryChange = (event) => {
-    const selectedCategory = event.target.value;
-    setFormData({ ...formData, category_name: selectedCategory });
+  const getFields = () => {
+    const selectedCategory = document.getElementById('category_name').value;
 
     fetch(`${API_BASE_URL}/dropdown/category_fields/${selectedCategory}`)
-      .then(response => response.json())
-      .then(data => {
-        setFieldOptions(data);
+      .then((response) => response.json())
+      .then((data) => {
+        console.log('Field Data:', data);
+
+        const modifiedFieldOptions = data.map((field) => ({
+          value: `${field.field_id},${field.field_name}`,
+          label: field.field_name,
+        }));
+
+        setFieldOptions(['', ...modifiedFieldOptions]);
       })
-      .catch(error => {
+      .catch((error) => {
         console.error('Error fetching field data:', error);
       });
   };
 
-  const handleInputChange = (event) => {
-    const { name, value } = event.target;
-    setFormData({ ...formData, [name]: value });
+  React.useEffect(() => {
+    getCategoryOptions();
+    fetchData();
+  }, []);
+
+  const notifySuccess = (message) => {
+    toast.success(message, { position: toast.POSITION.BOTTOM_LEFT });
   };
 
-  const handleImageChange = (event) => {
-    const file = event.target.files[0];
-    setFormData({ ...formData, image: file });
+  const notifyError = (message) => {
+    toast.error(message, { position: toast.POSITION.BOTTOM_LEFT });
   };
+  
 
+
+  const updateImage = () => {
+    const input = document.getElementById('image');
+    const label = document.querySelector('.custom-file-label');
+    const fileName = input.files[0].name;
+    label.innerHTML = '<b>Image:</b> ' + fileName;
+  };
   const handleOpenDialog = () => {
     setOpen(true);
   };
@@ -71,27 +112,9 @@ const DetailTable = () => {
     setOpen(false);
   };
 
-  const handleAddFieldDetails = () => {
-    const formDataObject = new FormData();
+ 
 
-    Object.keys(formData).forEach(key => {
-      formDataObject.append(key, formData[key]);
-    });
-
-    fetch(`${API_BASE_URL}/field-details`, {
-      method: 'POST',
-      body: formDataObject,
-    })
-      .then(response => response.json())
-      .then(data => {
-        alert(data.message);
-      })
-      .catch(error => {
-        console.error('Error:', error);
-      });
-
-    handleCloseDialog();
-  };
+  
 
   const fetchData = async () => {
     try {
@@ -104,29 +127,30 @@ const DetailTable = () => {
   };
 
   const columns = [
-    { field: 'id', headerName: <b>S.No</b>, width: 90 },
-    { field: 'category_name', headerName: <b>Category Name</b>, width: 170 },
-    { field: 'field_name', headerName: <b>Field Name</b>, width: 170 },
-    { field: 'details_name', headerName: <b>Details Name</b>, width: 170 },
+    { field: 'id', headerName: <b>S.No</b>, width: 100 },
+    { field: 'category_name', headerName: <b>Category Name</b>, width: 190 },
+    { field: 'field_name', headerName: <b>Field Name</b>, width: 190 },
+    { field: 'details_name', headerName: <b>Details Name</b>, width: 190 },
     {
       field: 'actions',
       headerName: <b>Actions</b>,
-      width: 180,
+      width: 140,
       renderCell: (params) => (
         <div style={{
-          display:'flex',
+          display: 'flex',
           flexDirection: 'row',
-          gap:'10px'
+          gap: '10px'
         }}>
-          <Button style={{
-            backgroundColor:'#5676f5',
-            color:'white',
-
-          }}  onClick={() => handleEdit(params.row.id)}>Edit </Button>
-          <Button style={{
-            backgroundColor:'#ed4545',
-            color:'white',
-          }} onClick={() => handleDelete(params.row.id)}>Delete</Button>
+          <EditIcon
+            style={{
+              color: "#5676f5",
+              cursor: "pointer",
+            }}
+            onClick={() => handleEdit(params.row.id)} />
+          <DeleteIcon style={{
+            color: "#ed4545",
+            cursor: "pointer",
+          }} onClick={() => handleDelete(params.row.id)} />
         </div>
       ),
     },
@@ -140,12 +164,10 @@ const DetailTable = () => {
   }));
 
   const handleEdit = (id) => {
-    // Implement edit functionality here
     console.log(`Edit action clicked for id ${id}`);
   };
 
   const handleDelete = (id) => {
-    // Implement delete functionality here
     console.log(`Delete action clicked for id ${id}`);
   };
 
@@ -154,222 +176,127 @@ const DetailTable = () => {
       <HorizontalNavbar />
       <div className="vandc-container">
         <VerticalNavbar />
+        <ToastContainer />
         <div className="dashboard-body">
-          <div className="category-table-container">
-           <div style={{
-            display:'flex',
-            flexDirection:'row',
-            gap:'500px'
-           }}><h2 style={{
-              fontFamily:'sans-serif'
-            }}>Category with Detail Table</h2><button
-            type="button"
-            onClick={handleOpenDialog}
-            style={{
-              backgroundColor:'#2fcc54',
-              color:'white',
-              border: 'none',
-              outline: "none",
-              width:'100px',
-              padding: '10px',
-              fontSize: 25,
-              borderRadius: 6,
-              letterSpacing: 1.4,
-            }}
-          >
-            <b>Add +</b>
-          </button>
-    </div>
+          <div >
+            <div className='category-header-container' 
+
+            >
+              <h2 
+
+              >Category with Detail Table</h2>
+              <button className='add-button'
+                type="button"
+                onClick={handleOpenDialog}
+               
+              >
+                <b>Add +</b>
+              </button>
+            </div>
             {categories && categories.length > 0 ? (
-              <DataGrid
+              <DataGrid 
                 rows={rows}
                 columns={columns}
                 pageSize={5}
                 style={{
                   backgroundColor: 'white',
                   marginTop: '20px',
-                  height: '600px',
+                  height: '580px',
                   width: '900px',
-                  justifyContent: 'center',
-                  justifyItems: 'center',
-                  borderRadius:'10px',
+                  borderRadius: '30px',
+                  padding: "35px",
                   boxShadow: '0 0 14px rgba(0, 0, 0, 0.1)',
-                  fontWeight:'20px',
-                  fontSize:'20px'
+                  fontSize: "15px",
                 }}
               />
             ) : (
               <p>Loading...</p>
             )}
           </div>
-          {/* <button
-        type="button"
-        onClick={handleOpenDialog}
+
+          <Dialog
+            open={open}
+            onClose={handleCloseDialog}
+            PaperProps={{ 
+              style: {
+                width: '500px',
+                height: '500px',
+                padding: '20px',
+              },
+            }}
+          >
+            <div>
+              <DialogTitle
+                style={{
+                  textAlign: 'center'
+                }}><h2>Add Field Details</h2></DialogTitle>
+              <DialogContent
+                style={{
+                  fontSize: 20,
+                }}
+              >
+                <form id="addFieldDetailsForm" encType="multipart/form-data">
+        <label className='form-label' htmlFor="category_name"><b>Category Name:</b></label>
+        <select className='form-select'
+
+        id="category_name" name="category_name" onChange={getFields}>
+          {categoryOptions.map((category, index) => (
+            <option key={index} value={category}>
+              {category}
+            </option>
+          ))}
+        </select>
+        <br />
+
+        <label htmlFor="field_name"><b>Field Name:</b></label>
+        <select className='form-select'
+
+        id="field_name" name="field_name">
+          {fieldOptions.map((field, index) => (
+            <option key={index} value={field.value}>
+              {field.label}
+            </option>
+          ))}
+        </select>
+        <br />
+
+        <label 
         style={{
-          background: 'linear-gradient(to right,#9181F4,#5038ED)',
-          border: 'none',
-          outline: "none",
-          marginTop: 20,
-          padding: 10,
-          fontSize: 17,
-          borderRadius: 8,
-          color: 'white',
-          letterSpacing: 1.4
+         marginTop:20
         }}
-      >
-        Add
-      </button> */}
+        htmlFor="details_name"><b>Details Name:</b></label><br/>
+        <input className='form-input'
 
-      <Dialog
-        open={open}
-        onClose={handleCloseDialog}
-        PaperProps={{
-          style: {
-            width: '500px',
-            height: '340px',
-            padding: '20px',
-          },
-        }}
-      >
-        <div>
-          <DialogTitle
-          style={{
-            textAlign: 'center'
-          }}><h2>Add Field Details</h2></DialogTitle>
-          <DialogContent
-          style={{
-            fontSize: 20,
-            
-           }
- 
-           }>
-            <label htmlFor="category_name"
-            style={{
-                width:'20px',
-                height:'8px',
-                
-                paddingRight:'10px'
-              }}
-            
-            ><b>Category Name:</b></label>
-            <select
-            style={{
-                marginLeft:'10px',
-                width:'200px',
-                height:'35px',
-                backgroundColor:'e8e4fcc7'
-            }}
-              id="category_name"
-              name="category_name"
-              onChange={handleCategoryChange}
-              value={formData.category_name}
-            >
-              <option value="" disabled>Select Category</option>
-              {categoryOptions.map(category => (
-                <option key={category} value={category}>
-                  {category}
-                </option>
-              ))}
-            </select>
-            <br />
+                  type="text" id="details_name" name="details_name" required />
+        <br />
 
-            <label htmlFor="field_name"
-            
-            style={{
-            width:'20px',
-            height:'8px',
-            
-            paddingRight:'10px'
-          }}><b>Field Name:</b></label>
-            <select
-            style={{
-                marginLeft:'10px',
-                width:'200px',
-                height:'35px',
-                backgroundColor:'e8e4fcc7',
-                marginTop:'5px'
-            }}
-              id="field_name"
-              name="field_name"
-              onChange={handleInputChange}
-              value={formData.field_name}
-            >
-              <option 
-              
-              value="" disabled>Select Field</option>
-              {fieldOptions.map(field => (
-                <option key={field} value={field}>
-                  {field}
-                </option>
-              ))}
-            </select>
-            <br />
+        {/* <label htmlFor="image"><b>Image:</b></label><br/>
+        <input className='form-image'
 
-            <label htmlFor="details_name"
-            style={{
-                width:'20px',
-                height:'8px',
-                
-                paddingRight:'10px'
-              }}
-            >
-                
-                <b>Details Name:</b></label><br/>
-            <input
-            style={{
-                width:'250px',
-               height:'35px',
-               paddingLeft:'10px',
-               fontSize: '20px',
-               backgroundColor: '#e8e4fcc7',
-               borderRadius:'5px',
-               border:'none',
-               marginTop:'5px',
-               
-              }}
-              type="text"
-              id="details_name"
-              name="details_name"
-              onChange={handleInputChange}
-              value={formData.details_name}
-              required
-            />
-            <br />
+                  type="file" id="image" name="image" accept="image/*" required /> */}
 
-            <label htmlFor="image"
-            style={{
-                width:'20px',
-                height:'8px',
-                paddingRight:'10px'
-              }}
-            
-            ><b>Image:</b></label>
-            <input
+                  <label for="image" ><b>Image:</b><br/>
+   <div class="custom-file-label"> <b>Choose File</b> </div>
+  </label>
+  <input class="custom-file-input" type="file" id="image" name="image" accept="image/*" required  onChange={updateImage} />
+        <br />
+
+
+      </form>
                 
-            style={{
-                fontSize:'15px',
-                backgroundColor:'#e8e4fcc7',
-               
-                textAlign:'center',
-                justifyContent:'center'
-            }}
-              type="file"
-              id="image"
-              name="image"
-              accept="image/*"
-              onChange={handleImageChange}
-              required
-            />
-            <br />
-          </DialogContent>
-          <DialogActions>
-            <Button onClick={handleCloseDialog}>Cancel</Button>
-            <Button onClick={handleAddFieldDetails} variant="contained" color="primary">
-              Add Field Details
-            </Button>
-          </DialogActions>
-        </div>
-      </Dialog>
+                <br />
+              </DialogContent>
+              <DialogActions>
+                <Button onClick={handleCloseDialog}>Cancel</Button>
+                <Button  onClick={() => {
+                    addFieldDetails();
+                    handleCloseDialog();
+                  }} variant="contained" color="primary">
+                  Add Field Details
+                </Button>
+              </DialogActions>
+            </div>
+          </Dialog>
 
         </div>
       </div>

@@ -22,6 +22,7 @@ function ProductDashboard() {
     <HorizontalNavbar />
     <div className="vandc-container">
       <VerticalNavbar />
+      <div className="dashboard-body">
     <div>
       <div className='product-dashboard'>
         <div className='product-dashboard-filters'>
@@ -88,6 +89,7 @@ function ProductDashboard() {
           </div>
           </div>
         </div>
+      </div>
       </div>
       </div>
       </div>

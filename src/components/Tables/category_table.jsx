@@ -10,34 +10,28 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
 import Slide from "@mui/material/Slide";
 import apiHost from "../../utils/api";
-import DialogContentText from "@mui/material/DialogContentText";
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
-
-
+import { toast,  ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import './table.css'
 
 const CategoryTable = () => {
   const [categories, setCategories] = useState([]);
-  const [isAddDialogOpen, setAddDialogOpen] = useState(false);
+  // const [isAddDialogOpen, setAddDialogOpen] = useState(false);
   const [categoryName, setCategoryName] = useState("");
   const [image, setImage] = useState(null);
   const [open, setOpen] = useState(false);
-  const [openSuccessPopup, setOpenSuccessPopup] = useState(false); // New state variable
 
   const handleCategoryNameChange = (event) => {
     setCategoryName(event.target.value);
   };
 
-  const handleImageChange = (event) => {
-    setImage(event.target.files[0]);
-  };
   const handleEdit = (id) => {
-    // Implement edit functionality here
     console.log(`Edit action clicked for id ${id}`);
   };
 
   const handleDelete = (id) => {
-    // Implement delete functionality here
     console.log(`Delete action clicked for id ${id}`);
   };
 
@@ -53,12 +47,12 @@ const CategoryTable = () => {
     setOpen(false);
   };
 
-  const handleClickOpenSuccess = () => {
-    setOpenSuccessPopup(true);
-  };
-
-  const handleCloseSuccess = () => {
-    setOpenSuccessPopup(false);
+  const updateImage = (event) => {
+    const input = document.getElementById('image');
+    const label = document.querySelector('.custom-file-label');
+    const fileName = input.files[0].name;
+    label.innerHTML = '<b>Image File:</b> ' + fileName;
+    setImage(event.target.files[0]);
   };
 
   const submitForm = () => {
@@ -78,19 +72,25 @@ const CategoryTable = () => {
       })
       .then((data) => {
         console.log("Success:", data);
-        // Show the success popup
-        handleClickOpenSuccess();
-        // Fetch updated data if needed
         fetchData();
+        notifySuccess('Field added successfully');
       })
       .catch((error) => {
         console.error("Error:", error);
+        notifyError('Failed to add field');
       });
   };
 
   useEffect(() => {
     fetchData();
   }, []);
+  const notifySuccess = (message) => {
+    toast.success(message, { position: toast.POSITION.BOTTOM_LEFT });
+  };
+
+  const notifyError = (message) => {
+    toast.error(message, { position: toast.POSITION.BOTTOM_LEFT });
+  };
 
   const fetchData = async () => {
     try {
@@ -102,16 +102,16 @@ const CategoryTable = () => {
     }
   };
 
-  const handleRemoveRow = (id) => {
-    const updatedCategories = categories.filter(
-      (category) => category.id !== id
-    );
-    setCategories(updatedCategories);
-  };
+  // const handleRemoveRow = (id) => {
+  //   const updatedCategories = categories.filter(
+  //     (category) => category.id !== id
+  //   );
+  //   setCategories(updatedCategories);
+  // };
 
   const columns = [
-    { field: "id", headerName: <b>S.No</b>, width: 120 },
-    { field: "category_name", headerName: <b>Category Name</b>, width: 240 },
+    { field: "id", headerName: <b>S.No</b>, width: 280 },
+    { field: "category_name", headerName: <b>Category Name</b>, width: 300 },
     {
       field: "actions",
       headerName: <b>Actions</b>,
@@ -153,51 +153,36 @@ const CategoryTable = () => {
       <HorizontalNavbar />
       <div className="vandc-container">
         <VerticalNavbar />
+        <ToastContainer />
         <div className="dashboard-body">
-          <div className="category-table-container">
-            <div
-              style={{
-                display: "flex",
-                flexDirection: "row",
-                gap: "280px",
-              }}
+          <div >
+            <div className="category-header-container"
             >
-              <h2>Category Table</h2>
-              <button
+              <h2 style={{
+                marginTop:'10px'
+              }}>Category Table</h2>
+              <button className="add-button"
                 type="button"
                 onClick={handleClickOpenDialog}
-                style={{
-                  backgroundColor: "#2fcc54",
-                  color: "white",
-                  border: "none",
-                  outline: "none",
-                  padding: 10,
-                  fontSize: 20,
-                  borderRadius: 4,
-                  letterSpacing: 1.4,
-                  cursor:'pointer'
-                }}
               >
-                Add
+                <b>Add +</b>
               </button>
             </div>
             {categories && categories.length > 0 ? (
               <>
-                <DataGrid
+                <DataGrid 
                   rows={rows}
                   columns={columns}
                   pageSize={5}
                   style={{
                     backgroundColor: "white",
                     marginTop: "20px",
-                    height: "600px",
-                    width: "550px",
-                    justifyContent: "center",
-                    justifyItems: "center",
-                    borderRadius: "10px",
+                    padding: "35px",
+                    height: "580px",
+                    width: "900px",
+                    borderRadius: "30px",
                     boxShadow: "0 0 14px rgba(0, 0, 0, 0.1)",
-                    fontWeight: "20px",
-                    fontSize: "20px",
+                    fontSize: "15px",
                   }}
                 />
               </>
@@ -212,7 +197,7 @@ const CategoryTable = () => {
             PaperProps={{
               style: {
                 width: "500px",
-                height: "290px",
+                height: "390px",
                 padding: "10px",
               },
             }}
@@ -234,18 +219,7 @@ const CategoryTable = () => {
                   <b>Category Name:</b>
                 </label>
                 <br />
-                <input
-                  style={{
-                    width: "250px",
-                    height: "35px",
-                    paddingLeft: "10px",
-                    fontSize: "20px",
-                    backgroundColor: "#e8e4fcc7",
-                    borderRadius: "5px",
-                    border: "none",
-                    marginTop: "5px",
-                  }}
-                  className="c_name"
+                <input className="form-input"
                   type="text"
                   id="categoryName"
                   name="category_name"
@@ -255,25 +229,10 @@ const CategoryTable = () => {
                 />
                 <br />
 
-                <label htmlFor="image">
-                  <b>Select an image:</b>
+                <label for="image" ><b>Image:</b><br/>
+                  <div class="custom-file-label"> <b>Choose File:</b> </div>
                 </label>
-                <br />
-
-                <input
-                  style={{
-                    fontSize: "15px",
-                    backgroundColor: "#e8e4fcc7",
-                    textAlign: "center",
-                    justifyContent: "center",
-                  }}
-                  type="file"
-                  id="image"
-                  name="image"
-                  accept="image/*"
-                  onChange={handleImageChange}
-                  required
-                />
+                <input class="custom-file-input" type="file" id="image" name="image" accept="image/*" required  onChange={updateImage} />
                 <br />
               </DialogContent>
               <DialogActions>
@@ -282,31 +241,12 @@ const CategoryTable = () => {
                   onClick={() => {
                     submitForm();
                     handleCloseDialog();
-                    handleClickOpenSuccess();
                   }}
                 >
                   Submit
                 </Button>
               </DialogActions>
             </div>
-          </Dialog>
-
-          <Dialog
-            open={openSuccessPopup}
-            TransitionComponent={Transition}
-            keepMounted
-            onClose={handleCloseSuccess}
-            aria-describedby="alert-dialog-slide-description"
-          >
-            <DialogTitle>{"Success Popup"}</DialogTitle>
-            <DialogContent>
-              <DialogContentText id="alert-dialog-slide-description">
-                Category Added Successfully
-              </DialogContentText>
-            </DialogContent>
-            <DialogActions>
-              <Button onClick={handleCloseSuccess}>Close</Button>
-            </DialogActions>
           </Dialog>
         </div>
       </div>
