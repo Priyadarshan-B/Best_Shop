@@ -63,6 +63,7 @@ const VerticalNavbar = () => {
   };
 
   return (
+    
     <div className="vertical-navbar">
       <div className="menu-icon" onClick={toggleMenu}>
         <FaBars />
@@ -81,13 +82,16 @@ const VerticalNavbar = () => {
           <SupervisorAccountIcon style={{marginRight: "10px",}}/>
           <b>
             Master
-            {showMasterSubMenu ? <FaAngleUp className='fa-angle-up'/> : <FaAngleDown className='fa-angle-down' />}
+           
           </b>
+          {showMasterSubMenu ? <FaAngleUp className='fa-angle-up'/> : <FaAngleDown className='fa-angle-down' />}
           {showMasterSubMenu && (
             <ul className="sub-menu">
-              <li onClick={handleAddCategoryClick}><CategoryIcon style={{marginRight: "10px",}}/><b>Category</b></li>
-              <li onClick={() => { handleNavigate("/fieldtable") }}><TableChartIcon style={{marginRight: "10px",}}/><b>Fields</b></li>
-              <li onClick={() => { handleNavigate("/detailtable") }}><InfoIcon style={{marginRight: "10px",}}/><b>Field Details</b></li>
+              <li onClick={handleAddCategoryClick}><CategoryIcon style={{marginRight: "10px",fontSize:'18px' }}/><b>Category</b></li>
+              <li onClick={() => { handleNavigate("/fieldtable") }}><TableChartIcon style={{marginRight: "10px",fontSize:'18px' }}/><b>Fields</b></li>
+              <li onClick={() => { handleNavigate("/detailtable") }}><InfoIcon style={{marginRight: "10px",
+                                                                                       fontSize:'18px'     
+                                                                                            }}/><b>Field Details</b></li>
 
             </ul>
           )}

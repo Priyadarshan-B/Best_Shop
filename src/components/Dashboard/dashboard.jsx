@@ -8,14 +8,13 @@ import { useNavigate } from 'react-router-dom';
 const DashboardWrapper = () => {
   const navigate = useNavigate();
 
-  const handleGraphClick = () => {
+  const handleGraphClick = (index) => {
     console.log('Graph clicked');
-    navigate('/inventory');
+    const pages = ['/inventory', '/products', '/enquiries'];
+    navigate(pages[index]);
   };
 
-  return (
-    <Dashboard handleGraphClick={handleGraphClick} />
-  );
+  return <Dashboard handleGraphClick={handleGraphClick} />;
 };
 
 class Dashboard extends React.Component {
@@ -24,40 +23,23 @@ class Dashboard extends React.Component {
 
     this.state = {
       series: [
-        {
-          name: 'Price of the Product',
-          data: [44, 55, 57]
-        },
-        {
-          name: 'Product Count',
-          data: [76, 85, 101]
-        },
-        {
-          name: 'Rate of the Product',
-          data: [35, 41, 36]
-        }
+        { name: 'Price of the Product', data: [146877, 155458, 277486], yaxis: 0 },
+        { name: 'Product Count', data: [1303, 8500, 1010], yaxis: 1 },
+        { name: 'Rate of the Product', data: [350, 410, 306], yaxis: 2 }
       ],
       options: {
         chart: {
           type: 'bar',
           height: 350,
-          events: {
-            click: function(event, chartContext, config) {
-              console.log('ery')
-              console.log(config.dataPointIndex)
-              props.handleGraphClick()
-              console.log(config.seriesIndex)
-              // The last parameter config contains additional information like `seriesIndex` and `dataPointIndex` for cartesian charts
-            }
-          }
         },
         plotOptions: {
           bar: {
             horizontal: false,
+            borderRadius: '5px 5px 0px 0px',
             columnWidth: '55%',
             endingShape: 'rounded',
             dataLabels: {
-              position: 'top', // You can adjust the position as needed
+              position: 'top',
             },
           },
         },
@@ -72,11 +54,11 @@ class Dashboard extends React.Component {
         xaxis: {
           categories: ['Greater than 300 days', 'Less than 150-90 days', 'Less than 90-30 days'],
         },
-        yaxis: {
-          title: {
-            text: '$ (thousands)'
-          }
-        },
+        yaxis: [
+          { show: false,min: 0, max: 1000000},
+          { show: false, min: 0, max: 10000 },
+          { show: false, min: 0, max: 500 },
+        ],
         fill: {
           opacity: 1
         },
@@ -97,27 +79,22 @@ class Dashboard extends React.Component {
         <HorizontalNavbar />
         <div className="vandc-container">
           <VerticalNavbar />
-           <div className="dashboard-body">
+          <div className="dashboard-body">
             <div className="chart-container">
               <ReactApexChart
                 height={"95%"}
                 width={"100%"}
-                options={{
-                  ...this.state.options,
-                  plotOptions: {
-                    ...this.state.options.plotOptions,
-                    bar: {
-                      ...this.state.options.plotOptions.bar,
-                      onClick: ()=>{
-                        console.log(
-                          'fgvh'
-                        )
-                      },
-                    },
-                  },
-                }}
+                options={this.state.options}
                 series={this.state.series}
                 type="bar"
+                events={{
+                  click: (event, chartContext, config) => {
+                    console.log('Graph clicked');
+                    console.log(config.dataPointIndex);
+                    console.log(config.seriesIndex);
+                    this.props.handleGraphClick(config.seriesIndex);
+                  },
+                }}
               />
             </div>
           </div> 

@@ -179,12 +179,10 @@ const DetailTable = () => {
         <ToastContainer />
         <div className="dashboard-body">
           <div >
-            <div className='category-header-container' 
-
-            >
-              <h2 
-
-              >Category with Detail Table</h2>
+          {categories && categories.length > 0 ? (
+            <>
+            <div className='category-header-container'>
+              <h2>Category with Detail Table</h2>
               <button className='add-button'
                 type="button"
                 onClick={handleOpenDialog}
@@ -193,7 +191,7 @@ const DetailTable = () => {
                 <b>Add +</b>
               </button>
             </div>
-            {categories && categories.length > 0 ? (
+      
               <DataGrid 
                 rows={rows}
                 columns={columns}
@@ -201,7 +199,7 @@ const DetailTable = () => {
                 style={{
                   backgroundColor: 'white',
                   marginTop: '20px',
-                  height: '580px',
+                  height: '560px',
                   width: '900px',
                   borderRadius: '30px',
                   padding: "35px",
@@ -209,8 +207,10 @@ const DetailTable = () => {
                   fontSize: "15px",
                 }}
               />
+              </>
             ) : (
-              <p>Loading...</p>
+              <div className="loader">
+              </div>
             )}
           </div>
 

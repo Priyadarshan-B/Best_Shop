@@ -158,35 +158,36 @@ const FieldTable = () => {
         <ToastContainer />
         <div className="dashboard-body">
           <div >
-            <div className='category-header-container'
-
-            >
+          {categories && categories.length > 0 ? (
+            <>
+           
+            <div className='category-header-container'>
               <h2
               style={{
                 marginTop:'10px'
               }}>Category with Field Table</h2>
-              <button
+              <button className='add-button'
                 type="button"
                 onClick={handleOpenDialog}
-                style={{
-                  backgroundColor: '#2fcc54',
-                  color: 'white',
-                  border: 'none',
-                  outline: "none",
-                  width: '80px',
-                  padding: '10px',
-                  cursor:'pointer',
-                  fontSize: 17,
-                  borderRadius: 6,
-                  letterSpacing: 1.4,
-                  marginTop:'5px'
-                }}
+                // style={{
+                //   backgroundColor: '#2fcc54',
+                //   color: 'white',
+                //   border: 'none',
+                //   outline: "none",
+                //   width: '80px',
+                //   padding: '10px',
+                //   cursor:'pointer',
+                //   fontSize: 17,
+                //   borderRadius: 6,
+                //   letterSpacing: 1.4,
+                //   marginTop:'5px'
+                // }}
               >
                 <b>Add +</b>
               </button>
             </div>
 
-            {categories && categories.length > 0 ? (
+         
               <DataGrid className='data-grid-container'
                 rows={rows}
                 columns={columns}
@@ -202,8 +203,10 @@ const FieldTable = () => {
                   fontSize: '15px',
                 }}
               />
+              </>
             ) : (
-              <p>Loading...</p>
+              <div className="loader">
+              </div>
             )}
           </div>
 

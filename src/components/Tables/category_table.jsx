@@ -156,8 +156,9 @@ const CategoryTable = () => {
         <ToastContainer />
         <div className="dashboard-body">
           <div >
-            <div className="category-header-container"
-            >
+          {categories && categories.length > 0 ? (
+              <>
+            <div className="category-header-container">
               <h2 style={{
                 marginTop:'10px'
               }}>Category Table</h2>
@@ -168,8 +169,7 @@ const CategoryTable = () => {
                 <b>Add +</b>
               </button>
             </div>
-            {categories && categories.length > 0 ? (
-              <>
+
                 <DataGrid 
                   rows={rows}
                   columns={columns}
@@ -178,7 +178,7 @@ const CategoryTable = () => {
                     backgroundColor: "white",
                     marginTop: "20px",
                     padding: "35px",
-                    height: "580px",
+                    height: "560px",
                     width: "900px",
                     borderRadius: "30px",
                     boxShadow: "0 0 14px rgba(0, 0, 0, 0.1)",
@@ -187,7 +187,9 @@ const CategoryTable = () => {
                 />
               </>
             ) : (
-              <p>Loading...</p>
+              <div className="loader">
+                </div>
+              
             )}
           </div>
 

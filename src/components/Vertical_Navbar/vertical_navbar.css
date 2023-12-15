@@ -1,8 +1,8 @@
 .vertical-navbar {
   width: 250px;
   background-color: #ffffff;
-  box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
-  border-radius: 10;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  /* border-radius: 10; */
   border-right-width: 20px;
   color: #060606;
   padding: 20px;
@@ -11,8 +11,10 @@
   align-items: flex-start;
   z-index: 2;
   position: relative;
-  font-size: 15px;
+  font-size: 20px;
   text-align: center;
+
+  
 }
 
 .menu-icon {
@@ -36,9 +38,9 @@
   cursor: pointer;
   text-decoration: none; 
   color: #333;
-  transition: color 0.5s ease-in-out; 
+  /* transition: color 0.1s ;  */
   padding: 15px;
-  border-radius: 10px;
+  border-radius: 5px;
   text-align:center;
   
 
@@ -46,9 +48,9 @@
 
 
   &:hover  {
-    background-color: #d3caffc7; 
-    transition: background-color 1s ease;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.4);
+    background-color: #c9ecff; 
+    /* transition: background-color 1s ease; */
+    box-shadow: 0 0 4px rgba(0, 0, 0, 0.1);
   }
 }
 
@@ -61,14 +63,19 @@
   list-style: none;
   padding: 0;
   margin: 0;
-  font-size: 15px;
+  font-size: 18px;
+  border-radius: 5px;
+  border-top: #060606;
+  border-top-color: #060606;
+  
+  border-width: 1px;
 }
 
 .sub-navbar {
   list-style: none;
   padding: 0;
   margin: 0;
-  position: relative; /* Add position relative to create a stacking context */
+  position: relative; 
 }
 
 .sub-navbar .sub-menu {
@@ -85,7 +92,10 @@
 }
 .fa-angle-up,
 .fa-angle-down {
-  margin-left: 65px;
+  margin-left: 10px;
+  font-weight: 10px;
+  font-size: 15px;
+  
 }
 
 .sub-navbar.show-submenu .sub-menu {
@@ -93,18 +103,16 @@
 }
 
 
-/* Add hover effect to sub-menu items */
 .sub-menu li:hover {
-  background-color:#a99af6c7; /* Change the background color on hover */
+  background-color:#c9ecff; /* Change the background color on hover */
   text-align: right;
 }
 
-/* Optional: Add transition for a smoother effect */
 .sub-navbar,
 .sub-menu li {
   margin-top: 10px;
-  transition: background-color 1s ease;
-  border-radius: 10px;
+  /* transition: background-color 1s ease; */
+  /* border-radius: 10px; */
 }
 
 @media (max-width: 999px) {

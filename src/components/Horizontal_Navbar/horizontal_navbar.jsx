@@ -17,6 +17,7 @@ const HorizontalNavbar = () => {
     <nav className="navbar">
       <div className="logo">
         {/* <img src="../../assets/img/bestshop.jpg" alt="Logo" style={{ width: '50px', height: '50px' }} /> */}
+      <h2>Best Shop</h2>
       </div>
 
       <div className="icons">
