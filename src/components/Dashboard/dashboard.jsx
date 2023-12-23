@@ -23,7 +23,11 @@ class Dashboard extends React.Component {
 
     this.state = {
       series: [
-        { name: 'Price of the Product', data: [146877, 155458, 277486], yaxis: 0 },
+        { name: 'Price of the Product', "data": [
+          "0",
+          "0",
+          "251669"
+        ], yaxis: 0 },
         { name: 'Product Count', data: [1303, 8500, 1010], yaxis: 1 },
         { name: 'Rate of the Product', data: [350, 410, 306], yaxis: 2 }
       ],

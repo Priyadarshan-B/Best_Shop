@@ -1,10 +1,13 @@
 .input-container {
-    margin-bottom: 15px;
-    display: flex;
-    flex-direction: column;
-    gap: 5px;
-    margin-left: 40px;
-    margin-top: 15px;
+  margin-bottom: 15px;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  margin-left: 40px;
+  margin-top: 15px;
+  justify-content: center;
+  width: 200px;
+
   }
   
   label {
@@ -25,4 +28,37 @@
     font-size: 20px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
   
+  }
+
+  .generate_button{
+    background: green;
+    border: none;
+    outline: none;
+    margin-top: 20px;
+    padding: 10px;
+    font-size: 17px;
+    border-radius: 5px;
+    color: white;
+    letter-spacing: 1.4px;
+    width: 130px;
+    display: flex;
+    justify-content: center;
+    cursor: pointer;
+  }
+
+  .input_box{
+    width: 200px;
+    height: 35px;
+    padding-left: 5px;
+    font-size: 20px;
+    display: flex;
+
+  }
+
+  .last{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 50px;
+
   }
