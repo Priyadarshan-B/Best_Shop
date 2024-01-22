@@ -1,106 +1,112 @@
-import React, { useState } from "react";
-import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
+
+import React, { useState } from 'react';
+import { useNavigate, Link } from 'react-router-dom';
 import './login.css';
-import InputBox from "../input";
-import LoginImg from "../../assets/img/login2.jpg";
+import apiHost from '../../utils/api';
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
-function Login() {
-    const [name, setName] = useState('');
-    const [password, setPassword] = useState('');
-    const [errorMessage, setErrorMessage] = useState('');
-    const navigate = useNavigate();
-    const [showPopup, setShowPopup] = useState(false);
-    const [showPassword, setshowPassword] = useState(false);
+const Login = () => {
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
+  const [error, setError] = useState(null);
+  const navigate = useNavigate();
 
-    const handleSubmit = (e) => {
-        e.preventDefault();
+  const notifySuccess = (message) => {
+    toast.success(message, { position: toast.POSITION.BOTTOM_LEFT });
+  };
 
-        axios
-            .post('http://localhost:3000/login', { name, password })
-            .then((response) => {
-                const { data } = response;
-                if (data === 'success') {
-                    setShowPopup(true);
-                    navigate('/dashboard');
-                } else {
-                    setErrorMessage('Invalid Username or Password');
-                }
-            })
-            .catch((err) => {
-                console.log(err);
-                setErrorMessage("An error occurred");
-            });
-    };
+  const notifyError = (message) => {
+    toast.error(message, { position: toast.POSITION.BOTTOM_LEFT });
+  };
 
-    const togglePasswordVisibility = () => {
-        setshowPassword((prevShowPassword) => !prevShowPassword);
-    };
+  const handleLogin = async () => {
+    try {
+      const response = await fetch(`${apiHost}/login`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ username, password }),
+      });
 
-    return (
-        <div
-            style={{
-                backgroundImage: `url(${LoginImg})`,
-                backgroundSize: 'cover',
-                backgroundRepeat: 'no-repeat',
-                backgroundPosition: 'center',
-                height: "100vh",
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center"
-            }}
-        >
-            <form
-                onSubmit={handleSubmit}
-                style={{
-                    // backgroundColor: "rgba(255, 255, 255, 0.2)", 
-                    width: 'max-content',
-                    padding: '90px 50px',
-                    borderRadius: '10px',
-                    boxShadow:'0 0 10px rgba(0, 0, 0, 0.3)',
-                    height: "max-content",
-                    display: "flex",
-                    flexDirection: "column",
-                    justifyContent: "center",
-                    backdropFilter: "blur(10px)" 
-                }}
-            >
-                <center>
-                    <h1>Login</h1>
-                </center>
-                <div style={{ marginTop: 30 }}>
-                    <InputBox label={'Username'} type={"username"} />
-                    <br />
-                    <InputBox label={'Password'} type={!showPassword ? "password" : "name"} />
-                    <br />
-                    <div style={{ display: "flex", gap: 10, alignItems: 'center' }}>
-                        <input
-                            id="show-pass"
-                            onChange={togglePasswordVisibility}
-                            style={{ padding: 0, height: 20, width: 20 }}
-                            type="checkbox"
-                        />
-                        <label htmlFor="show-pass">{showPassword ? "Hide" : "Show"} Password</label>
-                    </div>
-                </div>
-                <button
-                    style={{
-                        background: 'green',
-                        border: 'none',
-                        outline: "none",
-                        marginTop: 20,
-                        padding: 10,
-                        fontSize: 17,
-                        borderRadius: 8,
-                        color: 'white',
-                        letterSpacing: 1.4
-                    }}
-                >
-                    Login
-                </button>
-            </form>
+      if (response.ok) {
+        notifySuccess('Login successfully');
+        const { token } = await response.json();
+
+        localStorage.setItem('token', token);
+        setError(null);
+        console.log('Login successful');
+        navigate('/dashboard', { state: { successMessage: 'Login Successfully' } });
+      } else {
+        const { message } = await response.json();
+        setError(message);
+        notifyError('Failed to login');
+      }
+    } catch (error) {
+      console.error('Error during login:', error);
+      setError('An unexpected error occurred.');
+      notifyError('Failed to login');
+    }
+  };
+
+  const togglePasswordVisibility = () => {
+    setShowPassword((prevShowPassword) => !prevShowPassword);
+  };
+
+  return (
+    <div className="login-container">
+      <div className="login-box">
+        <center>
+          <h1>Login</h1>
+        </center>
+        <br />
+        {error && <p className="error-message">{error}</p>}
+        <label className="login_lable">
+          Username
+          <input className="login_input" type="text" value={username} onChange={(e) => setUsername(e.target.value)} />
+        </label>
+        <br />
+        <label className="login_lable">
+          Password
+          <input
+            className="login_input"
+            type={showPassword ? 'text' : 'password'}
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          />
+        </label>
+
+        <div className="password-visibility">
+          <input
+            id="show-pass"
+            onChange={togglePasswordVisibility}
+            style={{ padding: 0, height: 20, width: 20 }}
+            type="checkbox"
+          />
+          <label htmlFor="show-pass">{showPassword ? 'Hide' : 'Show'} Password</label>
         </div>
-    );
-}
+        <br />
+        <button className="login-button" onClick={handleLogin}>
+          Login
+        </button>
+        <div style={{ marginTop: '10px' }}>
+          <Link
+            to="/signup"
+            style={{
+              textDecoration: 'none',
+              color: 'blue',
+              fontSize: '17px',
+            }}
+          >
+            Add New User
+          </Link>
+        </div>
+      </div>
+      <ToastContainer />
+    </div>
+  );
+};
 
 export default Login;

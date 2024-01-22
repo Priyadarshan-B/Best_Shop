@@ -4,19 +4,64 @@ import Popup from 'reactjs-popup';
 import 'reactjs-popup/dist/index.css';
 import './horizontal_navbar.css';
 import { useNavigate } from 'react-router-dom';
-import assets from '../../assets/img/bestshop.jpg'
+import apiHost from '../../utils/api';
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 
 const HorizontalNavbar = () => {
   const [notifications, setNotifications] = useState(0);
   const [messages, setMessages] = useState(0);
   const navigate = useNavigate();
-  const handleNavigate = (path) => {
-    navigate(path);
+  const notifySuccess = (message) => {
+    toast.success(message, { position: toast.POSITION.BOTTOM_LEFT });
   };
+
+  const notifyError = (message) => {
+    toast.error(message, { position: toast.POSITION.BOTTOM_LEFT });
+  };
+  const handleLogout = async () => {
+    try {
+      const token = localStorage.getItem('token');
+      if (!token) {
+
+        console.error('Token is missing');
+        return;
+      }
+
+      const response = await fetch(`${apiHost}/logout`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`,
+        },
+      });
+  
+      if (response.status === 200) {
+        
+
+        localStorage.removeItem('token');
+        console.log('token removed');
+        notifySuccess('Logout successfully');
+        navigate('/', { state: { successMessage: 'Logout successfully' } });
+      } else {
+
+        console.error('Logout failed');
+        notifyError('Failed to logout');
+      }
+    } catch (error) {
+      console.error('Error during logout:', error);
+    }
+  };
+
+  // const handleNavigate = (path) => {
+  //   navigate(path);
+  // };
   return (
     <nav className="navbar">
       <div className="logo">
-        {/* <img src="../../assets/img/bestshop.jpg" alt="Logo" style={{ width: '50px', height: '50px' }} /> */}
+      <ToastContainer/>
+       
       <h2>Best Shop</h2>
       </div>
 
@@ -39,7 +84,7 @@ const HorizontalNavbar = () => {
   }}><FaUser /></button>} position="bottom right">
     <div className="popup-content">
       <div className="popup-text">Hi Best Shop</div>
-      <button className="popup-button" onClick={() => { handleNavigate("/login") }}>Logout</button>
+      <button className="popup-button" onClick={handleLogout}>Logout</button>
     </div>
   </Popup>
 

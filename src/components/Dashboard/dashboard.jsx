@@ -119,10 +119,13 @@
 
 import React, { useEffect, useState } from 'react';
 import ReactApexChart from 'react-apexcharts';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import HorizontalNavbar from '../Horizontal_Navbar/horizontal_navbar';
 import VerticalNavbar from '../Vertical_Navbar/vertical_navbar';
 import '../Dashboard/dashboard.css';
+// import { useLocation } from 'react-router-dom';
+// import { ToastContainer, toast } from 'react-toastify';
+// import 'react-toastify/dist/ReactToastify.css';
 
 import apiHost from '../../utils/api';
 
@@ -131,7 +134,7 @@ const DashboardWrapper = () => {
 };
 
 const Dashboard = () => {
-  const navigate = useNavigate();
+
   const [chartData, setChartData] = useState({
     series: [
       { name: 'Price of the Product', data: [0, 0, 0], yaxis: 0 },
@@ -183,9 +186,9 @@ const Dashboard = () => {
         },
       },
       yaxis: [
-        { show: false, min: 0, max: 10000000 },
+        { show: false, min: 0, max: 1000000000 },
         { show: false, min: 0, max: 10000 },
-        { show: false, min: 0, max: 10000 },
+        { show: false, min: 0, max: 1000000 },
       ],
       fill: {
         opacity: 1,
@@ -243,6 +246,7 @@ const Dashboard = () => {
       <HorizontalNavbar />
       <div className="vandc-container">
         <VerticalNavbar />
+        {/* <ToastContainer /> */}
         <div className="dashboard-body">
           <div className="chart-container">
             <ReactApexChart

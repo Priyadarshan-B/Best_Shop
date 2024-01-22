@@ -176,7 +176,7 @@ const DetailTable = () => {
       <HorizontalNavbar />
       <div className="vandc-container">
         <VerticalNavbar />
-        <ToastContainer />
+        {/* <ToastContainer /> */}
         <div className="dashboard-body">
           <div >
           {categories && categories.length > 0 ? (

@@ -18,7 +18,6 @@ import './table.css'
 
 const CategoryTable = () => {
   const [categories, setCategories] = useState([]);
-  // const [isAddDialogOpen, setAddDialogOpen] = useState(false);
   const [categoryName, setCategoryName] = useState("");
   const [image, setImage] = useState(null);
   const [open, setOpen] = useState(false);
@@ -153,7 +152,7 @@ const CategoryTable = () => {
       <HorizontalNavbar />
       <div className="vandc-container">
         <VerticalNavbar />
-        <ToastContainer />
+        {/* <ToastContainer /> */}
         <div className="dashboard-body">
           <div >
           {categories && categories.length > 0 ? (
