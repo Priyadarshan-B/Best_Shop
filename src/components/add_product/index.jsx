@@ -13,6 +13,7 @@ import "./add_product.css";
 import { Diversity3 } from "@mui/icons-material";
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { useNavigate,Link } from "react-router-dom";
 
 function AddStocks() {
   const [selectedCategory, setSelectedCategory] = useState([]);
@@ -24,6 +25,11 @@ function AddStocks() {
   const [showQty, setShowQty] = useState(false);
   const [name, setName] = useState("");
   const [open, setOpen] = useState(false);
+  const navigate = useNavigate();
+
+  const handleNavigate = (path) => {
+    navigate(path);
+  };
 
   // dialog const
   const [image, setImage] = useState(null);
@@ -484,12 +490,15 @@ function AddStocks() {
                       onChange={(e) => setQuantity(e.target.value)}
                     />
                   </div>
-                  <button className="generate_button"
-                    onClick={handleGenerate}
-                    
-                  >
-                    Generate +
-                  </button>
+                  <button
+  className="generate_button"
+  onClick={() => {
+    handleGenerate();
+    handleNavigate("/productdashboard");
+  }}
+>
+  Generate +
+</button>
                   </div>
                 </>
               )}
@@ -556,6 +565,8 @@ function AddStocks() {
             }}
           >
             <div>
+
+              {/* category dialog */}
               <DialogTitle
                 style={{
                   textAlign: "center",

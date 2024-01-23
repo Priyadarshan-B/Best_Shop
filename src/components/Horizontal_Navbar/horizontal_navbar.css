@@ -67,7 +67,7 @@
 
 .popup-content {
   display: flex;
-
+  background-color: #b0abab;
   border: none;
   flex-direction: column;
   align-items: center;
@@ -111,7 +111,7 @@
 .popup-content {
   margin: auto;
   background: rgb(255, 255, 255);
-  width: 50%;
+  width: 60%;
   padding: 5px;
 }
 .popup-arrow {

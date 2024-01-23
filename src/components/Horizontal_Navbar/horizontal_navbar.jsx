@@ -13,6 +13,7 @@ const HorizontalNavbar = () => {
   const [notifications, setNotifications] = useState(0);
   const [messages, setMessages] = useState(0);
   const navigate = useNavigate();
+  
   const notifySuccess = (message) => {
     toast.success(message, { position: toast.POSITION.BOTTOM_LEFT });
   };
@@ -83,7 +84,7 @@ const HorizontalNavbar = () => {
     cursor:'pointer'
   }}><FaUser /></button>} position="bottom right">
     <div className="popup-content">
-      <div className="popup-text">Hi Best Shop</div>
+      <div className="popup-text"></div>
       <button className="popup-button" onClick={handleLogout}>Logout</button>
     </div>
   </Popup>

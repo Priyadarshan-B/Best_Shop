@@ -1,100 +1,172 @@
-import React, { useState } from 'react';
-import VerticalNavbar from '../Vertical_Navbar/vertical_navbar';
+
+
+// export default ProductDashboard;
+import React, { useState, useEffect } from 'react';
+import PropTypes from 'prop-types';
+import Box from '@mui/material/Box';
+import Collapse from '@mui/material/Collapse';
+import IconButton from '@mui/material/IconButton';
+import Table from '@mui/material/Table';
+import TableBody from '@mui/material/TableBody';
+import TableCell from '@mui/material/TableCell';
+import TableContainer from '@mui/material/TableContainer';
+import TableHead from '@mui/material/TableHead';
+import TableRow from '@mui/material/TableRow';
+import Typography from '@mui/material/Typography';
+import Paper from '@mui/material/Paper';
+import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
+import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
+import apiHost from '../../utils/api';
 import HorizontalNavbar from '../Horizontal_Navbar/horizontal_navbar';
+import VerticalNavbar from '../Vertical_Navbar/vertical_navbar';
+import '../Products/ProductDashboard.css'
+import { Replay10TwoTone } from '@mui/icons-material';
 
+// Function to create rows based on API data
+const createRowFromApiData = (apiData) => {
+  return apiData.map(item => {
+    return {
+      category_name: item.category_name,
+      field_details_name: item.field_details_name,
+      price: item.price,
+      quantity: item.quantity,
+      stock_id: item.stock_id,
+      stock_name: item.stock_name,
+      time_added: item.time_added,
+      date_added: item.date_added,
+    };
+  });
+};
 
-function ProductDashboard() {
+function Row(props) {
+  const { row } = props;
+  const [open, setOpen] = React.useState(false);
 
-
-  // Sample data (you can replace it with your actual data)
-  const initialData = [
-    { productCode: '001', productName: 'Laptop', availability: 80, price: 1200 },
-    { productCode: '002', productName: 'Smartphone', availability: 60, price: 800 },
-    // Add more rows as needed
-  ];
-
-  const [data, setData] = useState(initialData);
-
-  
-  
   return (
+    <React.Fragment>
+      <TableRow sx={{ '& > *': { borderBottom: 'unset' } }}>
+        <TableCell>
+          <IconButton
+            aria-label="expand row"
+            size="small"
+            onClick={() => setOpen(!open)}
+          >
+            {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
+          </IconButton>
+        </TableCell>
+        {/* <TableCell component="th" scope="row">
+        {row.stock_id}
+          
+        </TableCell> */}
+        <TableCell component="th" scope="row">
+       
+          {row.category_name}
+        </TableCell>
+      </TableRow>
+      <TableRow>
+        <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
+          <Collapse in={open} timeout="auto" unmountOnExit>
+            <Box sx={{ margin: 1 }}>
+              <Typography variant="h6" gutterBottom component="div">
+                <b>Details</b>
+              </Typography>
+              <Table size="small" aria-label="details">
+                <TableHead>
+                  <TableRow>
+                    <TableCell><h3>Product Category</h3></TableCell>
+                    <TableCell align="right"><h3>Price</h3></TableCell>
+                    <TableCell align="right"><h3>Quantity</h3></TableCell>
+                    <TableCell align="right"><h3>Date</h3></TableCell>
+                    <TableCell align="right"><h3>Time</h3></TableCell>
+                  </TableRow>
+                </TableHead>
+                {/* <TableBody>
+                  {row.map((row) => (
+                    <TableRow key={row}>
+                      <TableCell>{row.stock_name}</TableCell>
+                      <TableCell align="right">{row.price}</TableCell>
+                      <TableCell align="right">{row.quantity}</TableCell>
+                      <TableCell align="right">{row.date_added}</TableCell>
+                      <TableCell align="right">{row.time_added}</TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody> */}
+
+<TableBody>
+  <TableRow key={row.stock_id}>
+    <TableCell>{row.stock_name}</TableCell>
+    <TableCell align="right">{row.price}</TableCell>
+    <TableCell align="right">{row.quantity}</TableCell>
+    <TableCell align="right">{row.date_added}</TableCell>
+    <TableCell align="right">{row.time_added}</TableCell>
+  </TableRow>
+</TableBody>
+              </Table>
+            </Box>
+          </Collapse>
+        </TableCell>
+      </TableRow>
+    </React.Fragment>
+  );
+}
+
+Row.propTypes = {
+  row: PropTypes.shape({
+    category_name: PropTypes.string.isRequired,
+    field_details_name: PropTypes.arrayOf(PropTypes.string).isRequired,
+    price: PropTypes.number.isRequired,
+    quantity: PropTypes.number.isRequired,
+    stock_id: PropTypes.number.isRequired,
+    stock_name: PropTypes.string.isRequired,
+    time_added: PropTypes.string.isRequired,
+    date_added: PropTypes.string.isRequired,
+  }).isRequired,
+};
+
+export default function CollapsibleTable() {
+  const [rows, setRows] = useState([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch(`${apiHost}/stocks`);
+        const jsonData = await response.json();
+        const formattedRows = createRowFromApiData(jsonData);
+        setRows(formattedRows);
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    };
+
+    fetchData();
+  }, []); 
+
+  return (
+
     <div className="dashboard-container">
     <HorizontalNavbar />
     <div className="vandc-container">
       <VerticalNavbar />
-      <div className="dashboard-body">
-    <div>
-      <div className='product-dashboard'>
-        <div className='product-dashboard-filters'>
-          <h2>Filter Product</h2>
-          <div className='cost-filter'>
-            <h3>Cost</h3>
-            <select>
-              <option>Select an Option</option>
-            </select>
-          </div>
-          <div className='sort-by'>
-            <h2>Sort By</h2>
-            <input type='number' placeholder='Select An Option'></input>
-          </div>
-        </div>
-        <div className='product-dashboard-grid'>
-          <div className='category-select-card'>
-            <h2>Category</h2>
-            <input type='checkbox'></input>
-            <label>Electronics</label>
-            <br/>
-            <input type='checkbox'></input>
-            <label>Watches</label>
-            <br/>
-            <input type='checkbox'></input>
-            <label>Shoes</label>
-            <br/>
-            <input type='checkbox'></input>
-            <label>Shirts</label>
-
-            <br/>
-            <h3>Availability Percent</h3>
-            <input type='checkbox'></input>
-            <label>0-25%</label>
-            <br/>
-            <input type='checkbox'></input>
-            <label>25-60%</label>
-            <br/>
-            <input type='checkbox'></input>
-            <label>60-100%</label>
-          </div>
-          <div className='product-info-table'>
-            <table>
-              <thead>
-                <tr>
-                  <th>Product Code</th>
-                  <th>Product Name</th>
-                  <th>Availability%</th>
-                  <th>Price</th>
-                </tr>
-              </thead>
-              <tbody>
-                {data.map((item, index) => (
-                  <tr key={index}>
-                    <td>{item.productCode}</td>
-                    <td>{item.productName}</td>
-                    <td>{item.availability}%</td>
-                    <td>${item.price}</td>
-                  </tr>
-                  
-                ))}
-              </tbody>
-            </table>
-          </div>
-          </div>
-        </div>
-      </div>
-      </div>
-      </div>
-      </div>
-    
+      
+      <div className="table-body">
+    <TableContainer component={Paper}>
+      <Table aria-label="collapsible table">
+        <TableHead>
+          <TableRow>
+            <TableCell />
+            {/* <TableCell><h2>Item No</h2></TableCell> */}
+            <TableCell><h2>Product Name</h2></TableCell>
+          </TableRow>
+        </TableHead>
+        <TableBody>
+          {rows.map((row) => (
+            <Row key={row.category_name} row={row} />
+          ))}
+        </TableBody>
+      </Table>
+    </TableContainer>
+    </div>
+    </div>
+    </div>
   );
 }
-
-export default ProductDashboard;

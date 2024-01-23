@@ -123,9 +123,7 @@ import { Link } from 'react-router-dom';
 import HorizontalNavbar from '../Horizontal_Navbar/horizontal_navbar';
 import VerticalNavbar from '../Vertical_Navbar/vertical_navbar';
 import '../Dashboard/dashboard.css';
-// import { useLocation } from 'react-router-dom';
-// import { ToastContainer, toast } from 'react-toastify';
-// import 'react-toastify/dist/ReactToastify.css';
+
 
 import apiHost from '../../utils/api';
 
@@ -203,21 +201,7 @@ const Dashboard = () => {
     },
   });
 
-  // const handleCategoryClick = (index) => {
-  //   switch (index) {
-  //     case 0:
-  //       navigate('/enquiries');
-  //       break;
-  //     case 1:
-  //       navigate('/tables');
-  //       break;
-  //     case 2:
-  //       navigate('/inventory');
-  //       break;
-  //     default:
-  //       break;
-  //   }
-  // };
+ 
 
   useEffect(() => {
     const fetchData = async () => {
@@ -246,7 +230,7 @@ const Dashboard = () => {
       <HorizontalNavbar />
       <div className="vandc-container">
         <VerticalNavbar />
-        {/* <ToastContainer /> */}
+        
         <div className="dashboard-body">
           <div className="chart-container">
             <ReactApexChart
