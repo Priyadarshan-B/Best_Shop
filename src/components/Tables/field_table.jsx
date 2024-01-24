@@ -44,8 +44,8 @@ const FieldTable = () => {
   const populateCategoriesDropdown = () => {
     fetch(`${API_BASE_URL}/categories`)
       .then((response) => response.json())
-      .then((category) => {
-        setCategory(category);
+      .then((categories) => {
+        setCategory(categories);
       })
       .catch((error) => {
         console.error('Error fetching categories:', error);
@@ -69,6 +69,7 @@ const FieldTable = () => {
   };
 
   const addCategoryField = () => {
+    console.log('FormData:', formData);
     fetch(`${API_BASE_URL}/category-fields`, {
       method: 'POST',
       headers: {
@@ -78,7 +79,8 @@ const FieldTable = () => {
     })
       .then((response) => response.json())
       .then((data) => {
-        // alert(data.message);
+        alert(data.message);
+        console.log(data);
         handleCloseDialog();
         notifySuccess('Field added successfully');
 
@@ -236,23 +238,23 @@ const FieldTable = () => {
                 >
                   <b>Category:</b>
                 </label>
-                <select className='form-select'
-
-                  id="category_id"
-                  name="category_id"
-                  value={formData.category_id}
-                  onChange={handleInputChange}
-                  required
-                >
-                  {category.map((category) => (
-                    <option
-                      key={category.category_id}
-                      value={category.category_id}
-                    >
-                      {category.category_name}
-                    </option>
-                  ))}
-                </select>
+                <select
+  className='form-select'
+  id="category_id"
+  name="category_id"
+  value={formData.category_id}
+  onChange={handleInputChange}
+  required
+>
+  {category.map((category) => (
+    <option
+      key={category.category_id}
+      value={category.category_id}
+    >
+      {category.category_name}
+    </option>
+  ))}
+</select>
                 <br />
 
                 <label className='form-label'
@@ -346,3 +348,4 @@ const FieldTable = () => {
 };
 
 export default FieldTable;
+

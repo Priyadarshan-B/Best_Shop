@@ -58,6 +58,13 @@ const VerticalNavbar = () => {
     console.log('Add Category clicked');
   };
 
+
+  const handleExportClick = () => {
+    navigate("/export");
+    console.log('Add Export clicked');
+  };
+
+
   const handleNavigate = (path) => {
     navigate(path);
   };
@@ -95,8 +102,11 @@ const VerticalNavbar = () => {
 
             </ul>
           )}
+          
         </li>
+        
         </div>
+        <li onClick={handleExportClick}><b>Export</b></li>
       </ul>
      
     </div>

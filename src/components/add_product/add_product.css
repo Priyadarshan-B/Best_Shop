@@ -85,3 +85,24 @@
     color: white;
     cursor: pointer;
   }
+
+  .dist_input{
+    width: 100%;
+  padding: 8px;
+  margin-bottom: 10px;
+  }
+
+  
+
+  .dist_button{
+    background-color: #3dbbff;
+  color: white;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  }
+
+  .dist_button:hover{
+    background-color: #60c7ff;
+  }

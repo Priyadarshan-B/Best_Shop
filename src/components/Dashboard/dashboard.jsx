@@ -185,7 +185,7 @@ const Dashboard = () => {
       },
       yaxis: [
         { show: false, min: 0, max: 1000000000 },
-        { show: false, min: 0, max: 10000 },
+        { show: false, min: 0, max: 100000 },
         { show: false, min: 0, max: 1000000 },
       ],
       fill: {
