@@ -149,43 +149,41 @@ const CategoryTable = () => {
 
   return (
     <div className="dashboard-container">
-      <HorizontalNavbar />
-      <div className="vandc-container">
-        <VerticalNavbar />
-        {/* <ToastContainer /> */}
-        <div className="dashboard-body">
-          <div >
+    <HorizontalNavbar />
+    <div className="vandc-container">
+      <VerticalNavbar />
+      {/* <ToastContainer /> */}
+      <div className="dashboard-body">
+        <div>
+          <div className="category-header-container">
+            <h2 style={{ marginTop: '10px' }}>Category Table</h2>
+            <button
+              className="add-button"
+              type="button"
+              onClick={handleClickOpenDialog}
+            >
+              <b>Add +</b>
+            </button>
+          </div>
+  
           {categories && categories.length > 0 ? (
-              <>
-            <div className="category-header-container">
-              <h2 style={{
-                marginTop:'10px'
-              }}>Category Table</h2>
-              <button className="add-button"
-                type="button"
-                onClick={handleClickOpenDialog}
-              >
-                <b>Add +</b>
-              </button>
-            </div>
-
-                <DataGrid 
-                  rows={rows}
-                  columns={columns}
-                  pageSize={5}
-                  style={{
-                    backgroundColor: "white",
-                    marginTop: "20px",
-                    padding: "35px",
-                    height: "560px",
-                    width: "900px",
-                    borderRadius: "30px",
-                    boxShadow: "0 0 14px rgba(0, 0, 0, 0.1)",
-                    fontSize: "15px",
-                  }}
-                />
-              </>
-            ) : (
+            <DataGrid
+              rows={rows}
+              columns={columns}
+              pageSize={5}
+              style={{
+                backgroundColor: 'white',
+                marginTop: '20px',
+                padding: '35px',
+                height: '560px',
+                width: '900px',
+                borderRadius: '30px',
+                boxShadow: '0 0 14px rgba(0, 0, 0, 0.1)',
+                fontSize: '15px',
+              }}
+            />
+          ) : (
+              
               <div className="loader">
                 </div>
               

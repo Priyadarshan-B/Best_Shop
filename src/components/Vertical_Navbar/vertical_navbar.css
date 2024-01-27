@@ -1,8 +1,7 @@
 .vertical-navbar {
   width: 250px;
   background-color: #ffffff;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  /* border-radius: 10; */
+  box-shadow: 0 0 10px #0000001a;
   border-right-width: 20px;
   color: #060606;
   padding: 20px;
@@ -38,7 +37,6 @@
   cursor: pointer;
   text-decoration: none; 
   color: #333;
-  /* transition: color 0.1s ;  */
   padding: 15px;
   border-radius: 5px;
   text-align:center;
@@ -49,9 +47,16 @@
 
   &:hover  {
     background-color: #c9ecff; 
-    /* transition: background-color 1s ease; */
     box-shadow: 0 0 4px rgba(0, 0, 0, 0.1);
   }
+}
+
+
+
+.nav-links li.selected {
+  /* Styles for the selected category */
+  background-color: #3498db; /* Change this to the desired background color */
+  color: #fff; /* Change this to the desired text color */
 }
 
 .nav-links.show {
@@ -104,16 +109,22 @@
 
 
 .sub-menu li:hover {
-  background-color:#c9ecff; /* Change the background color on hover */
+  background-color:#c9ecff; 
   text-align: right;
+}
+.sub-menu li.selected {
+  /* Styles for the selected submenu item */
+  background-color: #3498db; /* Change this to the desired background color */
+  color: #fff; /* Change this to the desired text color */
 }
 
 .sub-navbar,
 .sub-menu li {
   margin-top: 10px;
-  /* transition: background-color 1s ease; */
-  /* border-radius: 10px; */
+
 }
+
+
 
 @media (max-width: 999px) {
   .vertical-navbar {
@@ -130,3 +141,25 @@
 
   
 }
+
+
+/* .vertical-navbar {
+  display: flex;
+  flex-direction: column;
+}
+
+.vertical-navbar a {
+  text-decoration: none;
+  color: black;
+  padding: 10px;
+  transition: background-color 0.3s ease;
+}
+
+.vertical-navbar a:hover {
+  background-color: #f0f0f0;
+}
+
+.vertical-navbar a.active {
+  background-color: #e0e0e0;
+
+} */

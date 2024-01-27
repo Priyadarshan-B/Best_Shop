@@ -5,6 +5,7 @@ import '../Dashboard/dashboard.css';
 import '../add_product/add_product.css';
 import * as XLSX from 'xlsx';
 import apiHost from "../../utils/api";
+import DownloadIcon from '@mui/icons-material/Download';
 
 const ExportData = () => {
   const [exportValue, setExportValue] = useState("");
@@ -36,6 +37,7 @@ const ExportData = () => {
         <VerticalNavbar />
         <div className="dashboard-body">
           <div>
+          <label>Distributor ID:</label>
             <input
               className="dist_input"
               type="number"
@@ -43,7 +45,9 @@ const ExportData = () => {
               onChange={(e) => setExportValue(e.target.value)}
               placeholder="Distributor ID"
             />
+             
             <button onClick={downloadExcel} className="dist_button">
+            <DownloadIcon style={{ marginRight: '10px' }} />
               Download As Excel
             </button>
           </div>

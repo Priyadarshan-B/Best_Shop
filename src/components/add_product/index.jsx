@@ -14,6 +14,7 @@ import { Diversity3 } from "@mui/icons-material";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useNavigate, Link } from "react-router-dom";
+import NavigateNextOutlinedIcon from '@mui/icons-material/NavigateNextOutlined';
 
 function AddStocks() {
   const [selectedCategory, setSelectedCategory] = useState([]);
@@ -337,6 +338,8 @@ function AddStocks() {
         setSelectedIndex(selectedIndex + 1);
       } else {
         setShowQty(true);
+        //  navigate(`/categories/${item.field_id}`);
+        
       }
     }
   };
@@ -435,7 +438,8 @@ function AddStocks() {
             <option value="option3">Option 3</option>
           </select> */}
 
-          <button onClick={checkInput} className="dist_button">Next</button>
+          <button onClick={checkInput} className="dist_button">
+             Next<NavigateNextOutlinedIcon style={{ marginRight: '10px' }} /></button>
         </div>
       ) : (
      

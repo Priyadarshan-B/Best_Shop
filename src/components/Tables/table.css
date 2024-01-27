@@ -29,6 +29,7 @@
     display: flex;
     flex-direction: row;
     justify-content: space-between;
+    gap: 40px;
   }
   .category-header-container h2{
     margin-top: 20px;

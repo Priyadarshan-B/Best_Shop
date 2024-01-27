@@ -179,9 +179,7 @@ const DetailTable = () => {
         {/* <ToastContainer /> */}
         <div className="dashboard-body">
           <div >
-          {categories && categories.length > 0 ? (
-            <>
-            <div className='category-header-container'>
+          <div className='category-header-container'>
               <h2>Category with Detail Table</h2>
               <button className='add-button'
                 type="button"
@@ -191,6 +189,10 @@ const DetailTable = () => {
                 <b>Add +</b>
               </button>
             </div>
+
+          {categories && categories.length > 0 ? (
+            <>
+            
       
               <DataGrid 
                 rows={rows}
