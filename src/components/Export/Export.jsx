@@ -37,7 +37,7 @@ const ExportData = () => {
         <VerticalNavbar />
         <div className="dashboard-body">
           <div>
-          <label>Distributor ID:</label>
+          <label className="distributor_id_col">Distributor ID:</label>
             <input
               className="dist_input"
               type="number"

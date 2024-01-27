@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from "react";
 import VerticalNavbar from "../Vertical_Navbar/vertical_navbar";
 import HorizontalNavbar from "../Horizontal_Navbar/horizontal_navbar";
@@ -109,12 +110,12 @@ const CategoryTable = () => {
   // };
 
   const columns = [
-    { field: "id", headerName: <b>S.No</b>, width: 280 },
-    { field: "category_name", headerName: <b>Category Name</b>, width: 300 },
+    { field: "id", headerName: <b>S.No</b>, width: 100 },
+    { field: "category_name", headerName: <b>Category Name</b>, width: 200 },
     {
       field: "actions",
       headerName: <b>Actions</b>,
-      width: 150,
+      width: 100,
       renderCell: (params) => (
         <div
           style={{
@@ -149,41 +150,43 @@ const CategoryTable = () => {
 
   return (
     <div className="dashboard-container">
-    <HorizontalNavbar />
-    <div className="vandc-container">
-      <VerticalNavbar />
-      {/* <ToastContainer /> */}
-      <div className="dashboard-body">
-        <div>
-          <div className="category-header-container">
-            <h2 style={{ marginTop: '10px' }}>Category Table</h2>
-            <button
-              className="add-button"
-              type="button"
-              onClick={handleClickOpenDialog}
-            >
-              <b>Add +</b>
-            </button>
-          </div>
-  
+      <HorizontalNavbar />
+      <div className="vandc-container">
+        <VerticalNavbar />
+        {/* <ToastContainer /> */}
+        <div className="dashboard-body">
+          <div >
           {categories && categories.length > 0 ? (
-            <DataGrid
-              rows={rows}
-              columns={columns}
-              pageSize={5}
-              style={{
-                backgroundColor: 'white',
-                marginTop: '20px',
-                padding: '35px',
-                height: '560px',
-                width: '900px',
-                borderRadius: '30px',
-                boxShadow: '0 0 14px rgba(0, 0, 0, 0.1)',
-                fontSize: '15px',
-              }}
-            />
-          ) : (
-              
+              <>
+            <div className="category-header-container">
+              <h2 style={{
+                marginTop:'10px'
+              }}>Category Table</h2>
+              <button className="add-button"
+                type="button"
+                onClick={handleClickOpenDialog}
+              >
+                <b>Add +</b>
+              </button>
+            </div>
+
+                <DataGrid 
+                  rows={rows}
+                  columns={columns}
+                  pageSize={5}
+                  style={{
+                    backgroundColor: "white",
+                    marginTop: "20px",
+                    padding: "35px",
+                    height: "500px",
+                    width: "500px",
+                    borderRadius: "30px",
+                    boxShadow: "0 0 14px rgba(0, 0, 0, 0.1)",
+                    fontSize: "15px",
+                  }}
+                />
+              </>
+            ) : (
               <div className="loader">
                 </div>
               

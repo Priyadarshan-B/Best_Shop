@@ -1,6 +1,4 @@
 
-
-// export default ProductDashboard;
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import Box from '@mui/material/Box';
@@ -20,7 +18,7 @@ import apiHost from '../../utils/api';
 import HorizontalNavbar from '../Horizontal_Navbar/horizontal_navbar';
 import VerticalNavbar from '../Vertical_Navbar/vertical_navbar';
 import '../Products/ProductDashboard.css'
-import { Replay10TwoTone } from '@mui/icons-material';
+
 
 // Function to create rows based on API data
 const createRowFromApiData = (apiData) => {
@@ -70,7 +68,7 @@ function Row(props) {
               <Typography variant="h6" gutterBottom component="div">
                 <b>Details</b>
               </Typography>
-              <Table size="small" aria-label="details">
+              <Table size="small" aria-label="details" >
                 <TableHead>
                   <TableRow>
                     <TableCell><h3>Product Category</h3></TableCell>
@@ -149,8 +147,8 @@ export default function CollapsibleTable() {
       <VerticalNavbar />
       
       <div className="table-body">
-    <TableContainer component={Paper}>
-      <Table aria-label="collapsible table">
+    <TableContainer component={Paper} className='table_size'>
+      <Table aria-label="collapsible table" >
         <TableHead>
           <TableRow>
             <TableCell />

@@ -1,3 +1,7 @@
+.distributor_id_col{
+  font-size: 20px;
+}
+
 .input-container {
   margin-bottom: 15px;
   display: flex;
@@ -87,20 +91,49 @@
   }
 
   .dist_input{
-    width: 100%;
-  padding: 8px;
+  width: 100%;
+  padding: 7px;
   margin-bottom: 10px;
+  border: none;
+  box-shadow: 0px 2px 7px;
+  border-radius: 5px;
+  font-size: large;
+  margin-top: 10px;
+  margin-bottom: 15px;
+  font-weight: 500;
+  color: rgb(86, 86, 86);
   }
 
   
 
   .dist_button{
-    background-color: #3dbbff;
+  background-color: #3dbbff;
   color: white;
-  padding: 10px 15px;
+  font-weight: 600;
+  font-size: 20px;
+  padding: 5px 35px 5px 20px;
   border: none;
   border-radius: 5px;
   cursor: pointer;
+  display: flex ;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s;
+  }
+
+  .dist_buttton{
+    background-color: #3dbbff;
+  color: white;
+  font-weight: 600;
+  font-size: 20px;
+  padding: 5px 20px 5px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  display: flex ;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s;
   }
 
   .dist_button:hover{

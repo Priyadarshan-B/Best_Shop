@@ -38,7 +38,7 @@ const Login = () => {
         localStorage.setItem('token', token);
         setError(null);
         console.log('Login successful');
-        navigate('/dashboard', { state: { successMessage: 'Login Successfully' } });
+        navigate('/addStock', { state: { successMessage: 'Login Successfully' } });
       } else {
         const { message } = await response.json();
         setError(message);

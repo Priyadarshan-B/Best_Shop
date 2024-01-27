@@ -423,7 +423,7 @@ function AddStocks() {
   
       {isContentVisible ? (
         <div>
-          <label>Distributor ID:</label>
+          <label className="distributor_id_col">Distributor ID:</label>
           <input className="dist_input"
             type="text"
             value={textBoxValue}
@@ -438,8 +438,8 @@ function AddStocks() {
             <option value="option3">Option 3</option>
           </select> */}
 
-          <button onClick={checkInput} className="dist_button">
-             Next<NavigateNextOutlinedIcon style={{ marginRight: '10px' }} /></button>
+          <button onClick={checkInput} className="dist_buttton">
+             Next<NavigateNextOutlinedIcon style={{ marginLeft: '10px' }} /></button>
         </div>
       ) : (
      
@@ -486,6 +486,7 @@ function AddStocks() {
               </div>
               {!showQty ? (
                 <div className="product-type-grid">
+                  <div className="item_boxes">
                   {category.map((item, i) => (
                     <div
                       key={i}
@@ -523,7 +524,9 @@ function AddStocks() {
                         />
                       ) : null}
                     </div>
+                    
                   ))}
+                  </div>
                 </div>
               ) : (
                 <>

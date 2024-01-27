@@ -1,3 +1,5 @@
+
+
 import React, { useState } from 'react';
 import { FaBell, FaUser, FaEnvelope } from 'react-icons/fa';
 import Popup from 'reactjs-popup';
@@ -7,13 +9,57 @@ import { useNavigate } from 'react-router-dom';
 import apiHost from '../../utils/api';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-
+import { FaBars, FaAngleDown, FaAngleUp } from 'react-icons/fa';
 
 const HorizontalNavbar = () => {
+  const [showMenu, setShowMenu] = useState(false);
+  const [showMasterSubMenu, setShowMasterSubMenu] = useState(false);
+  const navigate = useNavigate();
+
+  const toggleMenu = () => {
+    setShowMenu(!showMenu);
+  };
+
+  const toggleMasterSubMenu = () => {
+    setShowMasterSubMenu(!showMasterSubMenu);
+  };
+
+  const handleDashboardClick = () => {
+    navigate("/dashboard");
+    console.log('Dashboard clicked');
+  };
+
+  const handleInventoryClick = () => {
+    navigate("/inventory");
+    console.log('Inventory clicked');
+  };
+
+  const handleEnquiriesClick = () => {
+    navigate("/enquiries");
+    console.log('Enquiries clicked');
+  };
+
+  const handleProductStocksClick = () => {
+    navigate("/productdashboard");
+    console.log('Productstocks clicked');
+  };
+
+  const handleMasterClick = () => {
+    toggleMasterSubMenu();
+  };
+
+  const handleAddCategoryClick = () => {
+    navigate("/categorytable");
+    console.log('Add Category clicked');
+  };
+
+  const handleNavigate = (path) => {
+    navigate(path);
+  };
+
   const [notifications, setNotifications] = useState(0);
   const [messages, setMessages] = useState(0);
-  const navigate = useNavigate();
-  
+
   const notifySuccess = (message) => {
     toast.success(message, { position: toast.POSITION.BOTTOM_LEFT });
   };
@@ -21,11 +67,11 @@ const HorizontalNavbar = () => {
   const notifyError = (message) => {
     toast.error(message, { position: toast.POSITION.BOTTOM_LEFT });
   };
+
   const handleLogout = async () => {
     try {
       const token = localStorage.getItem('token');
       if (!token) {
-
         console.error('Token is missing');
         return;
       }
@@ -37,16 +83,13 @@ const HorizontalNavbar = () => {
           'Authorization': `Bearer ${token}`,
         },
       });
-  
-      if (response.status === 200) {
-        
 
+      if (response.status === 200) {
         localStorage.removeItem('token');
         console.log('token removed');
         notifySuccess('Logout successfully');
         navigate('/', { state: { successMessage: 'Logout successfully' } });
       } else {
-
         console.error('Logout failed');
         notifyError('Failed to logout');
       }
@@ -54,16 +97,16 @@ const HorizontalNavbar = () => {
       console.error('Error during logout:', error);
     }
   };
-
-  // const handleNavigate = (path) => {
-  //   navigate(path);
-  // };
   return (
     <nav className="navbar">
+      <div className="menu-icon" onClick={toggleMenu}>
+        <FaBars />
+      </div>
+
       <div className="logo">
       <ToastContainer/>
        
-      <h2>Best Shop</h2>
+      <h2 className='website_name'>Best Shop</h2>
       </div>
 
       <div className="icons">

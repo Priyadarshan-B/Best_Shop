@@ -1,9 +1,0 @@
-Need to be change:
-
-1) Add CSS to tables(field and detail table)  like category table
-2)Change CSS for Master component in VerticalNavbar Component
-3)Instead of edit and delete button, add icons in table
-4)Add popup for success form submission in tables (Add +) (NOTE: refer CategoryTable)
-5)Add menu icon for VerticalNavBar
-
-And change the CSS whatever you want
