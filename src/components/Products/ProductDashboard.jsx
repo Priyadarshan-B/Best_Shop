@@ -1,30 +1,28 @@
-
-
 // export default ProductDashboard;
-import React, { useState, useEffect } from 'react';
-import PropTypes from 'prop-types';
-import Box from '@mui/material/Box';
-import Collapse from '@mui/material/Collapse';
-import IconButton from '@mui/material/IconButton';
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
-import TableHead from '@mui/material/TableHead';
-import TableRow from '@mui/material/TableRow';
-import Typography from '@mui/material/Typography';
-import Paper from '@mui/material/Paper';
-import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
-import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
-import apiHost from '../../utils/api';
-import HorizontalNavbar from '../Horizontal_Navbar/horizontal_navbar';
-import VerticalNavbar from '../Vertical_Navbar/vertical_navbar';
-import '../Products/ProductDashboard.css'
-import { Replay10TwoTone } from '@mui/icons-material';
+import React, { useState, useEffect } from "react";
+import PropTypes from "prop-types";
+import Box from "@mui/material/Box";
+import Collapse from "@mui/material/Collapse";
+import IconButton from "@mui/material/IconButton";
+import Table from "@mui/material/Table";
+import TableBody from "@mui/material/TableBody";
+import TableCell from "@mui/material/TableCell";
+import TableContainer from "@mui/material/TableContainer";
+import TableHead from "@mui/material/TableHead";
+import TableRow from "@mui/material/TableRow";
+import Typography from "@mui/material/Typography";
+import Paper from "@mui/material/Paper";
+import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
+import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
+import apiHost from "../../utils/api";
+import HorizontalNavbar from "../Horizontal_Navbar/horizontal_navbar";
+import VerticalNavbar from "../Vertical_Navbar/vertical_navbar";
+import "../Products/ProductDashboard.css";
+import { Replay10TwoTone } from "@mui/icons-material";
 
 // Function to create rows based on API data
 const createRowFromApiData = (apiData) => {
-  return apiData.map(item => {
+  return apiData.map((item) => {
     return {
       category_name: item.category_name,
       field_details_name: item.field_details_name,
@@ -44,7 +42,7 @@ function Row(props) {
 
   return (
     <React.Fragment>
-      <TableRow sx={{ '& > *': { borderBottom: 'unset' } }}>
+      <TableRow sx={{ "& > *": { borderBottom: "unset" } }}>
         <TableCell>
           <IconButton
             aria-label="expand row"
@@ -59,7 +57,6 @@ function Row(props) {
           
         </TableCell> */}
         <TableCell component="th" scope="row">
-       
           {row.category_name}
         </TableCell>
       </TableRow>
@@ -73,11 +70,21 @@ function Row(props) {
               <Table size="small" aria-label="details">
                 <TableHead>
                   <TableRow>
-                    <TableCell><h3>Product Category</h3></TableCell>
-                    <TableCell align="right"><h3>Price</h3></TableCell>
-                    <TableCell align="right"><h3>Quantity</h3></TableCell>
-                    <TableCell align="right"><h3>Date</h3></TableCell>
-                    <TableCell align="right"><h3>Time</h3></TableCell>
+                    <TableCell>
+                      <h3>Product Category</h3>
+                    </TableCell>
+                    <TableCell align="right">
+                      <h3>Price</h3>
+                    </TableCell>
+                    <TableCell align="right">
+                      <h3>Quantity</h3>
+                    </TableCell>
+                    <TableCell align="right">
+                      <h3>Date</h3>
+                    </TableCell>
+                    <TableCell align="right">
+                      <h3>Time</h3>
+                    </TableCell>
                   </TableRow>
                 </TableHead>
                 {/* <TableBody>
@@ -92,15 +99,15 @@ function Row(props) {
                   ))}
                 </TableBody> */}
 
-<TableBody>
-  <TableRow key={row.stock_id}>
-    <TableCell>{row.stock_name}</TableCell>
-    <TableCell align="right">{row.price}</TableCell>
-    <TableCell align="right">{row.quantity}</TableCell>
-    <TableCell align="right">{row.date_added}</TableCell>
-    <TableCell align="right">{row.time_added}</TableCell>
-  </TableRow>
-</TableBody>
+                <TableBody>
+                  <TableRow key={row.stock_id}>
+                    <TableCell>{row.stock_name}</TableCell>
+                    <TableCell align="right">{row.price}</TableCell>
+                    <TableCell align="right">{row.quantity}</TableCell>
+                    <TableCell align="right">{row.date_added}</TableCell>
+                    <TableCell align="right">{row.time_added}</TableCell>
+                  </TableRow>
+                </TableBody>
               </Table>
             </Box>
           </Collapse>
@@ -134,39 +141,40 @@ export default function CollapsibleTable() {
         const formattedRows = createRowFromApiData(jsonData);
         setRows(formattedRows);
       } catch (error) {
-        console.error('Error fetching data:', error);
+        console.error("Error fetching data:", error);
       }
     };
 
     fetchData();
-  }, []); 
+  }, []);
 
   return (
-
     <div className="dashboard-container">
-    <HorizontalNavbar />
-    <div className="vandc-container">
-      <VerticalNavbar />
-      
-      <div className="table-body">
-    <TableContainer component={Paper}>
-      <Table aria-label="collapsible table">
-        <TableHead>
-          <TableRow>
-            <TableCell />
-            {/* <TableCell><h2>Item No</h2></TableCell> */}
-            <TableCell><h2>Product Name</h2></TableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {rows.map((row) => (
-            <Row key={row.category_name} row={row} />
-          ))}
-        </TableBody>
-      </Table>
-    </TableContainer>
-    </div>
-    </div>
+      <HorizontalNavbar />
+      <div className="vandc-container">
+        <VerticalNavbar />
+
+        <div className="table-body">
+          <TableContainer component={Paper}>
+            <Table aria-label="collapsible table">
+              <TableHead>
+                <TableRow>
+                  <TableCell />
+                  {/* <TableCell><h2>Item No</h2></TableCell> */}
+                  <TableCell>
+                    <h2>Product Name</h2>
+                  </TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {rows.map((row) => (
+                  <Row key={row.category_name} row={row} />
+                ))}
+              </TableBody>
+            </Table>
+          </TableContainer>
+        </div>
+      </div>
     </div>
   );
 }

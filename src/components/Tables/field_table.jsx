@@ -225,7 +225,7 @@ const FieldTable = () => {
                 >
                   <b>Category:</b>
                 </label>
-                <select
+                {/* <select
   className='form-select'
   id="category_id"
   name="category_id"
@@ -233,6 +233,24 @@ const FieldTable = () => {
   onChange={handleInputChange}
   required
 >
+  {category.map((category) => (
+    <option
+      key={category.category_id}
+      value={category.category_id}
+    >
+      {category.category_name}
+    </option>
+  ))}
+</select> */}
+<select
+  className='form-select'
+  id="category_id"
+  name="category_id"
+  value={formData.category_id}
+  onChange={handleInputChange}
+  required
+>
+  <option value="">Select Category</option>
   {category.map((category) => (
     <option
       key={category.category_id}

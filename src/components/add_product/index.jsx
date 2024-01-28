@@ -338,7 +338,7 @@ function AddStocks() {
         setSelectedIndex(selectedIndex + 1);
       } else {
         setShowQty(true);
-        //  navigate(`/categories/${item.field_id}`);
+       
         
       }
     }
@@ -381,10 +381,11 @@ function AddStocks() {
 
     const requestData = {
   
-  dist_id:textBoxValue,
+      dist_id:textBoxValue,
       category_id: selectedCategory[0].category_id,
       field_details_id: selectedDetails.filter((item) => item !== null),
-      name: name.replace(/,/g, "-"),
+      // name: name.replace(/,/g, "-"),
+      name: `${name.replace(/,/g, "-")}-${textboxes.Size}-${textboxes.Colour}`, 
       quantity: parseInt(quantity),
       price: parseFloat(price),
     };
@@ -393,11 +394,13 @@ function AddStocks() {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        // Add any other headers as needed
       },
       body: JSON.stringify(requestData),
+     
     })
+      
       .then((response) => response.json())
+      // console.log(requestData);
       .then((data) => {
         // Handle the backend response
         notifySuccess("Stock Added successfully");
@@ -412,6 +415,45 @@ function AddStocks() {
   useEffect(() => {
     fetchCategory();
   }, []);
+
+
+
+  // other category
+  const [selectedOption, setSelectedOption] = useState(null);
+  const [textboxes, setTextboxes] = useState({});
+
+  const options = ['Size', 'Colour', 'Other'];
+
+  const handleOptionChange = (option) => {
+    setSelectedOption(option);
+  
+  };
+  console.log('Textboxes values:', textboxes);
+  console.log(textboxes.option)
+
+  const handleTextboxChange = (value) => {
+    setTextboxes((prevValues) => ({
+      ...prevValues,
+      [selectedOption]: value,
+      
+    }));
+    
+
+  };
+  useEffect(() => {
+    Object.entries(textboxes).forEach(([key, value]) => {
+      console.log(`Key: ${key}, Value: ${value}`);
+    });
+  }, [textboxes]);
+
+
+  const handleRefresh = () => {
+  setPrice('');
+  setQuantity('');
+  setSelectedOption('');
+  setTextboxes({});
+  // Add any other state values that need to be reset
+};
 
   return (
     <div className="dashboard-container">
@@ -431,12 +473,6 @@ function AddStocks() {
             placeholder="Enter Distrbutor ID"
           />
 
-          {/* <select value={textBoxValue} onChange={handleDropdownChange} className="dist_drop">
-            <option value="">Select an option</option>
-            <option value="option1">Option 1</option>
-            <option value="option2">Option 2</option>
-            <option value="option3">Option 3</option>
-          </select> */}
 
           <button onClick={checkInput} className="dist_button">
              Next<NavigateNextOutlinedIcon style={{ marginRight: '10px' }} /></button>
@@ -527,6 +563,36 @@ function AddStocks() {
                 </div>
               ) : (
                 <>
+            <label>Select Other Category:</label>
+      <select onChange={(e) => handleOptionChange(e.target.value)}>
+        <option value="">-- Select --</option>
+        {options.map((option) => (
+          <option key={option} value={option}>
+            {option}
+          </option>
+        ))}
+      </select>
+
+      {selectedOption && (
+          <div>
+          <p>Selected Option: {selectedOption}</p>
+          <input
+            type="text"
+            value={textboxes[selectedOption] || ''}
+            onChange={(e) => handleTextboxChange(e.target.value)}
+          />
+          {Object.keys(textboxes).map((option) => (
+            <div key={option}>
+              <p>{option}:</p>
+              <p>{textboxes[option]}</p>
+            </div>
+          ))}
+        </div>
+      )}
+ 
+    
+               
+
                   <div className="last">
                     <div className="input-container">
                       <label htmlFor="price">Price:</label>
@@ -557,13 +623,25 @@ function AddStocks() {
                     >
                       Generate +
                     </button>
+
+                    <button
+                      className="generate_button"
+                      onClick={() => {
+                        handleGenerate();
+                        handleRefresh();
+                      
+                      }}
+                    >
+                      Add other
+                    </button>
+
                   </div>
                 </>
               )}
             </div>
           </div>
          ) }
-         
+
           <Dialog
             open={open}
             onClose={handleCloseDialog}
