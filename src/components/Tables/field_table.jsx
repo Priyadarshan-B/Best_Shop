@@ -79,7 +79,7 @@ const FieldTable = () => {
     })
       .then((response) => response.json())
       .then((data) => {
-        alert(data.message);
+        // alert(data.message);
         console.log(data);
         handleCloseDialog();
         notifySuccess('Field added successfully');
@@ -131,7 +131,7 @@ const FieldTable = () => {
               color: '#ed4545',
               cursor: 'pointer',
             }}
-            onClick={() => handleDelete(params.row.id)}
+            onClick={() => handleDelete(params.row.field_id, params.row.field_name)}
           />
         </div>
       ),
@@ -141,6 +141,7 @@ const FieldTable = () => {
   const rows = categories.map((category, i) => ({
     id: i + 1,
     category_name: category.category_name,
+    field_id:category.field_id,
     field_name: category.field_name,
   }));
 
@@ -148,8 +149,39 @@ const FieldTable = () => {
     console.log(`Edit action clicked for id ${id}`);
   };
 
-  const handleDelete = (id) => {
-    console.log(`Delete action clicked for id ${id}`);
+
+  // delete fields
+  const deleteCategory = (field_id) => {
+    const deleteUrl = `${apiHost}/category-fields/${field_id}`;
+    console.log("DELETE request URL:", deleteUrl);
+    fetch(`${apiHost}/category-fields/${field_id}`, {
+      method: "DELETE",
+      
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+        return response.json();
+      })
+      .then((data) => {
+        console.log("Field deleted successfully:", data);
+        fetchData(); // Update the category list after deletion
+        notifySuccess('Field deleted successfully');
+      })
+      .catch((error) => {
+        console.error("Error deleting Field");
+        notifyError('Failed to delete Field' );
+      });
+  };
+
+  
+  const handleDelete = (field_id, field_name) => {
+    const isConfirmed = window.confirm(`Are you sure you want to delete the category "${field_name}"?`);
+    if (isConfirmed) {
+      console.log(`Delete action clicked for category_id ${field_id}`);
+      deleteCategory(field_id);
+    }
   };
 
   return (
@@ -157,7 +189,7 @@ const FieldTable = () => {
       <HorizontalNavbar />
       <div className="vandc-container">
         <VerticalNavbar />
-        {/* <ToastContainer /> */}
+        <ToastContainer />
         <div className="dashboard-body">
           <div >
           <div className='category-header-container'>

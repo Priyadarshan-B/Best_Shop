@@ -85,7 +85,7 @@ const VerticalNavbar = () => {
 
         {/* product_nav */}
 
-        <li className={selectedField === 'productstocks' ? 'selected' : ''} onClick={() => handleNavigate('/productdashboard')}>
+        <li className={selectedField === 'productdashboard' ? 'selected' : ''} onClick={() => handleNavigate('/productdashboard')}>
           <ShoppingCartIcon style={{ marginRight: '10px' }} />
           <b>Products</b>
         </li>

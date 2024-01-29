@@ -5,8 +5,8 @@ import 'reactjs-popup/dist/index.css';
 import './horizontal_navbar.css';
 import { useNavigate } from 'react-router-dom';
 import apiHost from '../../utils/api';
-import { toast, ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+// import { toast, ToastContainer } from 'react-toastify';
+// import 'react-toastify/dist/ReactToastify.css';
 
 
 const HorizontalNavbar = () => {
@@ -14,13 +14,13 @@ const HorizontalNavbar = () => {
   const [messages, setMessages] = useState(0);
   const navigate = useNavigate();
   
-  const notifySuccess = (message) => {
-    toast.success(message, { position: toast.POSITION.BOTTOM_LEFT });
-  };
+  // const notifySuccess = (message) => {
+  //   toast.success(message, { position: toast.POSITION.BOTTOM_LEFT });
+  // };
 
-  const notifyError = (message) => {
-    toast.error(message, { position: toast.POSITION.BOTTOM_LEFT });
-  };
+  // const notifyError = (message) => {
+  //   toast.error(message, { position: toast.POSITION.BOTTOM_LEFT });
+  // };
   const handleLogout = async () => {
     try {
       const token = localStorage.getItem('token');
@@ -43,12 +43,13 @@ const HorizontalNavbar = () => {
 
         localStorage.removeItem('token');
         console.log('token removed');
-        notifySuccess('Logout successfully');
+        // notifySuccess('Logout successfully');
         navigate('/', { state: { successMessage: 'Logout successfully' } });
       } else {
 
         console.error('Logout failed');
-        notifyError('Failed to logout');
+        // notifyError('Failed to logout');
+       
       }
     } catch (error) {
       console.error('Error during logout:', error);
@@ -61,7 +62,7 @@ const HorizontalNavbar = () => {
   return (
     <nav className="navbar">
       <div className="logo">
-      <ToastContainer/>
+      {/* <ToastContainer/> */}
        
       <h2>Best Shop</h2>
       </div>

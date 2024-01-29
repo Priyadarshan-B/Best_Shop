@@ -3,8 +3,8 @@ import axios from 'axios';
 import { useNavigate,Link } from 'react-router-dom';
 import apiHost from '../../utils/api';
 import '../Login/login.css'
-import { toast, ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+// import { toast, ToastContainer } from 'react-toastify';
+// import 'react-toastify/dist/ReactToastify.css';
 
 const Signup = () => {
   const [username, setUsername] = useState('');
@@ -13,13 +13,13 @@ const Signup = () => {
   const [isAdmin, setIsAdmin] = useState(false);
   const navigate = useNavigate();
 
-  const notifySuccess = (message) => {
-    toast.success(message, { position: toast.POSITION.BOTTOM_LEFT });
-  };
+  // const notifySuccess = (message) => {
+  //   toast.success(message, { position: toast.POSITION.BOTTOM_LEFT });
+  // };
 
-  const notifyError = (message) => {
-    toast.error(message, { position: toast.POSITION.BOTTOM_LEFT });
-  };
+  // const notifyError = (message) => {
+  //   toast.error(message, { position: toast.POSITION.BOTTOM_LEFT });
+  // };
 
   const handleSignup = async () => {
     // try {
@@ -54,16 +54,16 @@ const Signup = () => {
       if (response.data) {
         
         console.log('Signup successful:', response.data.message);
-        notifySuccess('Signup successfully');
+        // notifySuccess('Signup successfully');
         navigate('/login', { state: { successMessage: 'Signup successfully' } });
         
       } else {
         console.error('Signup failed: Unexpected response format', response);
-        notifyError('Failed to Signup');
+        // notifyError('Failed to Signup');
       }
     } catch (error) {
       console.error('Signup failed:', error);
-      notifyError('Failed to Signup');
+      // notifyError('Failed to Signup');
     }
   };
   const togglePasswordVisibility = () => {
@@ -72,7 +72,7 @@ const Signup = () => {
 
   return (
     <div className='login-container'>
-        <ToastContainer/>
+        {/* <ToastContainer/> */}
       <div className='login-box'> 
       <center>
         <h1>Signup</h1>

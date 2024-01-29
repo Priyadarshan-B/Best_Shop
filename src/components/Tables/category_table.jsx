@@ -30,8 +30,39 @@ const CategoryTable = () => {
     console.log(`Edit action clicked for id ${id}`);
   };
 
-  const handleDelete = (id) => {
-    console.log(`Delete action clicked for id ${id}`);
+
+  // delete category
+
+  const deleteCategory = (category_id) => {
+    const deleteUrl = `${apiHost}/categories/${category_id}`;
+    console.log("DELETE request URL:", deleteUrl);
+    fetch(`${apiHost}/categories/${category_id}`, {
+      method: "DELETE",
+      
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+        return response.json();
+      })
+      .then((data) => {
+        console.log("Category deleted successfully:", data);
+        fetchData(); // Update the category list after deletion
+        notifySuccess('Category deleted successfully');
+      })
+      .catch((error) => {
+        console.error("Error deleting category:", error);
+        notifyError('Failed to delete category');
+      });
+  };
+
+  const handleDelete = (category_id, categoryName) => {
+    const isConfirmed = window.confirm(`Are you sure you want to delete the category "${categoryName}"?`);
+    if (isConfirmed) {
+      console.log(`Delete action clicked for category_id ${category_id}`);
+      deleteCategory(category_id);
+    }
   };
 
   const Transition = React.forwardRef(function Transition(props, ref) {
@@ -110,6 +141,8 @@ const CategoryTable = () => {
 
   const columns = [
     { field: "id", headerName: <b>S.No</b>, width: 280 },
+    // { field: "category_id", headerName: <b>Category ID</b>, width: 280 }, // Add this line
+
     { field: "category_name", headerName: <b>Category Name</b>, width: 300 },
     {
       field: "actions",
@@ -135,7 +168,7 @@ const CategoryTable = () => {
               color: "#ed4545",
               cursor: "pointer",
             }}
-            onClick={() => handleDelete(params.row.id)}
+            onClick={() => handleDelete(params.row.category_id, params.row.category_name)}
           />
         </div>
       ),
@@ -144,6 +177,7 @@ const CategoryTable = () => {
 
   const rows = categories.map((category, index) => ({
     id: category.id || index + 1,
+    category_id: category.category_id, 
     category_name: category.category_name,
   }));
 
@@ -152,7 +186,7 @@ const CategoryTable = () => {
     <HorizontalNavbar />
     <div className="vandc-container">
       <VerticalNavbar />
-      {/* <ToastContainer /> */}
+      <ToastContainer />
       <div className="dashboard-body">
         <div>
           <div className="category-header-container">

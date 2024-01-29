@@ -150,7 +150,7 @@ const DetailTable = () => {
           <DeleteIcon style={{
             color: "#ed4545",
             cursor: "pointer",
-          }} onClick={() => handleDelete(params.row.id)} />
+          }} onClick={() => handleDelete(params.row.detail_id, params.row.details_name)} />
         </div>
       ),
     },
@@ -160,6 +160,7 @@ const DetailTable = () => {
     id: i + 1,
     category_name: category.category_name,
     field_name: category.field_name,
+    detail_id:category.detail_id,
     details_name: category.details_name,
   }));
 
@@ -167,8 +168,38 @@ const DetailTable = () => {
     console.log(`Edit action clicked for id ${id}`);
   };
 
-  const handleDelete = (id) => {
-    console.log(`Delete action clicked for id ${id}`);
+  // delete detail_fields
+  const deleteCategory = (detail_id) => {
+    const deleteUrl = `${apiHost}/field-details/${detail_id}`;
+    console.log("DELETE request URL:", deleteUrl);
+    fetch(`${apiHost}/field-details/${detail_id}`, {
+      method: "DELETE",
+      
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+        return response.json();
+      })
+      .then((data) => {
+        console.log("Detail Field deleted successfully:", data);
+        fetchData(); // Update the category list after deletion
+        notifySuccess('Detail Field deleted successfully');
+      })
+      .catch((error) => {
+        console.error("Error deleting Detail Field:", error);
+        notifyError('Failed to delete Detail Field');
+      });
+  };
+
+
+  const handleDelete = (detail_id, details_name) => {
+    const isConfirmed = window.confirm(`Are you sure you want to delete the category "${details_name}"?`);
+    if (isConfirmed) {
+      console.log(`Delete action clicked for detail_id ${detail_id}`);
+      deleteCategory(detail_id);
+    }
   };
 
   return (
@@ -176,7 +207,7 @@ const DetailTable = () => {
       <HorizontalNavbar />
       <div className="vandc-container">
         <VerticalNavbar />
-        {/* <ToastContainer /> */}
+        <ToastContainer />
         <div className="dashboard-body">
           <div >
           <div className='category-header-container'>

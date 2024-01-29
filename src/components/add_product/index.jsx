@@ -10,11 +10,11 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
 import Slide from "@mui/material/Slide";
 import "./add_product.css";
-import { Diversity3 } from "@mui/icons-material";
+
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useNavigate, Link } from "react-router-dom";
-import NavigateNextOutlinedIcon from '@mui/icons-material/NavigateNextOutlined';
+import NavigateNextOutlinedIcon from "@mui/icons-material/NavigateNextOutlined";
 
 function AddStocks() {
   const [selectedCategory, setSelectedCategory] = useState([]);
@@ -32,28 +32,26 @@ function AddStocks() {
     navigate(path);
   };
 
-  const [textBoxValue, setTextBoxValue] = useState('');
+  const [textBoxValue, setTextBoxValue] = useState("");
   const [isContentVisible, setIsContentVisible] = useState(true);
   const handleTextChange = (event) => {
     setTextBoxValue(event.target.value);
   };
-  const handleDropdownChange = (event) => {
-    setTextBoxValue(event.target.value);
-  };
+  // const handleDropdownChange = (event) => {
+  //   setTextBoxValue(event.target.value);
+  // };
 
   const checkInput = () => {
-    if (textBoxValue.trim() === '') {
+    if (textBoxValue.trim() === "") {
       // alert('Textbox is empty!');
-      console.log('textbox is empty');
+      console.log("textbox is empty");
       notifyError("Failed to add Distributor");
     } else {
       notifySuccess("Distributor added successfully");
-      console.log('textbox filled');
+      console.log("textbox filled");
       // alert('Textbox is filled with: ' + textBoxValue);
       setIsContentVisible(false);
     }
-    
-    
   };
 
   // dialog const
@@ -116,11 +114,11 @@ function AddStocks() {
       .then((data) => {
         console.log("Success:", data);
         fetchCategoryData();
-        notifySuccess("Field added successfully");
+        notifySuccess("Category added successfully");
       })
       .catch((error) => {
         console.error("Error:", error);
-        notifyError("Failed to add field");
+        notifyError("Failed to add Category");
       });
   };
   useEffect(() => {
@@ -177,11 +175,11 @@ function AddStocks() {
       .then((response) => response.json())
       .then((data) => {
         // alert(data.message);
-        notifySuccess("Field added successfully");
+        notifySuccess("Field detail added successfully");
       })
       .catch((error) => {
         console.error("Error:", error);
-        notifyError("Failed to add field");
+        notifyError("Failed to add field details");
       });
   };
 
@@ -338,8 +336,6 @@ function AddStocks() {
         setSelectedIndex(selectedIndex + 1);
       } else {
         setShowQty(true);
-       
-        
       }
     }
   };
@@ -380,25 +376,22 @@ function AddStocks() {
     );
 
     const requestData = {
-  
-      dist_id:textBoxValue,
+      dist_id: textBoxValue,
       category_id: selectedCategory[0].category_id,
       field_details_id: selectedDetails.filter((item) => item !== null),
       // name: name.replace(/,/g, "-"),
-      name: `${name.replace(/,/g, "-")}-${textboxes.Size}-${textboxes.Colour}`, 
+      name: `${name.replace(/,/g, "-")}-${textboxes.Size}-${textboxes.Colour}`,
       quantity: parseInt(quantity),
       price: parseFloat(price),
     };
-    
+
     fetch(`${apiHost}/stocks`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify(requestData),
-     
     })
-      
       .then((response) => response.json())
       // console.log(requestData);
       .then((data) => {
@@ -416,231 +409,220 @@ function AddStocks() {
     fetchCategory();
   }, []);
 
-
-
   // other category
   const [selectedOption, setSelectedOption] = useState(null);
   const [textboxes, setTextboxes] = useState({});
 
-  const options = ['Size', 'Colour', 'Other'];
+  const options = ["Size", "Colour", "Other"];
 
   const handleOptionChange = (option) => {
     setSelectedOption(option);
-  
   };
-  console.log('Textboxes values:', textboxes);
-  console.log(textboxes.option)
+  // console.log("Textboxes values:", textboxes);
+  // console.log(textboxes.option);
 
   const handleTextboxChange = (value) => {
     setTextboxes((prevValues) => ({
       ...prevValues,
       [selectedOption]: value,
-      
     }));
-    
-
   };
   useEffect(() => {
     Object.entries(textboxes).forEach(([key, value]) => {
-      console.log(`Key: ${key}, Value: ${value}`);
+      // console.log(`Key: ${key}, Value: ${value}`);
     });
   }, [textboxes]);
 
-
   const handleRefresh = () => {
-  setPrice('');
-  setQuantity('');
-  setSelectedOption('');
-  setTextboxes({});
-  // Add any other state values that need to be reset
-};
+    setPrice("");
+    setQuantity("");
+    setSelectedOption("");
+    setTextboxes({});
+    // Add any other state values that need to be reset
+  };
 
   return (
     <div className="dashboard-container">
       <Navbar />
       <div className="vandc-container">
         <VerticalNavbar />
-  <div className="dashboard-body">
+        <ToastContainer />
+        <div className="dashboard-body">
+          {isContentVisible ? (
+            <div>
+              <label>Distributor ID:</label>
+              <input
+                className="dist_input"
+                type="text"
+                value={textBoxValue}
+                onChange={handleTextChange}
+                placeholder="Enter Distrbutor ID"
+              />
 
-  
-      {isContentVisible ? (
-        <div>
-          <label>Distributor ID:</label>
-          <input className="dist_input"
-            type="text"
-            value={textBoxValue}
-            onChange={handleTextChange}
-            placeholder="Enter Distrbutor ID"
-          />
-
-
-          <button onClick={checkInput} className="dist_button">
-             Next<NavigateNextOutlinedIcon style={{ marginRight: '10px' }} /></button>
-        </div>
-      ) : (
-     
-          
-          <div className="category-page">
-            <div style={{ width: "90%" }} className="select-category-card">
-              {selectedCategory.length !== 0 ? (
-                selectedCategory.map((item) =>
-                  item.details_image === "null" ? (
-                    <h2 key={item.id}>{item.details_name}</h2>
-                  ) : (
-                    <img
-                      key={item.id}
-                      src={`${apiHost}/${
-                        item.category_image === undefined
-                          ? item.details_image
-                          : item.category_image
-                      }`}
-                      alt={`${item.category_name} image`}
-                    />
+              <button onClick={checkInput} className="dist_button">
+                Next
+                <NavigateNextOutlinedIcon style={{ marginRight: "10px" }} />
+              </button>
+            </div>
+          ) : (
+            <div className="category-page">
+              <div style={{ width: "90%" }} className="select-category-card">
+                {selectedCategory.length !== 0 ? (
+                  selectedCategory.map((item) =>
+                    item.details_image === "null" ? (
+                      <h2 key={item.id}>{item.details_name}</h2>
+                    ) : (
+                      <img
+                        key={item.id}
+                        src={`${apiHost}/${
+                          item.category_image === undefined
+                            ? item.details_image
+                            : item.category_image
+                        }`}
+                        alt={`${item.category_name} image`}
+                      />
+                    )
                   )
-                )
-              ) : (
-                <h2>Select your category</h2>
-              )}
-            </div>
-            <div className="search-and-product-type-grid">
-              <div className="search-bar">
-                <h2>
-                  {showQty ||
-                  selectedCategory.length === 0 ||
-                  field.length === 0
-                    ? "Category"
-                    : field[selectedIndex].field_name}
-                </h2>
-                <input type="text" placeholder="Search products..." />
-                <button
-                  className="add-button"
-                  type="button"
-                  onClick={handleClickOpenDialog}
-                >
-                  <b>Add +</b>
-                </button>
+                ) : (
+                  <h2>Select your category</h2>
+                )}
               </div>
-              {!showQty ? (
-                <div className="product-type-grid">
-                  {category.map((item, i) => (
-                    <div
-                      key={i}
-                      className="product-type-item"
-                      onClick={() => {
-                        handleSelectCategory(item);
-                        if (selectedCategory.length === 0) {
-                          fetchFields(item.category_id);
-                        } else {
-                          if (selectedIndex < field.length - 1) {
-                            fetchOptions(
-                              selectedCategory[0].category_id,
-                              field[selectedIndex + 1].field_id
-                            );
-                            setSelectedIndex(selectedIndex + 1);
-                          } else {
-                            setShowQty(true);
-                          }
-                        }
-                      }}
-                    >
-                      <p>
-                        {item.category_name === undefined
-                          ? item.details_name
-                          : item.category_name}
-                      </p>
-                      {item.details_image !== "null" ? (
-                        <img
-                          src={`${apiHost}/${
-                            item.category_image === undefined
-                              ? item.details_image
-                              : item.category_image
-                          }`}
-                          alt={`${item.category_name} image`}
-                        />
-                      ) : null}
-                    </div>
-                  ))}
+              <div className="search-and-product-type-grid">
+                <div className="search-bar">
+                  <h2>
+                    {showQty ||
+                    selectedCategory.length === 0 ||
+                    field.length === 0
+                      ? "Category"
+                      : field[selectedIndex].field_name}
+                  </h2>
+                  <input type="text" placeholder="Search products..." />
+                  <button
+                    className="add-button"
+                    type="button"
+                    onClick={handleClickOpenDialog}
+                  >
+                    <b>Add +</b>
+                  </button>
                 </div>
-              ) : (
-                <>
-            <label>Select Other Category:</label>
-      <select onChange={(e) => handleOptionChange(e.target.value)}>
-        <option value="">-- Select --</option>
-        {options.map((option) => (
-          <option key={option} value={option}>
-            {option}
-          </option>
-        ))}
-      </select>
-
-      {selectedOption && (
-          <div>
-          <p>Selected Option: {selectedOption}</p>
-          <input
-            type="text"
-            value={textboxes[selectedOption] || ''}
-            onChange={(e) => handleTextboxChange(e.target.value)}
-          />
-          {Object.keys(textboxes).map((option) => (
-            <div key={option}>
-              <p>{option}:</p>
-              <p>{textboxes[option]}</p>
-            </div>
-          ))}
-        </div>
-      )}
- 
-    
-               
-
-                  <div className="last">
-                    <div className="input-container">
-                      <label htmlFor="price">Price:</label>
-                      <input
-                        className="input_box"
-                        type="number"
-                        id="price"
-                        value={price}
-                        onChange={(e) => setPrice(e.target.value)}
-                      />
-                    </div>
-                    <div className="input-container">
-                      <label htmlFor="quantity">Quantity:</label>
-                      <input
-                        className="input_box"
-                        type="number"
-                        id="quantity"
-                        value={quantity}
-                        onChange={(e) => setQuantity(e.target.value)}
-                      />
-                    </div>
-                    <button
-                      className="generate_button"
-                      onClick={() => {
-                        handleGenerate();
-                        handleNavigate("/productdashboard");
-                      }}
-                    >
-                      Generate +
-                    </button>
-
-                    <button
-                      className="generate_button"
-                      onClick={() => {
-                        handleGenerate();
-                        handleRefresh();
-                      
-                      }}
-                    >
-                      Add other
-                    </button>
-
+                {!showQty ? (
+                  <div className="product-type-grid">
+                    {category.map((item, i) => (
+                      <div
+                        key={i}
+                        className="product-type-item"
+                        onClick={() => {
+                          handleSelectCategory(item);
+                          if (selectedCategory.length === 0) {
+                            fetchFields(item.category_id);
+                          } else {
+                            if (selectedIndex < field.length - 1) {
+                              fetchOptions(
+                                selectedCategory[0].category_id,
+                                field[selectedIndex + 1].field_id
+                              );
+                              setSelectedIndex(selectedIndex + 1);
+                            } else {
+                              setShowQty(true);
+                            }
+                          }
+                        }}
+                      >
+                        <p>
+                          {item.category_name === undefined
+                            ? item.details_name
+                            : item.category_name}
+                        </p>
+                        {item.details_image !== "null" ? (
+                          <img
+                            src={`${apiHost}/${
+                              item.category_image === undefined
+                                ? item.details_image
+                                : item.category_image
+                            }`}
+                            alt={`${item.category_name} image`}
+                          />
+                        ) : null}
+                      </div>
+                    ))}
                   </div>
-                </>
-              )}
+                ) : (
+                  <>
+                    <label>Select Other Category:</label>
+                    <select
+                      onChange={(e) => handleOptionChange(e.target.value)}
+                    >
+                      <option value="">-- Select --</option>
+                      {options.map((option) => (
+                        <option key={option} value={option}>
+                          {option}
+                        </option>
+                      ))}
+                    </select>
+
+                    {selectedOption && (
+                      <div>
+                        <p>Selected Option: {selectedOption}</p>
+                        <input
+                          type="text"
+                          value={textboxes[selectedOption] || ""}
+                          onChange={(e) => handleTextboxChange(e.target.value)}
+                        />
+                        {Object.keys(textboxes).map((option) => (
+                          <div key={option}>
+                            <p>{option}:</p>
+                            <p>{textboxes[option]}</p>
+                          </div>
+                        ))}
+                      </div>
+                    )}
+
+                    <div className="last">
+                      <div className="input-container">
+                        <label htmlFor="price">Price:</label>
+                        <input
+                          className="input_box"
+                          type="number"
+                          id="price"
+                          value={price}
+                          onChange={(e) => setPrice(e.target.value)}
+                        />
+                      </div>
+                      <div className="input-container">
+                        <label htmlFor="quantity">Quantity:</label>
+                        <input
+                          className="input_box"
+                          type="number"
+                          id="quantity"
+                          value={quantity}
+                          onChange={(e) => setQuantity(e.target.value)}
+                        />
+                      </div>
+                      <button
+                        className="generate_button"
+                        onClick={() => {
+                          handleGenerate();
+                          handleNavigate("/productdashboard");
+                        }}
+                      >
+                        Generate Stock
+                      </button>
+
+                      <button
+                        className="generate_button"
+                        onClick={() => {
+                          handleGenerate();
+                          handleRefresh();
+                        }}
+                      >
+                        Add other
+                      </button>
+                    </div>
+                  </>
+                )}
+              </div>
             </div>
-          </div>
-         ) }
+          )}
 
           <Dialog
             open={open}
@@ -684,7 +666,7 @@ function AddStocks() {
               </DialogContent>
               <DialogActions>
                 <Button onClick={handleCloseDialog}>Cancel</Button>
-                <Button>Submit</Button>
+                {/* <Button>Submit</Button> */}
               </DialogActions>
             </div>
           </Dialog>
@@ -702,6 +684,7 @@ function AddStocks() {
         }}
       >
         <div>
+
           {/* category dialog */}
           <DialogTitle
             style={{
@@ -836,10 +819,7 @@ function AddStocks() {
               />
               <br />
 
-              {/* <label htmlFor="image"><b>Image:</b></label><br/>
-        <input className='form-image'
-
-                  type="file" id="image" name="image" accept="image/*" required /> */}
+                
 
               <label for="image">
                 <b>Image:</b>
@@ -904,6 +884,20 @@ function AddStocks() {
             <label className="form-label" htmlFor="category_id">
               <b>Category:</b>
             </label>
+            {/* <select
+              className="form-select"
+              id="category_id"
+              name="category_id"
+              value={formData.category_id}
+              onChange={handleInputChange}
+              required
+            >
+              {category.map((category) => (
+                <option key={category.category_id} value={category.category_id}>
+                  {category.category_name}
+                </option>
+              ))}
+            </select> */}
             <select
               className="form-select"
               id="category_id"
@@ -912,6 +906,7 @@ function AddStocks() {
               onChange={handleInputChange}
               required
             >
+              <option value="">Select Category</option>
               {category.map((category) => (
                 <option key={category.category_id} value={category.category_id}>
                   {category.category_name}

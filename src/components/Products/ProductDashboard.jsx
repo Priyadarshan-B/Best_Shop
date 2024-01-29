@@ -1,4 +1,3 @@
-// export default ProductDashboard;
 import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import Box from "@mui/material/Box";
@@ -20,24 +19,27 @@ import VerticalNavbar from "../Vertical_Navbar/vertical_navbar";
 import "../Products/ProductDashboard.css";
 import { Replay10TwoTone } from "@mui/icons-material";
 
-// Function to create rows based on API data
-const createRowFromApiData = (apiData) => {
-  return apiData.map((item) => {
-    return {
-      category_name: item.category_name,
-      field_details_name: item.field_details_name,
-      price: item.price,
-      quantity: item.quantity,
-      stock_id: item.stock_id,
-      stock_name: item.stock_name,
-      time_added: item.time_added,
-      date_added: item.date_added,
-    };
-  });
+// Function to create rows based on nested JSON data
+const createRowFromApiData = (jsonData) => {
+  let rows = [];
+  for (const category in jsonData) {
+    if (jsonData.hasOwnProperty(category)) {
+      const categoryRow = {
+        category_name: category,
+        products: jsonData[category].map((item) => ({
+          stock_name: item.name,
+          price: item.price,
+          quantity: item.quantity,
+        })),
+      };
+      rows.push(categoryRow);
+    }
+  }
+  return rows;
 };
 
 function Row(props) {
-  const { row } = props;
+  const { category } = props;
   const [open, setOpen] = React.useState(false);
 
   return (
@@ -52,12 +54,8 @@ function Row(props) {
             {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
           </IconButton>
         </TableCell>
-        {/* <TableCell component="th" scope="row">
-        {row.stock_id}
-          
-        </TableCell> */}
         <TableCell component="th" scope="row">
-          {row.category_name}
+          {category.category_name}
         </TableCell>
       </TableRow>
       <TableRow>
@@ -79,34 +77,16 @@ function Row(props) {
                     <TableCell align="right">
                       <h3>Quantity</h3>
                     </TableCell>
-                    <TableCell align="right">
-                      <h3>Date</h3>
-                    </TableCell>
-                    <TableCell align="right">
-                      <h3>Time</h3>
-                    </TableCell>
                   </TableRow>
                 </TableHead>
-                {/* <TableBody>
-                  {row.map((row) => (
-                    <TableRow key={row}>
-                      <TableCell>{row.stock_name}</TableCell>
-                      <TableCell align="right">{row.price}</TableCell>
-                      <TableCell align="right">{row.quantity}</TableCell>
-                      <TableCell align="right">{row.date_added}</TableCell>
-                      <TableCell align="right">{row.time_added}</TableCell>
+                <TableBody>
+                  {category.products.map((product, index) => (
+                    <TableRow key={index}>
+                      <TableCell>{product.stock_name}</TableCell>
+                      <TableCell align="right">{product.price}</TableCell>
+                      <TableCell align="right">{product.quantity}</TableCell>
                     </TableRow>
                   ))}
-                </TableBody> */}
-
-                <TableBody>
-                  <TableRow key={row.stock_id}>
-                    <TableCell>{row.stock_name}</TableCell>
-                    <TableCell align="right">{row.price}</TableCell>
-                    <TableCell align="right">{row.quantity}</TableCell>
-                    <TableCell align="right">{row.date_added}</TableCell>
-                    <TableCell align="right">{row.time_added}</TableCell>
-                  </TableRow>
                 </TableBody>
               </Table>
             </Box>
@@ -118,15 +98,15 @@ function Row(props) {
 }
 
 Row.propTypes = {
-  row: PropTypes.shape({
+  category: PropTypes.shape({
     category_name: PropTypes.string.isRequired,
-    field_details_name: PropTypes.arrayOf(PropTypes.string).isRequired,
-    price: PropTypes.number.isRequired,
-    quantity: PropTypes.number.isRequired,
-    stock_id: PropTypes.number.isRequired,
-    stock_name: PropTypes.string.isRequired,
-    time_added: PropTypes.string.isRequired,
-    date_added: PropTypes.string.isRequired,
+    products: PropTypes.arrayOf(
+      PropTypes.shape({
+        stock_name: PropTypes.string.isRequired,
+        price: PropTypes.number.isRequired,
+        quantity: PropTypes.number.isRequired,
+      })
+    ).isRequired,
   }).isRequired,
 };
 
@@ -136,7 +116,7 @@ export default function CollapsibleTable() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch(`${apiHost}/stocks`);
+        const response = await fetch(`${apiHost}/product-name`);
         const jsonData = await response.json();
         const formattedRows = createRowFromApiData(jsonData);
         setRows(formattedRows);
@@ -160,15 +140,14 @@ export default function CollapsibleTable() {
               <TableHead>
                 <TableRow>
                   <TableCell />
-                  {/* <TableCell><h2>Item No</h2></TableCell> */}
                   <TableCell>
                     <h2>Product Name</h2>
                   </TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
-                {rows.map((row) => (
-                  <Row key={row.category_name} row={row} />
+                {rows.map((category, index) => (
+                  <Row key={index} category={category} />
                 ))}
               </TableBody>
             </Table>
