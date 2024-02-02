@@ -21,7 +21,7 @@ class Enquiries extends React.Component {
         },
         plotOptions: {
           bar: {
-            borderRadius: 5,
+            borderRadius: 7,
             dataLabels: {
               position: 'top',
             },

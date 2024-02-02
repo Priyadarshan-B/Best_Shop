@@ -11,7 +11,7 @@ import AddStocks from "./components/add_product";
 import CategoryTable from "./components/Tables/category_table";
 import FieldTable from "./components/Tables/field_table";
 import DetailTable from "./components/Tables/detail_table";
-import exportData from "./components/Export/Export";
+import ExportData from "./components/export_data/Export";
 // import { ToastContainer } from 'react-toastify';
 // import 'react-toastify/dist/ReactToastify.css';
 const App = () => {
@@ -29,7 +29,8 @@ const App = () => {
           <Route path="/categorytable" Component={CategoryTable} />
           <Route path="/fieldtable" Component={FieldTable} />
           <Route path="/detailtable" Component={DetailTable} />
-          <Route path="/export" Component={exportData} />
+          <Route path="/detailtable" Component={DetailTable} />
+          <Route path="/export" Component={ExportData} />
 
 
 

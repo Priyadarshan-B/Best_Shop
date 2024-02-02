@@ -66,14 +66,15 @@
 
 .sub-menu {
   list-style: none;
-  padding: 0;
+  padding: 10px;
   margin: 0;
   font-size: 18px;
   border-radius: 5px;
+  box-shadow: 1px 10px 10px gray;
   border-top: #060606;
   border-top-color: #060606;
-  
-  border-width: 1px;
+  background-color: white;
+  width: 150px;
 }
 
 .sub-navbar {
@@ -83,13 +84,18 @@
   position: relative; 
 }
 
-.sub-navbar .sub-menu {
-  position: absolute;
-  top: 100%; 
-  left: 40px;
-  z-index: 1;
+.master_link{
+  background-color: #3498db;
+  color: white;
 }
 
+.sub-navbar .sub-menu {
+  position: absolute;
+  top:20%;
+  left: 70%;
+
+  z-index: 1;
+}
 
 .sub-menu li {
   cursor: pointer;

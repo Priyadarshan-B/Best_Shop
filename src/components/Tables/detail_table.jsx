@@ -11,6 +11,8 @@ import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import requestApi from '../../utils/axios';
 import apiHost from '../../utils/api';
+import LibraryAddIcon from '@mui/icons-material/LibraryAdd';
+
 import { toast,  ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import './table.css'
@@ -217,7 +219,7 @@ const DetailTable = () => {
                 onClick={handleOpenDialog}
                
               >
-                <b>Add +</b>
+                <b>ADD </b><div><LibraryAddIcon/></div>
               </button>
             </div>
 
@@ -234,7 +236,7 @@ const DetailTable = () => {
                   marginTop: '20px',
                   height: '560px',
                   width: '900px',
-                  borderRadius: '30px',
+                  borderRadius: '10px',
                   padding: "35px",
                   boxShadow: '0 0 14px rgba(0, 0, 0, 0.1)',
                   fontSize: "15px",
@@ -259,76 +261,117 @@ const DetailTable = () => {
             }}
           >
             <div>
-              <DialogTitle
-                style={{
-                  textAlign: 'center'
-                }}><h2>Add Field Details</h2></DialogTitle>
-              <DialogContent
-                style={{
-                  fontSize: 20,
-                }}
-              >
-                <form id="addFieldDetailsForm" encType="multipart/form-data">
-        <label className='form-label' htmlFor="category_name"><b>Category Name:</b></label>
-        <select className='form-select'
-
-        id="category_name" name="category_name" onChange={getFields}>
-          {categoryOptions.map((category, index) => (
-            <option key={index} value={category}>
-              {category}
-            </option>
-          ))}
-        </select>
-        <br />
-
-        <label htmlFor="field_name"><b>Field Name:</b></label>
-        <select className='form-select'
-
-        id="field_name" name="field_name">
-          {fieldOptions.map((field, index) => (
-            <option key={index} value={field.value}>
-              {field.label}
-            </option>
-          ))}
-        </select>
-        <br />
-
-        <label 
-        style={{
-         marginTop:20
-        }}
-        htmlFor="details_name"><b>Details Name:</b></label><br/>
-        <input className='form-input'
-
-                  type="text" id="details_name" name="details_name" required />
-        <br />
-
-        {/* <label htmlFor="image"><b>Image:</b></label><br/>
-        <input className='form-image'
-
-                  type="file" id="image" name="image" accept="image/*" required /> */}
-
-                  <label for="image" ><b>Image:</b><br/>
-   <div class="custom-file-label"> <b>Choose File</b> </div>
-  </label>
-  <input class="custom-file-input" type="file" id="image" name="image" accept="image/*" required  onChange={updateImage} />
-        <br />
-
-
-      </form>
+            <DialogTitle
+            style={{
+              textAlign: "center",
+            }}
+          >
+            <h2>Add Field Details</h2>
+          </DialogTitle>
+          <DialogContent
+            style={{
+              fontSize: 20,
+            }}
+          >
+            <form id="addFieldDetailsForm" encType="multipart/form-data">
+              <div className="flex-container">
+                <div className="field-inside-flex">
+                  <div>
+                    <label className="form-label" htmlFor="category_name">
+                      <b>Category Name:</b>
+                    </label>
+                  </div>
+                  <div>
+                    <select
+                      className="form-select"
+                      id="category_name"
+                      name="category_name"
+                      onChange={getFields}
+                    >
+                      {categoryOptions.map((category, index) => (
+                        <option key={index} value={category}>
+                          {category}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                </div>
+                <div className="field-inside-flex">
+                  <div>
+                    <label htmlFor="field_name">
+                      <b>Field Name:</b>
+                    </label>
+                  </div>
+                  <div>
+                    <select className="form-select" id="field_name" name="field_name">
+                      {fieldOptions.map((field, index) => (
+                        <option key={index} value={field.value}>
+                          {field.label}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                </div>
                 
-                <br />
-              </DialogContent>
-              <DialogActions>
-                <Button onClick={handleCloseDialog}>Cancel</Button>
-                <Button  onClick={() => {
-                    addFieldDetails();
-                    handleCloseDialog();
-                  }} variant="contained" color="primary">
-                  Add Field Details
-                </Button>
-              </DialogActions>
-            </div>
+                <div className="field-inside-flex">
+                  <div>
+                    <label
+                      style={{
+                        marginTop: 20,
+                      }}
+                      htmlFor="details_name"
+                    >
+                      <b>Details Name:</b>
+                    </label>
+                  </div>
+                  <div>
+                    <input
+                      className="form-input"
+                      type="text"
+                      id="details_name"
+                      name="details_name"
+                      required
+                    />
+                  </div>
+                </div>
+                <div className="field-inside-flex">
+                  <label for="image">
+                    <b>Image:</b>
+                    <br />
+                    <div class="custom-file-label">
+                      {" "}
+                      <b>Choose File</b>{" "}
+                    </div>
+                  </label>
+                  <input
+                    class="custom-file-input"
+                    type="file"
+                    id="image"
+                    name="image"
+                    accept="image/*"
+                    required
+                    onChange={updateImage}
+                  />
+                </div>
+              </div>
+            </form>
+
+            <br />
+          </DialogContent>
+          <DialogActions>
+            <Button style={{fontWeight: 700}} onClick={handleCloseDialog}>Cancel</Button>
+            <Button style={{fontWeight: 700}}
+              onClick={() => {
+                addFieldDetails();
+                handleCloseDialog();
+              }}
+              variant="contained"
+              color="primary"
+            >
+              Add Field Details
+            </Button>
+          </DialogActions>
+        </div>
           </Dialog>
 
         </div>
@@ -338,3 +381,4 @@ const DetailTable = () => {
 };
 
 export default DetailTable;
+

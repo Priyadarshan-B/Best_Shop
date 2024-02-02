@@ -28,6 +28,7 @@ const Dashboard = () => {
           borderRadius: '5px 5px 0px 0px',
           columnWidth: '55%',
           endingShape: 'rounded',
+          borderRadius:'7',
           dataLabels: {
             position: 'top',
           },

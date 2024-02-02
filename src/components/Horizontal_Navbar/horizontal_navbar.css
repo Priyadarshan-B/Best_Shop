@@ -1,5 +1,9 @@
-
-
+.website_name{
+  width: 195px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 .navbar {
   background-color: #ffffff;
   color: #000000;

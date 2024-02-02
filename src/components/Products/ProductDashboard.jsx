@@ -28,8 +28,11 @@ const createRowFromApiData = (jsonData) => {
         category_name: category,
         products: jsonData[category].map((item) => ({
           stock_name: item.name,
+          date_added:item.date_added,
+          time_added: item.time_added,
           price: item.price,
           quantity: item.quantity,
+          total_price: item.total_price
         })),
       };
       rows.push(categoryRow);
@@ -69,6 +72,12 @@ function Row(props) {
                 <TableHead>
                   <TableRow>
                     <TableCell>
+                  <h3>Date</h3>
+                    </TableCell>
+                    <TableCell>
+                      <h3>Time</h3>
+                    </TableCell>
+                    <TableCell>
                       <h3>Product Category</h3>
                     </TableCell>
                     <TableCell align="right">
@@ -77,14 +86,21 @@ function Row(props) {
                     <TableCell align="right">
                       <h3>Quantity</h3>
                     </TableCell>
+                    <TableCell align="right">
+                      <h3>Total Price</h3>
+                    </TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
                   {category.products.map((product, index) => (
                     <TableRow key={index}>
+                      <TableCell>{product.date_added}</TableCell>
+                      <TableCell>{product.time_added}</TableCell>
                       <TableCell>{product.stock_name}</TableCell>
                       <TableCell align="right">{product.price}</TableCell>
                       <TableCell align="right">{product.quantity}</TableCell>
+                      <TableCell align="right">{product.total_price}</TableCell>
+
                     </TableRow>
                   ))}
                 </TableBody>

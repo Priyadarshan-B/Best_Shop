@@ -7,9 +7,20 @@
   background-color: #e9f4fa;
   overflow: auto; 
 }
+.table-body .MuiTableContainer-root, .table-body .MuiTableCell-root {
+  border: 0px solid #ddd;
+  border-radius: 10px;
+  width: 200px;
+}
+
 
 .table-body .MuiPaper-root {
-  width: 100%; 
+  width: 70%; 
+}
+
+.table-body .MuiTableCell-root{
+  width: 
+  0px;
 }
 
 .table-body .MuiTableContainer-root {
@@ -35,6 +46,14 @@
   padding: 3px; 
 }
 
+@media (max-width: 999px){
+  .table-body .MuiPaper-root {
+    width: 90%; 
+  }
+}
+.table-body .MuiTable-root {
+  min-width: 200px;
+}
 
 
 

@@ -95,12 +95,14 @@ const VerticalNavbar = () => {
 
         <div className="sub-navbar">
           <li className={selectedField === 'master' ? 'selected' : ''} onClick={handleMasterClick}>
+          
+
             <SupervisorAccountIcon style={{ marginRight: '10px' }} />
             <b>Master</b>
             {showMasterSubMenu ? <FaAngleUp className="fa-angle-up" /> : <FaAngleDown className="fa-angle-down" />}
             {showMasterSubMenu && (
               <ul className="sub-menu">
-                <li className={selectedField === 'addcategory' ? 'selected' : ''} onClick={() => handleNavigate('/categorytable')}>
+                <li className={selectedField === 'categorytable' ? 'selected' : ''} onClick={() => handleNavigate('/categorytable')}>
                   <CategoryIcon style={{ marginRight: '10px', fontSize: '18px' }} />
                   <b>Category</b>
                 </li>
@@ -129,7 +131,3 @@ const VerticalNavbar = () => {
 };
 
 export default VerticalNavbar;
-
-
-
-

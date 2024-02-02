@@ -12,6 +12,8 @@ import Slide from "@mui/material/Slide";
 import apiHost from "../../utils/api";
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
+import LibraryAddIcon from '@mui/icons-material/LibraryAdd';
+
 import { toast,  ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import './table.css'
@@ -29,8 +31,7 @@ const CategoryTable = () => {
   const handleEdit = (id) => {
     console.log(`Edit action clicked for id ${id}`);
   };
-
-
+  
   // delete category
 
   const deleteCategory = (category_id) => {
@@ -38,7 +39,7 @@ const CategoryTable = () => {
     console.log("DELETE request URL:", deleteUrl);
     fetch(`${apiHost}/categories/${category_id}`, {
       method: "DELETE",
-      
+
     })
       .then((response) => {
         if (!response.ok) {
@@ -140,14 +141,14 @@ const CategoryTable = () => {
   // };
 
   const columns = [
-    { field: "id", headerName: <b>S.No</b>, width: 280 },
-    // { field: "category_id", headerName: <b>Category ID</b>, width: 280 }, // Add this line
+    { field: "id", headerName: <b>S.No</b>, width: 100 },
 
-    { field: "category_name", headerName: <b>Category Name</b>, width: 300 },
+
+    { field: "category_name", headerName: <b>Category Name</b>, width: 200 },
     {
       field: "actions",
       headerName: <b>Actions</b>,
-      width: 150,
+      width: 100,
       renderCell: (params) => (
         <div
           style={{
@@ -177,47 +178,50 @@ const CategoryTable = () => {
 
   const rows = categories.map((category, index) => ({
     id: category.id || index + 1,
-    category_id: category.category_id, 
+    category_id: category.category_id,
     category_name: category.category_name,
   }));
 
   return (
     <div className="dashboard-container">
-    <HorizontalNavbar />
-    <div className="vandc-container">
-      <VerticalNavbar />
-      <ToastContainer />
-      <div className="dashboard-body">
-        <div>
-          <div className="category-header-container">
-            <h2 style={{ marginTop: '10px' }}>Category Table</h2>
-            <button
-              className="add-button"
-              type="button"
-              onClick={handleClickOpenDialog}
-            >
-              <b>Add +</b>
-            </button>
-          </div>
-  
-          {categories && categories.length > 0 ? (
-            <DataGrid
-              rows={rows}
-              columns={columns}
-              pageSize={5}
-              style={{
-                backgroundColor: 'white',
-                marginTop: '20px',
-                padding: '35px',
-                height: '560px',
-                width: '900px',
-                borderRadius: '30px',
-                boxShadow: '0 0 14px rgba(0, 0, 0, 0.1)',
-                fontSize: '15px',
-              }}
-            />
-          ) : (
-              
+      <HorizontalNavbar />
+      <div className="vandc-container">
+        <VerticalNavbar />
+        <ToastContainer />
+        <div className="dashboard-body">
+          <div >
+          
+            <div className="category-header-container">
+              <h2 style={{
+                marginTop:'10px'
+              }}>Category Table</h2>
+              <button className="add-button"
+                type="button"
+                onClick={handleClickOpenDialog}
+              >
+                <b>ADD </b><div><LibraryAddIcon/></div>
+              </button>
+            </div>
+            {categories && categories.length > 0 ? (
+              <>
+
+                <DataGrid 
+                  rows={rows}
+                  columns={columns}
+                  pageSize={5}
+                  style={{
+                    backgroundColor: "white",
+                    marginTop: "20px",
+                    padding: "35px",
+                    height: "500px",
+                    width: "500px",
+                    borderRadius: "10px",
+                    boxShadow: "0 0 14px rgba(0, 0, 0, 0.1)",
+                    fontSize: "15px",
+                  }}
+                />
+              </>
+            ) : (
               <div className="loader">
                 </div>
               
@@ -236,49 +240,64 @@ const CategoryTable = () => {
             }}
           >
             <div>
-              <DialogTitle
-                style={{
-                  textAlign: "center",
-                }}
-              >
-                <h2>Add Category</h2>
-              </DialogTitle>
-              <DialogContent
-                style={{
-                  fontSize: 20,
-                }}
-              >
-                <label htmlFor="categoryName">
-                  <b>Category Name:</b>
-                </label>
-                <br />
-                <input className="form-input"
-                  type="text"
-                  id="categoryName"
-                  name="category_name"
-                  value={categoryName}
-                  onChange={handleCategoryNameChange}
-                  required
-                />
-                <br />
+              {/* category dialog */}
+          <DialogTitle
+            style={{
+              textAlign: "center",
+            }}
+          >
+            <h2>Add Category</h2>
+          </DialogTitle>
+          <DialogContent
+            style={{
+              fontSize: 20,
+            }}
+          >
+            <label htmlFor="categoryName" >
+              <b className="field-title">Category Name:</b>
+            </label>
+            <br />
+            <input
+              className="form-input-sp"
+              type="text"
+              id="categoryName"
+              name="category_name"
+              value={categoryName}
+              onChange={handleCategoryNameChange}
+              required
+            />
+            <br />
 
-                <label for="image" ><b>Image:</b><br/>
-                  <div class="custom-file-label"> <b>Choose File:</b> </div>
-                </label>
-                <input class="custom-file-input" type="file" id="image" name="image" accept="image/*" required  onChange={updateImage} />
-                <br />
-              </DialogContent>
-              <DialogActions>
-                <Button onClick={handleCloseDialog}>Cancel</Button>
-                <Button
-                  onClick={() => {
-                    submitForm();
-                    handleCloseDialog();
-                  }}
-                >
-                  Submit
-                </Button>
-              </DialogActions>
+            <label for="image">
+              <b>Image:</b>
+              <br />
+              <div class="custom-file-label">
+                {" "}
+                <b>Choose File:</b>{" "}
+              </div>
+            </label>
+            <input
+              class="custom-file-input"
+              type="file"
+              id="image"
+              name="image"
+              accept="image/*"
+              required
+              onChange={updateImage}
+            />
+            <br />
+          </DialogContent>
+          <DialogActions>
+            <Button style={{fontWeight: 700}} onClick={handleCloseDialog}>Cancel</Button>
+            <Button style={{fontWeight: 700}}
+              onClick={() => {
+                submitForm();
+                handleCloseDialog();
+              }}
+            >
+              Submit
+            </Button>
+          </DialogActions>
             </div>
           </Dialog>
         </div>

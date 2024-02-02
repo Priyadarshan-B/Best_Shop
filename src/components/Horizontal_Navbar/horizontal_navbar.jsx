@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
-import { FaBell, FaUser, FaEnvelope } from 'react-icons/fa';
+import { FaBell, FaUser, FaEnvelope, FaBars } from 'react-icons/fa';
 import Popup from 'reactjs-popup';
 import 'reactjs-popup/dist/index.css';
 import './horizontal_navbar.css';
 import { useNavigate } from 'react-router-dom';
 import apiHost from '../../utils/api';
+import '../Vertical_Navbar/vertical_navbar.css'
 // import { toast, ToastContainer } from 'react-toastify';
 // import 'react-toastify/dist/ReactToastify.css';
 
@@ -12,6 +13,7 @@ import apiHost from '../../utils/api';
 const HorizontalNavbar = () => {
   const [notifications, setNotifications] = useState(0);
   const [messages, setMessages] = useState(0);
+  const [showMenu, setShowMenu]= useState(false);
   const navigate = useNavigate();
   
   // const notifySuccess = (message) => {
@@ -56,15 +58,20 @@ const HorizontalNavbar = () => {
     }
   };
 
+  const toggleMenu =() =>{
+    setShowMenu(!showMenu);
+  }
+
   // const handleNavigate = (path) => {
   //   navigate(path);
   // };
   return (
     <nav className="navbar">
+      <div className='menu-icon' onClick={toggleMenu}><FaBars/></div>
       <div className="logo">
       {/* <ToastContainer/> */}
        
-      <h2>Best Shop</h2>
+      <h2 className='website_name'>Best Shop</h2>
       </div>
 
       <div className="icons">
