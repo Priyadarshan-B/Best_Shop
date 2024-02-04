@@ -12,8 +12,7 @@ import CategoryTable from "./components/Tables/category_table";
 import FieldTable from "./components/Tables/field_table";
 import DetailTable from "./components/Tables/detail_table";
 import ExportData from "./components/export_data/Export";
-// import { ToastContainer } from 'react-toastify';
-// import 'react-toastify/dist/ReactToastify.css';
+
 const App = () => {
   return (
     <Router>
@@ -36,7 +35,6 @@ const App = () => {
 
 
         </Routes>
-        {/* <ToastContainer /> */}
     </Router>
   );
 };

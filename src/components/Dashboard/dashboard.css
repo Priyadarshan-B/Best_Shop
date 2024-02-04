@@ -23,9 +23,14 @@
   width: 100%;
 }
 
-@media (min-width: 999px) {
+@media (max-width: 999px) {
   .chart-container {
     margin-top: 0;
+    height: max-content;
+  }
+
+  .dashboard-body{
+    overflow: hidden;
   }
 }
 .dashboard-body{

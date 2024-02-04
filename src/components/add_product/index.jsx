@@ -8,66 +8,68 @@ import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
-import Slide from "@mui/material/Slide";
 import "./add_product.css";
-import LibraryAddIcon from '@mui/icons-material/LibraryAdd';
-import '../Tables/table.css'
+import LibraryAddIcon from "@mui/icons-material/LibraryAdd";
+import "../Tables/table.css";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import NavigateNextOutlinedIcon from "@mui/icons-material/NavigateNextOutlined";
 
+// AddStocks func..
+
 function AddStocks() {
+  //define  usestate
   const [selectedCategory, setSelectedCategory] = useState([]);
   const [category, setCategory] = useState([]);
   const [field, setFields] = useState([]);
   const [selling_price, setSellingPrice] = useState("");
   const [mrp, setMrpPrice] = useState("");
-
+  const [isLoading, setIsLoading] = useState(false);
   const [price, setPrice] = useState(1);
-  // const [quantity, setQuantity] = useState("");
+  const [model, setModel] = useState("");
   const [selectedIndex, setSelectedIndex] = useState(0);
   const [showQty, setShowQty] = useState(false);
   const [name, setName] = useState("");
   const [open, setOpen] = useState(false);
   const navigate = useNavigate();
 
+  // navigate
+
   const handleNavigate = (path) => {
     navigate(path);
   };
 
-  const [textBoxValue, setTextBoxValue] = useState("");
+  // distributor TextBox
+
+  const [distValue, setDistValue] = useState("");
   const [isContentVisible, setIsContentVisible] = useState(true);
   const handleTextChange = (event) => {
-    setTextBoxValue(event.target.value);
+    setDistValue(event.target.value);
   };
-  // const handleDropdownChange = (event) => {
-  //   setTextBoxValue(event.target.value);
-  // };
 
-
-  
+  // validation of dist textbox
   const checkInput = () => {
-    if (textBoxValue.trim() === "") {
-      // alert('Textbox is empty!');
+    if (distValue.trim() === "") {
       console.log("textbox is empty");
       notifyError("Failed to add Distributor");
     } else {
       notifySuccess("Distributor added successfully");
       console.log("textbox filled");
-      // alert('Textbox is filled with: ' + textBoxValue);
       setIsContentVisible(false);
     }
   };
 
   const handleKeyPress = (event) => {
-    if(event.key === 'Enter'){
+    if (event.key === "Enter") {
       checkInput();
     }
-  }
+  };
 
   // dialog const
-  const [image, setImage] = useState(null);
+
+  
+  // const [image, setImage] = useState(null);
   const [categoryName, setCategoryName] = useState("");
   const [categories, setCategories] = useState([]);
   const [openCategoryDialog, setOpenCategoryDialog] = useState(false);
@@ -81,7 +83,6 @@ function AddStocks() {
     has_separate_page: false,
   });
   const [openFieldDialog, setOpenFieldDialog] = useState(false);
-  // const [filterText, setFilterText] = useState("");
 
   useEffect(() => {
     fetchFieldData();
@@ -100,19 +101,28 @@ function AddStocks() {
     setCategoryName(event.target.value);
   };
 
-  const updateImage = (event) => {
-    const input = document.getElementById("image");
-    const label = document.querySelector(".custom-file-label");
-    const fileName = input.files[0].name;
-    label.innerHTML = "<b>Image File:</b> " + fileName;
-    setImage(event.target.files[0]);
+  const updateImage = (inputId) => {
+    const input = document.getElementById(inputId);
+    const label = document.querySelector(`label[for=${inputId}]`);
+
+    if (input && label) {
+      const fileName = input.files[0]?.name || "No file chosen";
+      label.innerHTML = `<b>${
+        inputId === "image" ? "Image" : "Camera"
+      }:</b> ${fileName}`;
+    }
   };
 
   const submitForm = () => {
     const formData = new FormData();
     formData.append("category_name", categoryName);
-    formData.append("image", image);
+    const imageInput = document.getElementById("image");
+    const cameraInput = document.getElementById("camera");
+    formData.append("image", imageInput.files[0] || cameraInput.files[0]);
 
+    if (selectedImage) {
+      formData.append("image", selectedImage);
+    }
     fetch(`${apiHost}/categories`, {
       method: "POST",
       body: formData,
@@ -147,7 +157,9 @@ function AddStocks() {
     }
   };
 
-  // Detail Dialog
+  // Detail Dialog Box
+  const [selectedImage, setSelectedImage] = useState(null);
+
   const handleOpenDetailDialog = () => {
     setOpenDetailDialog(true);
   };
@@ -166,17 +178,22 @@ function AddStocks() {
     formData.append(
       "field_id",
       document.getElementById("field_name").value.split(",")[0]
-    ); // Extract field_id
+    );
     formData.append(
       "field_name",
       document.getElementById("field_name").value.split(",")[1]
-    ); // Extract field_name
+    );
     formData.append(
       "details_name",
       document.getElementById("details_name").value
     );
     const imageInput = document.getElementById("image");
-    formData.append("image", imageInput.files[0]);
+    const cameraInput = document.getElementById("camera");
+    formData.append("image", imageInput.files[0] || cameraInput.files[0]);
+
+    if (selectedImage) {
+      formData.append("image", selectedImage);
+    }
 
     console.log("Form Data:", formData);
 
@@ -186,7 +203,6 @@ function AddStocks() {
     })
       .then((response) => response.json())
       .then((data) => {
-        // alert(data.message);
         notifySuccess("Field detail added successfully");
       })
       .catch((error) => {
@@ -232,11 +248,16 @@ function AddStocks() {
     fetchDetailData();
   }, []);
 
-  const updateDetailImage = () => {
-    const input = document.getElementById("image");
-    const label = document.querySelector(".custom-file-label");
-    const fileName = input.files[0].name;
-    label.innerHTML = "<b>Image:</b> " + fileName;
+  const updateDetailImage = (inputId) => {
+    const input = document.getElementById(inputId);
+    const label = document.querySelector(`label[for=${inputId}]`);
+
+    if (input && label) {
+      const fileName = input.files[0]?.name || "No file chosen";
+      label.innerHTML = `<b>${
+        inputId === "image" ? "Image" : "Camera"
+      }:</b> ${fileName}`;
+    }
   };
 
   const fetchDetailData = async () => {
@@ -249,7 +270,7 @@ function AddStocks() {
     }
   };
 
-  //field dialog
+  //field dialog Box
   const handleOpenFieldDialog = () => {
     setOpenFieldDialog(true);
   };
@@ -287,7 +308,6 @@ function AddStocks() {
     })
       .then((response) => response.json())
       .then((data) => {
-        // alert(data.message);
         handleCloseDialog();
         notifySuccess("Field added successfully");
       })
@@ -314,9 +334,9 @@ function AddStocks() {
     toast.error(message, { position: toast.POSITION.BOTTOM_LEFT });
   };
 
-  const Transition = React.forwardRef(function Transition(props, ref) {
-    return <Slide direction="up" ref={ref} {...props} />;
-  });
+  // const Transition = React.forwardRef(function Transition(props, ref) {
+  //   return <Slide direction="up" ref={ref} {...props} />;
+  // });
 
   const handleClickOpenDialog = () => {
     setOpen(true);
@@ -326,7 +346,9 @@ function AddStocks() {
     setOpen(false);
   };
 
-  const handleSelectCategory = (item) => {
+  const handleSelectCategory = async (item) => {
+    setIsLoading(true);
+
     setSelectedCategory([...selectedCategory, item]);
 
     setName((prevName) => {
@@ -338,10 +360,10 @@ function AddStocks() {
     });
 
     if (selectedCategory.length === 0) {
-      fetchFields(item.category_id);
+      await fetchFields(item.category_id);
     } else {
       if (selectedIndex < field.length - 1) {
-        fetchOptions(
+        await fetchOptions(
           selectedCategory[0].category_id,
           field[selectedIndex + 1].field_id
         );
@@ -350,6 +372,8 @@ function AddStocks() {
         setShowQty(true);
       }
     }
+
+    setIsLoading(false);
   };
 
   const fetchCategory = async () => {
@@ -382,36 +406,35 @@ function AddStocks() {
     }
   };
 
+  // generate button function
   const handleGenerate = async () => {
     const selectedDetails = selectedCategory.map((item, i) =>
       i !== 0 ? item.detail_id : null
     );
 
-    // const requestData = {
-    //   dist_id: textBoxValue,
-    //   category_id: selectedCategory[0].category_id,
-    //   field_details_id: selectedDetails.filter((item) => item !== null),
-    //   name: `${name.replace(/,/g, "-")}-${textboxes.Size}-${textboxes.Colour}`,
-    //   quantity: parseInt(quantity),
-    //   price: parseFloat(price),
-    // };
-    const sizes = inputs.map((input) => input.size,10);
-    const quantities = inputs.map((input) => input.quantity,10);
-  
-    // Add size and quantity to the requestData object
+    // size n quantity value int
+    const sizes = inputs.map((input) => parseInt(input.size, 10));
+    const quantities = inputs.map((input) => parseInt(input.quantity, 10));
+
+    // data to be send to backend
+
     const requestData = {
-      dist_id: textBoxValue,
+      dist_id: parseInt(distValue),
       category_id: selectedCategory[0].category_id,
       field_details_id: selectedDetails.filter((item) => item !== null),
       name: `${name.replace(/,/g, "-")}`,
-      // quantity: parseInt(quantity),
       price: parseFloat(price),
       selling_price: parseFloat(selling_price),
       mrp: parseFloat(mrp),
       sizes: sizes,
       quantities: quantities,
+      model: model,
     };
-    console.log(requestData)
+    for (const key in requestData) {
+      console.log(`${key}: ${typeof requestData[key]}`);
+    }
+
+    console.log(requestData);
     fetch(`${apiHost}/stocks`, {
       method: "POST",
       headers: {
@@ -420,9 +443,7 @@ function AddStocks() {
       body: JSON.stringify(requestData),
     })
       .then((response) => response.json())
-      // console.log(requestData);
       .then((data) => {
-        // Handle the backend response
         notifySuccess("Stock Added successfully");
         console.log(data);
       })
@@ -436,56 +457,25 @@ function AddStocks() {
     fetchCategory();
   }, []);
 
-// text as number
-const handleNumberChange = (e, setValue) => {
-  const inputValue = e.target.value;
+  // text as number
+  const handleNumberChange = (e, setValue) => {
+    const inputValue = e.target.value;
 
-  // Use a regular expression to check if the input consists only of numbers
-  if (/^\d*\.?\d*$/.test(inputValue)) {
-    // Update the state only if the input is a valid number
-    setValue(inputValue);
-  }
-};
-
-
-  // other category
-  const [selectedOption, setSelectedOption] = useState(null);
-  const [textboxes, setTextboxes] = useState({});
-
-  const options = ["Size", "Colour", "Other"];
-
-  const handleOptionChange = (option) => {
-    setSelectedOption(option);
+    if (/^\d*\.?\d*$/.test(inputValue)) {
+      setValue(inputValue);
+    }
   };
-  // console.log("Textboxes values:", textboxes);
-  // console.log(textboxes.option);
 
-  const handleTextboxChange = (value) => {
-    setTextboxes((prevValues) => ({
-      ...prevValues,
-      [selectedOption]: value,
-    }));
-  };
-  useEffect(() => {
-    Object.entries(textboxes).forEach(([key, value]) => {
-      console.log(`Key: ${key}, Value: ${value}`);
-    });
-  }, [textboxes]);
-
+  //  refresh func..
   const handleRefresh = () => {
     setSellingPrice("");
     setMrpPrice("");
     setPrice("");
-    // setQuantity("");
-    setSelectedOption("");
     setCount("");
-    setInputs("");
-    setTextboxes({});
-    // Add any other state values that need to be reset
+    setInputs([]);
   };
 
-
-  // size and quantity
+  // count, size and quantity
 
   const [count, setCount] = useState();
   const [inputs, setInputs] = useState([]);
@@ -493,16 +483,18 @@ const handleNumberChange = (e, setValue) => {
   const handleCountChange = (event) => {
     const newCount = parseInt(event.target.value, 10) || 0;
     setCount(newCount);
-    setInputs(Array.from({ length: newCount }, () => ({ size: '', quantity: '' })));
+    setInputs(
+      Array.from({ length: newCount }, () => ({ size: "", quantity: "" }))
+    );
   };
 
   const handleInputValueChange = (index, key, value) => {
     const newInputs = [...inputs];
     newInputs[index][key] = value;
     setInputs(newInputs);
-    
   };
 
+  // render the return function
   return (
     <div className="dashboard-container">
       <Navbar />
@@ -510,14 +502,15 @@ const handleNumberChange = (e, setValue) => {
         <VerticalNavbar />
         <ToastContainer />
         <div className="dashboard-body">
+          {/* to show the dist.. text box */}
           {isContentVisible ? (
             <div>
               <label>Distributor ID:</label>
               <input
-              onKeyPress={handleKeyPress}
+                onKeyPress={handleKeyPress}
                 className="dist_input"
                 type="text"
-                value={textBoxValue}
+                value={distValue}
                 onChange={handleTextChange}
                 placeholder="Enter Distrbutor ID"
               />
@@ -528,14 +521,16 @@ const handleNumberChange = (e, setValue) => {
               </button>
             </div>
           ) : (
+            // category selection page
             <div className="category-page">
-              <div style={{ width: "90%" }} className="select-category-card">
+              <div className="select-category-card">
                 {selectedCategory.length !== 0 ? (
                   selectedCategory.map((item) =>
                     item.details_image === "null" ? (
                       <h2 key={item.id}>{item.details_name}</h2>
                     ) : (
                       <img
+                        className="pinned-items"
                         key={item.id}
                         src={`${apiHost}/${
                           item.category_image === undefined
@@ -551,7 +546,6 @@ const handleNumberChange = (e, setValue) => {
                 )}
               </div>
               <div className="search-and-product-type-grid">
-                
                 <div className="search-bar">
                   <h2>
                     {showQty ||
@@ -560,68 +554,145 @@ const handleNumberChange = (e, setValue) => {
                       ? "Category"
                       : field[selectedIndex].field_name}
                   </h2>
-                  <input type="text" placeholder="Search products..." className="form-input-ss"/>
+                  {/* search bar */}
+                  <input
+                    type="text"
+                    placeholder="Search products..."
+                    className="form-input-ss"
+                  />
+                  {/* add button for category, feild , details */}
                   <button
                     className="add-button"
                     type="button"
                     onClick={handleClickOpenDialog}
                   >
-                <b>ADD </b><div><LibraryAddIcon/></div>
+                    <b>ADD </b>
+                    <div>
+                      <LibraryAddIcon />
+                    </div>
                   </button>
                 </div>
+                {/* cards */}
+                {/* {!showQty ? (
+                  <div className="product-type-grid">
+                    <div className="item_boxes">
+                      {!isLoading &&
+                        category.map((item, i) => (
+                          <div
+                            key={i}
+                            className="product-type-item"
+                            onClick={() => {
+                              handleSelectCategory(item);
+                              if (selectedCategory.length === 0) {
+                                fetchFields(item.category_id);
+                              } else {
+                                if (selectedIndex < field.length - 1) {
+                                  fetchOptions(
+                                    selectedCategory[0].category_id,
+                                    field[selectedIndex + 1].field_id
+                                  );
+                                  setSelectedIndex(selectedIndex + 1);
+                                } else {
+                                  setShowQty(true);
+                                }
+                              }
+                            }}
+                          >
+                            <p>
+                              {item.category_name === undefined
+                                ? item.details_name
+                                : item.category_name}
+                            </p>
+                            {item.details_image !== "null" ? (
+                              <img
+                                src={`${apiHost}/${
+                                  item.category_image === undefined
+                                    ? item.details_image
+                                    : item.category_image
+                                }`}
+                                alt={`${item.category_name} image`}
+                              />
+                            ) : null}
+                          </div>
+                        ))}
+                    </div>
+                  </div>
+                ) : ( */}
                 {!showQty ? (
                   <div className="product-type-grid">
                     <div className="item_boxes">
-                    {category.map((item, i) => (
-                      <div
-                        key={i}
-                        className="product-type-item"
-                        onClick={() => {
-                          handleSelectCategory(item);
-                          if (selectedCategory.length === 0) {
-                            fetchFields(item.category_id);
-                          } else {
-                            if (selectedIndex < field.length - 1) {
-                              fetchOptions(
-                                selectedCategory[0].category_id,
-                                field[selectedIndex + 1].field_id
-                              );
-                              setSelectedIndex(selectedIndex + 1);
-                            } else {
-                              setShowQty(true);
-                            }
-                          }
-                        }}
-                      >
-                        <p>
-                          {item.category_name === undefined
-                            ? item.details_name
-                            : item.category_name}
-                        </p>
-                        {item.details_image !== "null" ? (
-                          <img
-                            src={`${apiHost}/${
-                              item.category_image === undefined
-                                ? item.details_image
-                                : item.category_image
-                            }`}
-                            alt={`${item.category_name} image`}
-                          />
-                        ) : null}
-                      </div>
-                    ))}
+                      {!isLoading ? (
+                        category.length > 0 ? (
+                          category.map((item, i) => (
+                            <div
+                              key={i}
+                              className="product-type-item"
+                              onClick={() => {
+                                handleSelectCategory(item);
+                                if (selectedCategory.length === 0) {
+                                  fetchFields(item.category_id);
+                                } else {
+                                  if (selectedIndex < field.length - 1) {
+                                    fetchOptions(
+                                      selectedCategory[0].category_id,
+                                      field[selectedIndex + 1].field_id
+                                    );
+                                    setSelectedIndex(selectedIndex + 1);
+                                  } else {
+                                    setShowQty(true);
+                                  }
+                                }
+                              }}
+                            >
+                              <p>
+                                {item.category_name === undefined
+                                  ? item.details_name
+                                  : item.category_name}
+                              </p>
+                              {item.details_image !== "null" ? (
+                                <img
+                                  src={`${apiHost}/${
+                                    item.category_image === undefined
+                                      ? item.details_image
+                                      : item.category_image
+                                  }`}
+                                  alt={`${item.category_name} image`}
+                                />
+                              ) : null}
+                            </div>
+                          ))
+                        ) : (
+                          <p>No fields</p>
+                        )
+                      ) : (
+                        <p>Loading...Wait</p>
+                      )}
                     </div>
                   </div>
                 ) : (
+                  // last page for size and price
                   <>
-                   
                     <div className="last">
-                    <div className="part_for_size">
+                      <div className="part_for_size">
                         <div className="count-size-quantity-box">
                           <div className="count-div">
-                            <label htmlFor="count" className="count_lable">Count:</label>
+                            <label htmlFor="model" className="count_lable">
+                              Model No.
+                            </label>
                             <input
-                            placeholder="Enter Count"
+                              placeholder="Enter Model No."
+                              className="count_field"
+                              type="text"
+                              id="model"
+                              name="model"
+                              value={model}
+                              onChange={(e) => setModel(e.target.value)}
+                            />
+                            <label htmlFor="count" className="count_lable">
+                              Count:
+                            </label>
+                            <input
+                              placeholder="Enter Count"
                               className="count_field"
                               type="number"
                               id="count"
@@ -629,105 +700,136 @@ const handleNumberChange = (e, setValue) => {
                               value={count}
                               onChange={handleCountChange}
                             />
-                            </div>
+                          </div>
+                          <div className="size-and-quantity">
                             {inputs.map((input, index) => (
                               <div key={index}>
-                                <label htmlFor={`size-${index}`} >Size:</label>
+                                <label htmlFor={`size-${index}`}>Size:</label>
                                 <input
-                                className="size_field"
+                                  className="size_field"
                                   type="number"
                                   id={`size-${index}`}
                                   name={`size-${index}`}
                                   value={input.size}
-                                  onChange={(e) => handleInputValueChange(index, 'size', e.target.value)}
+                                  onChange={(e) =>
+                                    handleInputValueChange(
+                                      index,
+                                      "size",
+                                      e.target.value
+                                    )
+                                  }
                                 />
-                                <label htmlFor={`quantity-${index}`}>Quantity:</label>
+                                <label htmlFor={`quantity-${index}`}>
+                                  Quantity:
+                                </label>
                                 <input
-                                className="quantity_field"
+                                  className="quantity_field"
                                   type="number"
                                   id={`quantity-${index}`}
                                   name={`quantity-${index}`}
                                   value={input.quantity}
-                                  onChange={(e) => handleInputValueChange(index, 'quantity', e.target.value)}
+                                  onChange={(e) =>
+                                    handleInputValueChange(
+                                      index,
+                                      "quantity",
+                                      e.target.value
+                                    )
+                                  }
                                 />
                               </div>
                             ))}
-                          
+                          </div>
                         </div>
                       </div>
 
-                    <div className="part_for_price">
-                    <div className="input-container">
-                        <label htmlFor="selling_price">Selling Price:</label>
-                        <input
-                        placeholder="Enter Selling Price"
-                          className="input_box"
-                          type="text"
-                          id="selling_price"
-                          value={selling_price}
-                          onChange={(e) => handleNumberChange(e, setSellingPrice)}
-                        />
+                      <div className="part_for_price">
+                        <div className="price-boxes">
+                          <div className="centering">
+                            <div className="input-container">
+                              <label htmlFor="selling_price">
+                                Selling Price:
+                              </label>
+                              <input
+                                placeholder="Enter Selling Price"
+                                className="input_box"
+                                type="text"
+                                id="selling_price"
+                                value={selling_price}
+                                onChange={(e) =>
+                                  handleNumberChange(e, setSellingPrice)
+                                }
+                              />
+                            </div>
+                            <div className="input-container">
+                              <label htmlFor="mrp">MRP:</label>
+                              <input
+                                placeholder="Enter MRP"
+                                className="input_box"
+                                type="text"
+                                id="mrp"
+                                value={mrp}
+                                onChange={(e) =>
+                                  handleNumberChange(e, setMrpPrice)
+                                }
+                              />
+                            </div>
+                            <div className="input-container">
+                              <label htmlFor="price">Purchasing Price:</label>
+                              <input
+                                placeholder="Enter Purchasing Price"
+                                className="input_box"
+                                type="text"
+                                id="price"
+                                value={price}
+                                onChange={(e) =>
+                                  handleNumberChange(e, setPrice)
+                                }
+                              />
+                            </div>
+                            <div className="buttons-in-line">
+                              <button
+                                className="generate_button"
+                                onClick={() => {
+                                  handleGenerate();
+                                  handleNavigate("/productdashboard");
+                                }}
+                              >
+                                Generate +
+                              </button>
+                              <button
+                                className="generate_button"
+                                onClick={() => {
+                                  handleGenerate();
+                                  handleRefresh();
+                                }}
+                              >
+                                Add other
+                              </button>
+                            </div>
+                          </div>
+                        </div>
                       </div>
-                      <div className="input-container">
-                        <label htmlFor="mrp">MRP:</label>
-                        <input
-                        placeholder="Enter MRP"
-                          className="input_box"
-                          type="text"
-                          id="mrp"
-                          value={mrp}
-                          onChange={(e) => handleNumberChange(e, setMrpPrice)}
-                        />
-                      </div>
-                      <div className="input-container">
-                        <label htmlFor="price">Purchasing Price:</label>
-                        <input
-                       placeholder="Enter Purchasing Price"
-                          className="input_box"
-                          type="text"
-                          id="price"
-                          value={price}
-                          onChange={(e) => handleNumberChange(e, setPrice)}
-                        />
-                      </div>
-                    
-                      <div className="buttons-in-line">
-                      <button
-                        className="generate_button"
-                        onClick={() => {
-                          handleGenerate();
-                          handleNavigate("/productdashboard");
-                        }}
-                      >
-                        Generate +
-                      </button>
-
-                      <button
-                        className="generate_button"
-                        onClick={() => {
-                          handleGenerate();
-                          handleRefresh();
-                        }}
-                      >
-                        Add other
-                      </button>
-                      </div>
-                    </div>
                     </div>
                   </>
                 )}
+                {isLoading && <div className="loader"></div>}
               </div>
             </div>
           )}
-
+          {/* dialog box (category, fields, details) */}
           <Dialog
             open={open}
             onClose={handleCloseDialog}
             PaperProps={{
               style: {
-                width: "800px",
-                height: "250px",
-                padding: "10px",
+                // width: "50%",
+                // height: "30%",
+                // padding: "10px",
+                display: "flex",
+                flexWrap: "wrap",
+                alignContent: "center",
+                justifyContent: "center",
+                alignItems: "center",
               },
             }}
           >
@@ -761,27 +863,34 @@ const handleNumberChange = (e, setValue) => {
                 </div>
               </DialogContent>
               <DialogActions>
-                <Button onClick={handleCloseDialog}>Cancel</Button>
-                {/* <Button>Submit</Button> */}
+                <Button
+                  onClick={handleCloseDialog}
+                  style={{
+                    fontWeight: 700,
+                  }}
+                >
+                  Cancel
+                </Button>
               </DialogActions>
             </div>
           </Dialog>
         </div>
       </div>
+
+      {/* category dialog box */}
+
       <Dialog
         open={openCategoryDialog}
         onClose={handleCloseCategoryDialog}
         PaperProps={{
           style: {
-            width: "500px",
-            height: "390px",
+            // width: "500px",
+            // height: "390px",
             padding: "10px",
           },
         }}
       >
         <div>
-
-          {/* category dialog */}
           <DialogTitle
             style={{
               textAlign: "center",
@@ -795,11 +904,11 @@ const handleNumberChange = (e, setValue) => {
             }}
           >
             <label htmlFor="categoryName">
-              <b className="field-title">Category Name:</b>
+              <b className="field-title">Category Name </b>
             </label>
-            <br />
-            <input 
+            <input
               className="form-input-sp"
+              placeholder="Enter Category Name"
               type="text"
               id="categoryName"
               name="category_name"
@@ -814,7 +923,7 @@ const handleNumberChange = (e, setValue) => {
               <br />
               <div class="custom-file-label">
                 {" "}
-                <b>Choose File:</b>{" "}
+                <b className="choose_file_placeHolder">Choose File:</b>{" "}
               </div>
             </label>
             <input
@@ -824,16 +933,45 @@ const handleNumberChange = (e, setValue) => {
               name="image"
               accept="image/*"
               required
-              onChange={updateImage}
+              onChange={() => updateImage("image")}
+            />
+
+            <label for="camera">
+              <b>Camera</b>
+              <br />
+              <div class="custom-file-label">
+                {" "}
+                <b className="choose_file_placeHolder">Take Photo:</b>{" "}
+              </div>
+            </label>
+            <input
+              class="custom-file-input"
+              type="file"
+              id="camera"
+              name="camera"
+              accept="image/*"
+              capture="environment"
+              required
+              onChange={() => updateImage("camera")}
             />
             <br />
           </DialogContent>
           <DialogActions>
-            <Button onClick={handleCloseCategoryDialog}>Cancel</Button>
+            <Button
+              onClick={handleCloseCategoryDialog}
+              style={{
+                fontWeight: 700,
+              }}
+            >
+              Cancel
+            </Button>
             <Button
               onClick={() => {
                 submitForm();
                 handleCloseCategoryDialog();
+              }}
+              style={{
+                fontWeight: 700,
               }}
             >
               Submit
@@ -842,14 +980,15 @@ const handleNumberChange = (e, setValue) => {
         </div>
       </Dialog>
 
-      {/* detail dialog */}
+      {/* detail dialog box*/}
+
       <Dialog
         open={openDetailDialog}
         onClose={handleCloseDetailDialog}
         PaperProps={{
           style: {
-            width: "500px",
-            height: "500px",
+            // width: "500px",
+            // height: "500px",
             padding: "20px",
           },
         }}
@@ -868,7 +1007,7 @@ const handleNumberChange = (e, setValue) => {
             }}
           >
             <form id="addFieldDetailsForm" encType="multipart/form-data">
-            <div className="flex-container">
+              <div className="flex-container">
                 <div className="field-inside-flex">
                   <div>
                     <label className="form-label" htmlFor="category_name">
@@ -881,6 +1020,7 @@ const handleNumberChange = (e, setValue) => {
                       id="category_name"
                       name="category_name"
                       onChange={getFields}
+                      required
                     >
                       {categoryOptions.map((category, index) => (
                         <option key={index} value={category}>
@@ -893,11 +1033,15 @@ const handleNumberChange = (e, setValue) => {
                 <div className="field-inside-flex">
                   <div>
                     <label htmlFor="field_name">
-                      <b>Field Name:</b>
+                      <b>Field Name </b>
                     </label>
                   </div>
                   <div>
-                    <select className="form-select" id="field_name" name="field_name">
+                    <select
+                      className="form-select-none"
+                      id="field_name"
+                      name="field_name"
+                    >
                       {fieldOptions.map((field, index) => (
                         <option key={index} value={field.value}>
                           {field.label}
@@ -906,7 +1050,7 @@ const handleNumberChange = (e, setValue) => {
                     </select>
                   </div>
                 </div>
-                
+
                 <div className="field-inside-flex">
                   <div>
                     <label
@@ -921,6 +1065,7 @@ const handleNumberChange = (e, setValue) => {
                   <div>
                     <input
                       className="form-input"
+                      placeholder="Enter Detail Name"
                       type="text"
                       id="details_name"
                       name="details_name"
@@ -929,31 +1074,51 @@ const handleNumberChange = (e, setValue) => {
                   </div>
                 </div>
                 <div className="field-inside-flex">
-                  <label for="image">
+                  <label For="image">
                     <b>Image:</b>
-                    <br />
-                    <div class="custom-file-label">
-                      {" "}
-                      <b>Choose File</b>{" "}
+                    <div className="custom-file-label">
+                      <b className="choose_file_placeHolder">Choose File</b>
                     </div>
                   </label>
                   <input
-                    class="custom-file-input"
+                    className="custom-file-input"
                     type="file"
                     id="image"
                     name="image"
                     accept="image/*"
                     required
-                    onChange={updateDetailImage}
+                    onChange={() => updateDetailImage("image")}
+                  />
+                  <br />
+                  <label For="camera">
+                    <b>Camera:</b>
+                    <div className="custom-file-label">
+                      <b className="choose_file_placeHolder">Take Photo</b>
+                    </div>
+                  </label>
+                  <input
+                    className="custom-file-input"
+                    type="file"
+                    id="camera"
+                    name="image"
+                    accept="image/*"
+                    capture="environment"
+                    required
+                    onChange={() => updateDetailImage("camera")}
                   />
                 </div>
               </div>
             </form>
-
-           
           </DialogContent>
           <DialogActions>
-            <Button onClick={handleCloseDetailDialog}>Cancel</Button>
+            <Button
+              onClick={handleCloseDetailDialog}
+              style={{
+                fontWeight: 700,
+              }}
+            >
+              Cancel
+            </Button>
             <Button
               onClick={() => {
                 addFieldDetails();
@@ -961,6 +1126,9 @@ const handleNumberChange = (e, setValue) => {
               }}
               variant="contained"
               color="primary"
+              style={{
+                fontWeight: 700,
+              }}
             >
               Add Field Details
             </Button>
@@ -968,15 +1136,15 @@ const handleNumberChange = (e, setValue) => {
         </div>
       </Dialog>
 
-      {/* field dialog */}
+      {/* field dialog  box*/}
 
       <Dialog
         open={openFieldDialog}
         onClose={handleCloseFieldDialog}
         PaperProps={{
           style: {
-            width: "500px",
-            height: "370px",
+            // width: "500px",
+            // height: "370px",
             padding: "20px",
           },
         }}
@@ -1006,14 +1174,18 @@ const handleNumberChange = (e, setValue) => {
                     onChange={handleInputChange}
                     required
                   >
-                    <option value="" disabled selected>Select field</option>
+                    <option value="" disabled selected>
+                      Select Category
+                    </option>
                     {category.map((category) => (
-                      <option key={category.category_id} value={category.category_id}>
+                      <option
+                        key={category.category_id}
+                        value={category.category_id}
+                      >
                         {category.category_name}
                       </option>
                     ))}
                   </select>
-                 
                 </div>
               </div>
               <div className="field-inside-flex">
@@ -1096,8 +1268,14 @@ const handleNumberChange = (e, setValue) => {
             </div>
           </DialogContent>
           <DialogActions>
-            <Button style={{fontWeight: 700}} onClick={handleCloseFieldDialog}>Cancel</Button>
-            <Button style={{fontWeight: 700}}
+            <Button
+              style={{ fontWeight: 700 }}
+              onClick={handleCloseFieldDialog}
+            >
+              Cancel
+            </Button>
+            <Button
+              style={{ fontWeight: 700 }}
               onClick={() => {
                 handleCloseFieldDialog();
                 addCategoryField();

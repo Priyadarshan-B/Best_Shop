@@ -17,7 +17,6 @@ import apiHost from "../../utils/api";
 import HorizontalNavbar from "../Horizontal_Navbar/horizontal_navbar";
 import VerticalNavbar from "../Vertical_Navbar/vertical_navbar";
 import "../Products/ProductDashboard.css";
-import { Replay10TwoTone } from "@mui/icons-material";
 
 // Function to create rows based on nested JSON data
 const createRowFromApiData = (jsonData) => {
@@ -132,7 +131,7 @@ export default function CollapsibleTable() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch(`${apiHost}/product-name`);
+        const response = await fetch(`${apiHost}/stocks`);
         const jsonData = await response.json();
         const formattedRows = createRowFromApiData(jsonData);
         setRows(formattedRows);

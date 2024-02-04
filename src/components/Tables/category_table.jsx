@@ -8,21 +8,20 @@ import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
-import Slide from "@mui/material/Slide";
 import apiHost from "../../utils/api";
-import EditIcon from '@mui/icons-material/Edit';
-import DeleteIcon from '@mui/icons-material/Delete';
-import LibraryAddIcon from '@mui/icons-material/LibraryAdd';
+import EditIcon from "@mui/icons-material/Edit";
+import DeleteIcon from "@mui/icons-material/Delete";
+import LibraryAddIcon from "@mui/icons-material/LibraryAdd";
 
-import { toast,  ToastContainer } from "react-toastify";
+import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import './table.css'
+import "./table.css";
 
 const CategoryTable = () => {
   const [categories, setCategories] = useState([]);
   const [categoryName, setCategoryName] = useState("");
-  const [image, setImage] = useState(null);
   const [open, setOpen] = useState(false);
+  const [selectedImage, setSelectedImage] = useState(null);
 
   const handleCategoryNameChange = (event) => {
     setCategoryName(event.target.value);
@@ -31,7 +30,7 @@ const CategoryTable = () => {
   const handleEdit = (id) => {
     console.log(`Edit action clicked for id ${id}`);
   };
-  
+
   // delete category
 
   const deleteCategory = (category_id) => {
@@ -39,7 +38,6 @@ const CategoryTable = () => {
     console.log("DELETE request URL:", deleteUrl);
     fetch(`${apiHost}/categories/${category_id}`, {
       method: "DELETE",
-
     })
       .then((response) => {
         if (!response.ok) {
@@ -50,25 +48,27 @@ const CategoryTable = () => {
       .then((data) => {
         console.log("Category deleted successfully:", data);
         fetchData(); // Update the category list after deletion
-        notifySuccess('Category deleted successfully');
+        notifySuccess("Category deleted successfully");
       })
       .catch((error) => {
         console.error("Error deleting category:", error);
-        notifyError('Failed to delete category');
+        notifyError("Failed to delete category");
       });
   };
 
   const handleDelete = (category_id, categoryName) => {
-    const isConfirmed = window.confirm(`Are you sure you want to delete the category "${categoryName}"?`);
+    const isConfirmed = window.confirm(
+      `Are you sure you want to delete the category "${categoryName}"?`
+    );
     if (isConfirmed) {
       console.log(`Delete action clicked for category_id ${category_id}`);
       deleteCategory(category_id);
     }
   };
 
-  const Transition = React.forwardRef(function Transition(props, ref) {
-    return <Slide direction="up" ref={ref} {...props} />;
-  });
+  // const Transition = React.forwardRef(function Transition(props, ref) {
+  //   return <Slide direction="up" ref={ref} {...props} />;
+  // });
 
   const handleClickOpenDialog = () => {
     setOpen(true);
@@ -78,18 +78,37 @@ const CategoryTable = () => {
     setOpen(false);
   };
 
-  const updateImage = (event) => {
-    const input = document.getElementById('image');
-    const label = document.querySelector('.custom-file-label');
-    const fileName = input.files[0].name;
-    label.innerHTML = '<b>Image File:</b> ' + fileName;
-    setImage(event.target.files[0]);
+  // const imageInput = document.getElementById("image");
+  // const cameraInput = document.getElementById("camera");
+  // formData.append("image", imageInput.files[0] || cameraInput.files[0]);
+
+  //     if (selectedImage) {
+  //       formData.append("image", selectedImage);
+  //     }
+
+  const updateImage = (inputId) => {
+    const input = document.getElementById(inputId);
+    const label = document.querySelector(`label[for=${inputId}]`);
+
+    if (input && label) {
+      const fileName = input.files[0]?.name || "No file chosen";
+      label.innerHTML = `<b>${
+        inputId === "image" ? "Image" : "Camera"
+      }:</b> ${fileName}`;
+    }
   };
 
   const submitForm = () => {
     const formData = new FormData();
     formData.append("category_name", categoryName);
-    formData.append("image", image);
+    // formData.append("image", image);
+    const imageInput = document.getElementById("image");
+    const cameraInput = document.getElementById("camera");
+    formData.append("image", imageInput.files[0] || cameraInput.files[0]);
+
+    if (selectedImage) {
+      formData.append("image", selectedImage);
+    }
 
     fetch(`${apiHost}/categories`, {
       method: "POST",
@@ -104,11 +123,11 @@ const CategoryTable = () => {
       .then((data) => {
         console.log("Success:", data);
         fetchData();
-        notifySuccess('Field added successfully');
+        notifySuccess("Field added successfully");
       })
       .catch((error) => {
         console.error("Error:", error);
-        notifyError('Failed to add field');
+        notifyError("Failed to add field");
       });
   };
 
@@ -143,7 +162,6 @@ const CategoryTable = () => {
   const columns = [
     { field: "id", headerName: <b>S.No</b>, width: 100 },
 
-
     { field: "category_name", headerName: <b>Category Name</b>, width: 200 },
     {
       field: "actions",
@@ -169,7 +187,9 @@ const CategoryTable = () => {
               color: "#ed4545",
               cursor: "pointer",
             }}
-            onClick={() => handleDelete(params.row.category_id, params.row.category_name)}
+            onClick={() =>
+              handleDelete(params.row.category_id, params.row.category_name)
+            }
           />
         </div>
       ),
@@ -189,23 +209,29 @@ const CategoryTable = () => {
         <VerticalNavbar />
         <ToastContainer />
         <div className="dashboard-body">
-          <div >
-          
+          <div>
             <div className="category-header-container">
-              <h2 style={{
-                marginTop:'10px'
-              }}>Category Table</h2>
-              <button className="add-button"
+              <h2
+                style={{
+                  marginTop: "10px",
+                }}
+              >
+                Category Table
+              </h2>
+              <button
+                className="add-button"
                 type="button"
                 onClick={handleClickOpenDialog}
               >
-                <b>ADD </b><div><LibraryAddIcon/></div>
+                <b>ADD </b>
+                <div>
+                  <LibraryAddIcon />
+                </div>
               </button>
             </div>
             {categories && categories.length > 0 ? (
               <>
-
-                <DataGrid 
+                <DataGrid
                   rows={rows}
                   columns={columns}
                   pageSize={5}
@@ -222,9 +248,7 @@ const CategoryTable = () => {
                 />
               </>
             ) : (
-              <div className="loader">
-                </div>
-              
+              <div className="loader"></div>
             )}
           </div>
 
@@ -233,71 +257,93 @@ const CategoryTable = () => {
             onClose={handleCloseDialog}
             PaperProps={{
               style: {
-                width: "500px",
-                height: "390px",
+                // width: "500px",
+                // height: "390px",
                 padding: "10px",
               },
             }}
           >
             <div>
               {/* category dialog */}
-          <DialogTitle
-            style={{
-              textAlign: "center",
-            }}
-          >
-            <h2>Add Category</h2>
-          </DialogTitle>
-          <DialogContent
-            style={{
-              fontSize: 20,
-            }}
-          >
-            <label htmlFor="categoryName" >
-              <b className="field-title">Category Name:</b>
-            </label>
-            <br />
-            <input
-              className="form-input-sp"
-              type="text"
-              id="categoryName"
-              name="category_name"
-              value={categoryName}
-              onChange={handleCategoryNameChange}
-              required
-            />
-            <br />
+              <DialogTitle
+                style={{
+                  textAlign: "center",
+                }}
+              >
+                <h2>Add Category</h2>
+              </DialogTitle>
+              <DialogContent
+                style={{
+                  fontSize: 20,
+                }}
+              >
+                <label htmlFor="categoryName">
+                  <b className="field-title">Category Name:</b>
+                </label>
+                <input
+                  className="form-input-sp"
+                  type="text"
+                  placeholder="Enter Category Name"
+                  id="categoryName"
+                  name="category_name"
+                  value={categoryName}
+                  onChange={handleCategoryNameChange}
+                  required
+                />
+                <br />
 
-            <label for="image">
-              <b>Image:</b>
-              <br />
-              <div class="custom-file-label">
-                {" "}
-                <b>Choose File:</b>{" "}
-              </div>
-            </label>
-            <input
-              class="custom-file-input"
-              type="file"
-              id="image"
-              name="image"
-              accept="image/*"
-              required
-              onChange={updateImage}
-            />
-            <br />
-          </DialogContent>
-          <DialogActions>
-            <Button style={{fontWeight: 700}} onClick={handleCloseDialog}>Cancel</Button>
-            <Button style={{fontWeight: 700}}
-              onClick={() => {
-                submitForm();
-                handleCloseDialog();
-              }}
-            >
-              Submit
-            </Button>
-          </DialogActions>
+                <label for="image">
+                  <b>Image:</b>
+                  <br />
+                  <div class="custom-file-label">
+                    {" "}
+                    <b className="choose_file_placeHolder">Choose File:</b>{" "}
+                  </div>
+                </label>
+                <input
+                  class="custom-file-input"
+                  type="file"
+                  id="image"
+                  name="image"
+                  accept="image/*"
+                  required
+                  onChange={() => updateImage("image")}
+                />
+
+                <label for="camera">
+                  <b>Camera:</b>
+                  <br />
+                  <div class="custom-file-label">
+                    {" "}
+                    <b className="choose_file_placeHolder">Take Photo:</b>{" "}
+                  </div>
+                </label>
+                <input
+                  class="custom-file-input"
+                  type="file"
+                  id="camera"
+                  name="camera"
+                  accept="image/*"
+                  capture="environment"
+                  required
+                  onChange={() => updateImage("camera")}
+                />
+                <br />
+              </DialogContent>
+              <DialogActions>
+                <Button style={{ fontWeight: 700 }} onClick={handleCloseDialog}>
+                  Cancel
+                </Button>
+                <Button
+                  style={{ fontWeight: 700 }}
+                  onClick={() => {
+                    submitForm();
+                    handleCloseDialog();
+                  }}
+                >
+                  Submit
+                </Button>
+              </DialogActions>
             </div>
           </Dialog>
         </div>

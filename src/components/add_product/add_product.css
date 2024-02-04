@@ -2,12 +2,17 @@
   font-size: 20px;
 }
 
+
+.choose_file_placeHolder{
+  color: #808080;
+}
 .input-container {
   margin-bottom: 15px;
   display: flex;
-  flex-direction: column;
+  align-items: center;
+  
   gap: 5px;
-  justify-content: center;
+  justify-content: space-between;
 }
 
 .input-container-sp {
@@ -54,7 +59,7 @@ label {
   border-radius: 5px;
   color: white;
   letter-spacing: 1.4px;
-  width: 130px;
+  /* width: 130px; */
   display: flex;
   justify-content: center;
   cursor: pointer;
@@ -64,6 +69,9 @@ label {
 .flex-container {
   display: flex;
   flex-direction: column;
+  flex-wrap: wrap;
+  align-content: center;
+  align-items: flex-start;
 }
 
 .field-inside-flex {
@@ -77,7 +85,7 @@ label {
 }
 
 .input_box_select {
-  width: 289px;
+  width: 290px;
   padding: 7px;
   border: none;
   box-shadow: 0px 2px 7px;
@@ -89,7 +97,6 @@ label {
 }
 
 .input_box {
-  width: 275px;
   padding: 7px;
   border: none;
   box-shadow: 0px 2px 7px;
@@ -102,19 +109,39 @@ label {
 
 .last {
   display: flex;
-  margin-top: 20px;
+  /* margin-top: 20px; */
   flex: 13;
-
+  /* flex-wrap: wrap; */
+  gap: 15px;
 }
 
 .count-size-quantity-box {
-  height: 260px;
-  width: 340px;
+  /* height: 70%; */
+  width: 80%;
+  margin-top: 10px;
   padding: 0px 20px 20px 20px;
-  overflow-y: scroll;
+  /* overflow-y: scroll; */
   box-shadow: 0px 1px 3px;
   border-radius: 7px;
   border: 10px solid white;
+  /* max-height: 60%; */
+
+}
+.price-boxes{
+  /* height: 70%; */
+  width: 80%;
+  padding: 0px 20px 20px 20px;
+  overflow-y: hidden;
+  box-shadow: 0px 1px 3px;
+  border-radius: 7px;
+  border: 10px solid white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.centering{
+ 
+
 }
 
 /* For WebKit browsers (Chrome, Safari) */
@@ -149,9 +176,11 @@ label {
 .part_for_size {
   display: flex;
   flex-direction: column;
-
+  justify-content: center;
   align-items: center;
   flex: 1;
+  /* max-height: 65%; */
+
 }
 
 .count-div {
@@ -166,12 +195,14 @@ label {
 .part_for_price {
   display: flex;
   flex-direction: column;
+  justify-content: center;
   align-items: center;
   flex: 1;
+  margin-top: 10px;
+  /* max-height: 60%; */
 }
 
 .count_field {
-  width: 300px;
   padding: 7px;
   border: none;
   box-shadow: 0px 2px 7px;
@@ -183,7 +214,7 @@ label {
 }
 
 .quantity_field {
-  width: 80px;
+  width: 16%;
   padding: 7px;
   border: none;
   box-shadow: 0px 2px 7px;
@@ -195,7 +226,7 @@ label {
 }
 
 .size_field {
-  width: 80px;
+  width: 16%;
   padding: 7px;
   border: none;
   box-shadow: 0px 2px 7px;
@@ -209,6 +240,7 @@ label {
 .popup-content {
   display: flex;
   flex-direction: row;
+  flex-wrap: wrap;
   gap: 15px;
   justify-content: space-evenly;
 }
@@ -279,4 +311,35 @@ label {
 
 .dist_button:hover {
   background-color: #60c7ff;
+}
+
+.pinned-items{
+  height: 100px;
+}
+
+.size-and-quantity{
+  overflow-y: auto;
+  max-height: 40%;
+}
+
+@media (max-width:760px){
+  .last{
+    flex-direction: column;
+  }
+  
+  .count-size-quantity-box{
+    margin-top: 8px;
+
+  }
+  .part_for_size {
+    justify-content: flex-start;
+  }
+  .part_for_price{
+    justify-content: flex-start;
+
+  }
+  .size-and-quantity{
+    max-height: 40%;
+  }
+  
 }
