@@ -1,4 +1,4 @@
-import React, { useState , useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import HorizontalNavbar from "../Horizontal_Navbar/horizontal_navbar";
 import VerticalNavbar from "../Vertical_Navbar/vertical_navbar";
 import "../Dashboard/dashboard.css";
@@ -10,6 +10,7 @@ import * as XLSX from "xlsx";
 import apiHost from "../../utils/api";
 import DownloadIcon from "@mui/icons-material/Download";
 import hintImage from "../../assets/img/hint.jpg";
+
 
 const ExportData = () => {
   const [exportValue, setExportValue] = useState("");
@@ -39,7 +40,7 @@ const ExportData = () => {
     };
 
     fetchData();
-  }, []); 
+  }, []);
 
   // toast-message
   const notifySuccess = (message) => {
@@ -60,7 +61,7 @@ const ExportData = () => {
       colour: parseInt(colourValue),
     };
 
-    fetch(`${apiHost}/generate-excel`, {
+    fetch(`${apiHost}/genearte-excel`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -106,14 +107,16 @@ const ExportData = () => {
 
         <div className="dashboard-body">
           <div className="export-container-card">
-            <label>Distributor ID:</label>
-            <input
-              className="dist_input_id"
-              type="number"
-              value={exportValue}
-              onChange={(e) => setExportValue(e.target.value)}
-              placeholder="Distributor ID"
-            />
+            <div className="distributor-id-field">
+              <label>Distributor ID:</label>
+              <input
+                className="dist_input_id"
+                type="number"
+                value={exportValue}
+                onChange={(e) => setExportValue(e.target.value)}
+                placeholder="Distributor ID"
+              />
+            </div>
             <div className="container-except-di">
               <div className="item-info-box">
                 <label>Item Name:</label>
