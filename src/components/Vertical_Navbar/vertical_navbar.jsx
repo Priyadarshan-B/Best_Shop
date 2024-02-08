@@ -62,19 +62,19 @@ const VerticalNavbar = () => {
         </li>
 
         {/* inventory_nav */}
-
+{/* 
         <li className={selectedField === 'inventory' ? 'selected' : ''}
         onClick={() => handleNavigate('/inventory')}>
           <InventoryIcon style={{ marginRight: '10px' }} />
           <b>Inventory</b>
-        </li>
+        </li> */}
 
         {/* enquiries_nav */}
 
-        <li className={selectedField === 'enquiries' ? 'selected' : ''} onClick={() => handleNavigate('/enquiries')}>
+        {/* <li className={selectedField === 'enquiries' ? 'selected' : ''} onClick={() => handleNavigate('/enquiries')}>
           <QueryStatsIcon style={{ marginRight: '10px' }} />
           <b>Enquiries</b>
-        </li>
+        </li> */}
 
         {/* addStock_nav */}
 

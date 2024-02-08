@@ -192,7 +192,9 @@ const FieldTable = () => {
         <VerticalNavbar />
         {/* <ToastContainer /> */}
         <div className="dashboard-body">
-          <div>
+          <div className="box-for-tables">
+          {categories && categories.length > 0 ? (
+              <>
             <div className="category-header-container">
               <h2
                 style={{
@@ -213,8 +215,7 @@ const FieldTable = () => {
               </button>
             </div>
 
-            {categories && categories.length > 0 ? (
-              <>
+            
                 <DataGrid
                   className="data-grid-container"
                   rows={rows}

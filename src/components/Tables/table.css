@@ -269,3 +269,41 @@ min-height: 600px;
   }
   
 }
+
+
+  /* .box-for-table {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    align-content: center;
+    justify-content: center;
+    align-items: center;
+    gap: 50px;
+}
+
+.box-for-tables {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  align-content: center;
+  justify-content: center;
+  align-items: center;
+  gap: 50px;
+} */
+
+
+@media (max-width:600px) {
+  .box-for-table {
+    width: 90%;
+    overflow-x: scroll;
+  }
+}
+
+@media (max-width:1200px) {
+  .box-for-tables {
+    width: 90%;
+    overflow-x: scroll;
+  }
+
+}
+

@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from 'react';
-import ReactApexChart from 'react-apexcharts';
-import HorizontalNavbar from '../Horizontal_Navbar/horizontal_navbar';
-import VerticalNavbar from '../Vertical_Navbar/vertical_navbar';
-import '../Dashboard/dashboard.css';
+import React, { useEffect, useState } from "react";
+import ReactApexChart from "react-apexcharts";
+import HorizontalNavbar from "../Horizontal_Navbar/horizontal_navbar";
+import VerticalNavbar from "../Vertical_Navbar/vertical_navbar";
+import "../Dashboard/dashboard.css";
 
-import apiHost from '../../utils/api';
+import apiHost from "../../utils/api";
 
 const DashboardWrapper = () => {
   return <Dashboard />;
@@ -13,24 +13,24 @@ const DashboardWrapper = () => {
 const Dashboard = () => {
   const [chartData, setChartData] = useState({
     series: [
-      { name: 'Price of the Product', data: [0, 0, 0], yaxis: 0 },
-      { name: 'Product Count', data: [0, 0, 0], yaxis: 1 },
-      { name: 'Rate of the Product', data: [0, 0, 0], yaxis: 2 },
+      { name: "Price of the Product", data: [0, 0, 0], yaxis: 0 },
+      { name: "Product Count", data: [0, 0, 0], yaxis: 1 },
+      { name: "Rate of the Product", data: [0, 0, 0], yaxis: 2 },
     ],
     options: {
       chart: {
-        type: 'bar',
+        type: "bar",
         height: 350,
       },
       plotOptions: {
         bar: {
           horizontal: false,
-          borderRadius: '5px 5px 0px 0px',
-          columnWidth: '55%',
-          endingShape: 'rounded',
-          borderRadius:'7',
+          // borderRadius: '5px 5px 0px 0px',
+          columnWidth: "55%",
+          endingShape: "rounded",
+          borderRadius: "5 ",
           dataLabels: {
-            position: 'top',
+            position: "top",
           },
         },
       },
@@ -40,13 +40,13 @@ const Dashboard = () => {
       stroke: {
         show: true,
         width: 2,
-        colors: ['transparent'],
+        colors: ["transparent"],
       },
       xaxis: {
         categories: [
-          'Greater than 300 days',
-          'Less than 150-90 days',
-          'Less than 90-30 days',
+          "Price of the Product",
+          "Product Count",
+          "Rate of the Product",
         ],
         labels: {
           formatter: function (val) {
@@ -54,20 +54,22 @@ const Dashboard = () => {
           },
         },
       },
-      yaxis: [
-        { show: false },
-        { show: false  },
-        { show: false  },
-    
-      ],
+      yaxis: [{ show: false }, { show: false }, { show: false }],
       fill: {
         opacity: 1,
       },
       tooltip: {
         y: {
           formatter: function (val) {
-            return '₹ ' + val ;
+            return "₹ " + val;
           },
+        },
+      },
+      title: {
+        text: "Dashboard",
+
+        style: {
+          color: "#444",
         },
       },
     },
@@ -88,7 +90,7 @@ const Dashboard = () => {
           })),
         }));
       } catch (error) {
-        console.error('Error fetching or updating chart data:', error);
+        console.error("Error fetching or updating chart data:", error);
       }
     };
 
@@ -103,8 +105,8 @@ const Dashboard = () => {
         <div className="dashboard-body">
           <div className="chart-container">
             <ReactApexChart
-              height={'95%'}
-              width={'100%'}
+              height={"95%"}
+              width={"100%"}
               options={chartData.options}
               series={chartData.series}
               type="bar"

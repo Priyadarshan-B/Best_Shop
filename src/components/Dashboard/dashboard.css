@@ -26,7 +26,7 @@
 @media (max-width: 999px) {
   .chart-container {
     margin-top: 0;
-    height: max-content;
+    /* height: max-content; */
   }
 
   .dashboard-body{

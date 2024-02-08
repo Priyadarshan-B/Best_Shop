@@ -68,7 +68,6 @@ function AddStocks() {
 
   // dialog const
 
-  
   // const [image, setImage] = useState(null);
   const [categoryName, setCategoryName] = useState("");
   const [categories, setCategories] = useState([]);
@@ -423,7 +422,7 @@ function AddStocks() {
       category_id: selectedCategory[0].category_id,
       field_details_id: selectedDetails.filter((item) => item !== null),
       name: `${name.replace(/,/g, "-")}`,
-      price: parseFloat(price),
+      purchasing_price: parseFloat(price),
       selling_price: parseFloat(selling_price),
       mrp: parseFloat(mrp),
       sizes: sizes,
@@ -511,7 +510,7 @@ function AddStocks() {
                 className="dist_input"
                 type="text"
                 value={distValue}
-                onChange={handleTextChange}
+                onChange={(e) => handleNumberChange(e, setDistValue)}
                 placeholder="Enter Distrbutor ID"
               />
 
@@ -662,10 +661,12 @@ function AddStocks() {
                             </div>
                           ))
                         ) : (
-                          <p>No fields</p>
+                          <p>
+                            <b>No Fields</b>
+                          </p>
                         )
                       ) : (
-                        <p>Loading...Wait</p>
+                        <p className="loader"></p>
                       )}
                     </div>
                   </div>
@@ -812,7 +813,7 @@ function AddStocks() {
                     </div>
                   </>
                 )}
-                {isLoading && <div className="loader"></div>}
+                {/* {isLoading && <div className="loader"></div>} */}
               </div>
             </div>
           )}

@@ -2,17 +2,16 @@
   font-size: 20px;
 }
 
-
-.choose_file_placeHolder{
-  color: #808080;
-}
 .input-container {
   margin-bottom: 15px;
   display: flex;
   align-items: center;
-  
   gap: 5px;
   justify-content: space-between;
+}
+
+.choose_file_placeHolder {
+  color: #808080;
 }
 
 .input-container-sp {
@@ -26,7 +25,9 @@
 
 .buttons-in-line {
   display: flex;
-
+  flex-direction: row;
+  justify-content: space-between;
+  width: 100%;
 }
 
 label {
@@ -53,25 +54,23 @@ label {
   background: green;
   border: none;
   outline: none;
-  margin: 0px 10px 0px 10px;
+  margin: 15px 5px 0px 5px;
   padding: 10px;
   font-size: 17px;
   border-radius: 5px;
   color: white;
   letter-spacing: 1.4px;
-  /* width: 130px; */
+  width: 112px;
   display: flex;
   justify-content: center;
   cursor: pointer;
 
 }
 
+
 .flex-container {
   display: flex;
   flex-direction: column;
-  flex-wrap: wrap;
-  align-content: center;
-  align-items: flex-start;
 }
 
 .field-inside-flex {
@@ -109,27 +108,25 @@ label {
 
 .last {
   display: flex;
-  /* margin-top: 20px; */
+  margin-top: 20px;
   flex: 13;
-  /* flex-wrap: wrap; */
+  flex-wrap: wrap;
   gap: 15px;
 }
 
 .count-size-quantity-box {
-  /* height: 70%; */
-  width: 80%;
-  margin-top: 10px;
+  height: 260px;
+  width: 60%;
   padding: 0px 20px 20px 20px;
-  /* overflow-y: scroll; */
+  overflow-y: scroll;
   box-shadow: 0px 1px 3px;
   border-radius: 7px;
   border: 10px solid white;
-  /* max-height: 60%; */
-
 }
-.price-boxes{
-  /* height: 70%; */
-  width: 80%;
+
+.price-boxes {
+  height: 260px;
+  width: 60%;
   padding: 0px 20px 20px 20px;
   overflow-y: hidden;
   box-shadow: 0px 1px 3px;
@@ -139,31 +136,31 @@ label {
   justify-content: center;
   align-items: center;
 }
-.centering{
- 
 
+.centering {
+  width: 99%;
 }
 
 /* For WebKit browsers (Chrome, Safari) */
 ::-webkit-scrollbar {
-  width: 12px;
+  width: 10px;
   /* Set the width of the scrollbar */
 }
 
 ::-webkit-scrollbar-thumb {
-  background-color: #a0a0a0;
+  background-color: #e1e1e1;
   /* Set the color of the thumb (the draggable part) */
   border-radius: 6px;
   /* Set the border radius of the thumb */
 }
 
 ::-webkit-scrollbar-track {
-  background-color: #f0f0f0;
+  background-color: #ffffff;
   /* Set the color of the track (the non-draggable part) */
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background-color: #808080;
+  background-color: #efefef;
   /* Set the color of the thumb on hover */
 }
 
@@ -179,8 +176,6 @@ label {
   justify-content: center;
   align-items: center;
   flex: 1;
-  /* max-height: 65%; */
-
 }
 
 .count-div {
@@ -198,11 +193,10 @@ label {
   justify-content: center;
   align-items: center;
   flex: 1;
-  margin-top: 10px;
-  /* max-height: 60%; */
 }
 
 .count_field {
+  width: 96%;
   padding: 7px;
   border: none;
   box-shadow: 0px 2px 7px;
@@ -213,8 +207,13 @@ label {
   margin-bottom: 20px;
 }
 
+.size-quantity-flex {
+  display: flex;
+  flex-wrap: wrap;
+}
+
 .quantity_field {
-  width: 16%;
+  width: 60px;
   padding: 7px;
   border: none;
   box-shadow: 0px 2px 7px;
@@ -222,11 +221,11 @@ label {
   font-size: large;
   font-weight: 500;
   color: rgb(86, 86, 86);
-  margin: 10px;
+  margin: 5px;
 }
 
 .size_field {
-  width: 16%;
+  width: 60px;
   padding: 7px;
   border: none;
   box-shadow: 0px 2px 7px;
@@ -234,7 +233,57 @@ label {
   font-size: large;
   font-weight: 500;
   color: rgb(86, 86, 86);
-  margin: 10px;
+  margin: 5px;
+}
+
+@media (max-width:1400px) {
+  .input-container {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .price-boxes {
+    overflow-y: scroll;
+  }
+
+  .input_box {
+    width: 96%;
+  }
+
+  .centering {
+    margin-top: 60px;
+  }
+
+}
+
+@media (max-width:1320px) {
+  .last {
+    flex-direction: column;
+  }
+
+  .price-boxes {
+    height: auto;
+  }
+
+  .centering {
+    margin: -2px;
+  }
+
+  .price-boxes,
+  .count-size-quantity-box {
+    width: 50%;
+  }
+
+
+
+}
+
+@media (max-width:650px) {
+
+  .price-boxes,
+  .count-size-quantity-box {
+    width: 82%;
+  }
 }
 
 .popup-content {
@@ -313,33 +362,6 @@ label {
   background-color: #60c7ff;
 }
 
-.pinned-items{
+.pinned-items {
   height: 100px;
-}
-
-.size-and-quantity{
-  overflow-y: auto;
-  max-height: 40%;
-}
-
-@media (max-width:760px){
-  .last{
-    flex-direction: column;
-  }
-  
-  .count-size-quantity-box{
-    margin-top: 8px;
-
-  }
-  .part_for_size {
-    justify-content: flex-start;
-  }
-  .part_for_price{
-    justify-content: flex-start;
-
-  }
-  .size-and-quantity{
-    max-height: 40%;
-  }
-  
 }

@@ -209,7 +209,9 @@ const CategoryTable = () => {
         <VerticalNavbar />
         <ToastContainer />
         <div className="dashboard-body">
-          <div>
+          <div className="box-for-table">
+          {categories && categories.length > 0 ? (
+              <>
             <div className="category-header-container">
               <h2
                 style={{
@@ -229,8 +231,7 @@ const CategoryTable = () => {
                 </div>
               </button>
             </div>
-            {categories && categories.length > 0 ? (
-              <>
+           
                 <DataGrid
                   rows={rows}
                   columns={columns}

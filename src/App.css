@@ -38,6 +38,8 @@
   flex-wrap: wrap;
   width: 100%;
   flex: 1;
+  justify-content: center;
+  align-items: center;
 }
 
 .product-type-grid {
@@ -261,4 +263,13 @@
 .product-info-table tbody tr td {
   text-align: center;
   padding: 70px;
+}
+
+.load{
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-content: center;
+  width: 100%;
+  flex-wrap: wrap;
 }

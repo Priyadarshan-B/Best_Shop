@@ -11,7 +11,6 @@ import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import requestApi from "../../utils/axios";
 import apiHost from "../../utils/api";
-// import ImageUpload from "./image";
 import LibraryAddIcon from "@mui/icons-material/LibraryAdd";
 
 import { toast, ToastContainer } from "react-toastify";
@@ -254,7 +253,9 @@ const DetailTable = () => {
         <VerticalNavbar />
         <ToastContainer />
         <div className="dashboard-body">
-          <div className="tot-detail">
+          <div className="box-for-tables">
+          {categories && categories.length > 0 ? (
+              <>
             <div className="category-header-container">
               <h2>Category with Detail Table</h2>
               <button
@@ -269,8 +270,7 @@ const DetailTable = () => {
               </button>
             </div>
 
-            {categories && categories.length > 0 ? (
-              <>
+            
                 <div className="detail-table-grid">
                   <DataGrid
                     rows={rows}
