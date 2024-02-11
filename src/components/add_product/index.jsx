@@ -416,7 +416,9 @@ function AddStocks() {
     );
 
     // size n quantity value int
-    const sizes = inputs.map((input) => parseInt(input.size, 10));
+    // const sizes = inputs.map((input) => parseInt(input.size, 10));
+    const sizes = inputs.map((input) => input.size.toString());
+
     const quantities = inputs.map((input) => parseInt(input.quantity, 10));
 
     // data to be send to backend
@@ -693,7 +695,7 @@ function AddStocks() {
                             <label htmlFor="colour" className="count_label">
                               Colour
                             </label>
-                            <Select
+                            {/* <Select
                               id="colour"
                               name="colour"
                               value={colour}
@@ -701,7 +703,16 @@ function AddStocks() {
                               options={options}
                               placeholder="Select Colour"
                               isSearchable
-                            />
+                            /> */}
+                            <Select
+  id="colour"
+  name="colour"
+  value={options.find(option => option.value === colour)} // Find the corresponding option object
+  onChange={handleColourChange}
+  options={options}
+  placeholder="Select Colour"
+  isSearchable
+/>
 
                            
                           </div>
@@ -716,7 +727,7 @@ function AddStocks() {
                                 <label htmlFor={`size-${index}`}>Size:</label>
                                 <input
                                   className="size_field"
-                                  type="number"
+                                  type="text"
                                   id={`size-${index}`}
                                   value={input.size}
                                   required
