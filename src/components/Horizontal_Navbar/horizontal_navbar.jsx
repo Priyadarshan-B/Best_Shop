@@ -5,12 +5,8 @@ import "reactjs-popup/dist/index.css";
 import "./horizontal_navbar.css";
 import { useNavigate } from "react-router-dom";
 import apiHost from "../../utils/api";
-import { FaAngleDown, FaAngleUp } from "react-icons/fa";
 import SpaceDashboardIcon from "@mui/icons-material/SpaceDashboard";
-import InventoryIcon from "@mui/icons-material/Inventory";
-import QueryStatsIcon from "@mui/icons-material/QueryStats";
 import CategoryIcon from "@mui/icons-material/Category";
-import SupervisorAccountIcon from "@mui/icons-material/SupervisorAccount";
 import TableChartIcon from "@mui/icons-material/TableChart";
 import InfoIcon from "@mui/icons-material/Info";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
@@ -55,7 +51,7 @@ const HorizontalNavbar = () => {
         console.error("Token is missing");
         return;
       }
-
+  
       const response = await fetch(`${apiHost}/logout`, {
         method: "POST",
         headers: {
@@ -63,11 +59,11 @@ const HorizontalNavbar = () => {
           Authorization: `Bearer ${token}`,
         },
       });
-
+  
       if (response.status === 200) {
         localStorage.removeItem("token");
         console.log("token removed");
-        navigate("/", { state: { successMessage: "Logout successfully" } });
+        navigate("/login", { state: { successMessage: "Logout successfully" } });
       } else {
         console.error("Logout failed");
       }

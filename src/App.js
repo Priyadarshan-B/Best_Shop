@@ -1,11 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import './App.css';
+import { useNavigate } from "react-router-dom";
 import Login from "./components/Login/login";
 import Signup from "./components/Signup/signup";
 import Dashboard from "./components/Dashboard/dashboard";
-import Inventory from "./components/Inventory/inventory";
-import Enquiries from "./components/Enquiries/enquiries";
 import ProductDashboard from "./components/Products/ProductDashboard";
 import AddStocks from "./components/add_product";
 import CategoryTable from "./components/Tables/category_table";
@@ -13,46 +12,45 @@ import FieldTable from "./components/Tables/field_table";
 import DetailTable from "./components/Tables/detail_table";
 import ExportData from "./components/export_data/Export";
 
-const App = () => {
-  const [loading, setLoading] = useState(true);
+function Protected({ children }) {
+  const navigate = useNavigate();
+  const [isAuth, setAuth] = useState(false);
 
   useEffect(() => {
-    // Simulate loading, you can replace this with actual data fetching logic
-    setTimeout(() => {
-      setLoading(false);
-    }, 2000);
-  }, []); // Empty dependency array to run once on mount
+  const checkAuth = async () => {
+    if (localStorage.getItem("token")) {
+      setAuth(true);
+    } else {
+      navigate("/login");
+    }
+  };
 
-  return (
-    <div className="App-Layout">
-      {loading ? (
-        <div className="load">
-          <div className="loader">
-          </div>
-        </div> 
-      ) : 
-      (
-    
-        <Router>
-          <Routes>
-            <Route path="/" exact Component={Login} />
-            <Route path="/signup" exact Component={Signup} />
-            <Route path="/login" exact Component={Login} />
-            <Route path="/dashboard" Component={Dashboard} />
-            <Route path="/inventory" Component={Inventory} />
-            <Route path="/enquiries" Component={Enquiries} />
-            <Route path="/addStock" Component={AddStocks} />
-            <Route path="/productdashboard" Component={ProductDashboard} />
-            <Route path="/categorytable" Component={CategoryTable} />
-            <Route path="/fieldtable" Component={FieldTable} />
-            <Route path="/detailtable" Component={DetailTable} />
-            <Route path="/export" Component={ExportData} />
-          </Routes>
-        </Router>
-      )
-      }
-    </div>
-  );
-};
+  checkAuth();
+}, [navigate]);
 
-export default App;
+if (isAuth) {
+  return children;
+}
+return null;
+
+}
+const routes = () => (
+  <Router>
+    <Routes>
+      <Route path= "/" element={<Login />} />
+      <Route path= "/login" element={<Login />} />
+      <Route path= "/signup" element={<Signup />} />
+      <Route path= "/dashboard" element={<Protected><Dashboard /></Protected>} />
+      <Route path= "/addStock" element={<Protected><AddStocks /></Protected>} />
+      <Route path= "/productdashboard" element={<Protected><ProductDashboard /></Protected>} />
+      <Route path= "/categorytable" element={<Protected><CategoryTable /></Protected>} />
+      <Route path= "/detailtable" element={<Protected><DetailTable /></Protected>} />
+      <Route path= "/fieldtable" element={<Protected><FieldTable /></Protected>} />
+      <Route path= "/export" element={<Protected><ExportData /></Protected>} />
+      <Route path= "*" element={<h1>404</h1>} />
+
+    </Routes>
+  </Router>
+);
+
+export default routes;

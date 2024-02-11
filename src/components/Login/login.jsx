@@ -36,6 +36,8 @@ const Login = () => {
         const { token } = await response.json();
 
         localStorage.setItem('token', token);
+        localStorage.setItem("isLogin", "true");
+
         setError(null);
         console.log('Login successful');
         navigate('/dashboard', { state: { successMessage: 'Login Successfully' } });

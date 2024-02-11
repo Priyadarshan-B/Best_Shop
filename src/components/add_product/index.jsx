@@ -15,6 +15,9 @@ import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useNavigate } from "react-router-dom";
 import NavigateNextOutlinedIcon from "@mui/icons-material/NavigateNextOutlined";
+import AddCircleIcon from "@mui/icons-material/AddCircle";
+import RemoveCircleIcon from "@mui/icons-material/RemoveCircle";
+import Select from "react-select";
 
 // AddStocks func..
 
@@ -27,6 +30,7 @@ function AddStocks() {
   const [mrp, setMrpPrice] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [price, setPrice] = useState(1);
+  const [colour, setColour] = useState("");
   const [model, setModel] = useState("");
   const [selectedIndex, setSelectedIndex] = useState(0);
   const [showQty, setShowQty] = useState(false);
@@ -425,13 +429,14 @@ function AddStocks() {
       purchasing_price: parseFloat(price),
       selling_price: parseFloat(selling_price),
       mrp: parseFloat(mrp),
+      colour: colour,
       sizes: sizes,
       quantities: quantities,
       model: model,
     };
-    for (const key in requestData) {
-      console.log(`${key}: ${typeof requestData[key]}`);
-    }
+    // for (const key in requestData) {
+    //   console.log(`${key}: ${typeof requestData[key]}`);
+    // }
 
     console.log(requestData);
     fetch(`${apiHost}/stocks`, {
@@ -465,26 +470,66 @@ function AddStocks() {
     }
   };
 
+  // colours
+  const options = [
+    { value: "red", label: "Red" },
+    { value: "blue", label: "Blue" },
+    { value: "green", label: "Green" },
+    { value: "tan", label: "Tan" },
+    { value: "black", label: "Black" },
+    { value: "mehendi", label: "Mehendi" },
+    { value: "brown", label: "Brown" },
+    { value: "pink", label: "Pink" },
+    { value: "yellow", label: "Yellow" },
+    { value: "orange", label: "Orange" },
+
+  ];
+
+  const handleColourChange = (selectedOption) => {
+    // setColour(selectedOption);
+    if (selectedOption) {
+      setColour(selectedOption.value); // Set only the value of the selected option
+    } else {
+      setColour(""); // Handle the case where no option is selected
+    }
+
+  };
+
   //  refresh func..
   const handleRefresh = () => {
     setSellingPrice("");
     setMrpPrice("");
-    setPrice("");
-    setCount("");
+
+    setColour("");
     setInputs([]);
+    setModel("");
+  };
+
+  // selling and purchasing price
+  const handleSellingPriceChange = (e) => {
+    const value = e.target.value;
+    setSellingPrice(value);
+    // Automatically update Purchasing Price based on Selling Price
+    setMrpPrice(value);
+  };
+
+  const handleMrpPriceChange = (e) => {
+    const value = e.target.value;
+    setMrpPrice(value);
   };
 
   // count, size and quantity
 
-  const [count, setCount] = useState();
   const [inputs, setInputs] = useState([]);
 
-  const handleCountChange = (event) => {
-    const newCount = parseInt(event.target.value, 10) || 0;
-    setCount(newCount);
-    setInputs(
-      Array.from({ length: newCount }, () => ({ size: "", quantity: "" }))
-    );
+  const handleAddField = () => {
+    setInputs([...inputs, { size: "", quantity: "" }]);
+  };
+
+  const handleRemoveField = (index) => {
+    const newInputs = [...inputs];
+    newInputs.splice(index, 1);
+    setInputs(newInputs);
   };
 
   const handleInputValueChange = (index, key, value) => {
@@ -525,7 +570,7 @@ function AddStocks() {
               <div className="select-category-card">
                 {selectedCategory.length !== 0 ? (
                   selectedCategory.map((item) =>
-                    item.details_image === "null" ? (
+                    item.details_image === "' '" ? (
                       <h2 key={item.id}>{item.details_name}</h2>
                     ) : (
                       <img
@@ -572,51 +617,7 @@ function AddStocks() {
                   </button>
                 </div>
                 {/* cards */}
-                {/* {!showQty ? (
-                  <div className="product-type-grid">
-                    <div className="item_boxes">
-                      {!isLoading &&
-                        category.map((item, i) => (
-                          <div
-                            key={i}
-                            className="product-type-item"
-                            onClick={() => {
-                              handleSelectCategory(item);
-                              if (selectedCategory.length === 0) {
-                                fetchFields(item.category_id);
-                              } else {
-                                if (selectedIndex < field.length - 1) {
-                                  fetchOptions(
-                                    selectedCategory[0].category_id,
-                                    field[selectedIndex + 1].field_id
-                                  );
-                                  setSelectedIndex(selectedIndex + 1);
-                                } else {
-                                  setShowQty(true);
-                                }
-                              }
-                            }}
-                          >
-                            <p>
-                              {item.category_name === undefined
-                                ? item.details_name
-                                : item.category_name}
-                            </p>
-                            {item.details_image !== "null" ? (
-                              <img
-                                src={`${apiHost}/${
-                                  item.category_image === undefined
-                                    ? item.details_image
-                                    : item.category_image
-                                }`}
-                                alt={`${item.category_name} image`}
-                              />
-                            ) : null}
-                          </div>
-                        ))}
-                    </div>
-                  </div>
-                ) : ( */}
+
                 {!showQty ? (
                   <div className="product-type-grid">
                     <div className="item_boxes">
@@ -689,29 +690,36 @@ function AddStocks() {
                               value={model}
                               onChange={(e) => setModel(e.target.value)}
                             />
-                            <label htmlFor="count" className="count_lable">
-                              Count:
+                            <label htmlFor="colour" className="count_label">
+                              Colour
                             </label>
-                            <input
-                              placeholder="Enter Count"
-                              className="count_field"
-                              type="number"
-                              id="count"
-                              name="count"
-                              value={count}
-                              onChange={handleCountChange}
+                            <Select
+                              id="colour"
+                              name="colour"
+                              value={colour}
+                              onChange={handleColourChange}
+                              options={options}
+                              placeholder="Select Colour"
+                              isSearchable
                             />
+
+                           
                           </div>
                           <div className="size-and-quantity">
+                            
+                            <div>
+                              <b>Size and Quantity</b>
+                            </div>
+
                             {inputs.map((input, index) => (
-                              <div key={index}>
+                              <div className="sizeandquantity"  key={index}  >
                                 <label htmlFor={`size-${index}`}>Size:</label>
                                 <input
                                   className="size_field"
                                   type="number"
                                   id={`size-${index}`}
-                                  name={`size-${index}`}
                                   value={input.size}
+                                  required
                                   onChange={(e) =>
                                     handleInputValueChange(
                                       index,
@@ -727,8 +735,8 @@ function AddStocks() {
                                   className="quantity_field"
                                   type="number"
                                   id={`quantity-${index}`}
-                                  name={`quantity-${index}`}
                                   value={input.quantity}
+                                  required
                                   onChange={(e) =>
                                     handleInputValueChange(
                                       index,
@@ -737,8 +745,21 @@ function AddStocks() {
                                     )
                                   }
                                 />
+
+                                <RemoveCircleIcon
+                                  style={{
+                                    cursor: "pointer",
+                                  }}
+                                  onClick={() => handleRemoveField(index)}
+                                />
                               </div>
                             ))}
+                            <AddCircleIcon
+                              style={{
+                                cursor: "pointer",
+                              }}
+                              onClick={handleAddField}
+                            />
                           </div>
                         </div>
                       </div>
@@ -756,9 +777,11 @@ function AddStocks() {
                                 type="text"
                                 id="selling_price"
                                 value={selling_price}
-                                onChange={(e) =>
-                                  handleNumberChange(e, setSellingPrice)
-                                }
+                                // onChange={(e) =>
+                                //   handleNumberChange(e, setSellingPrice)
+                                // }
+                                onChange={handleSellingPriceChange}
+                                required
                               />
                             </div>
                             <div className="input-container">
@@ -769,9 +792,11 @@ function AddStocks() {
                                 type="text"
                                 id="mrp"
                                 value={mrp}
-                                onChange={(e) =>
-                                  handleNumberChange(e, setMrpPrice)
-                                }
+                                required
+                                // onChange={(e) =>
+                                //   handleNumberChange(e, setMrpPrice)
+                                // }
+                                onChange={handleMrpPriceChange}
                               />
                             </div>
                             <div className="input-container">
@@ -782,6 +807,7 @@ function AddStocks() {
                                 type="text"
                                 id="price"
                                 value={price}
+                                required
                                 onChange={(e) =>
                                   handleNumberChange(e, setPrice)
                                 }
@@ -1039,7 +1065,7 @@ function AddStocks() {
                   </div>
                   <div>
                     <select
-                      className="form-select-none"
+                      className="form-select"
                       id="field_name"
                       name="field_name"
                     >

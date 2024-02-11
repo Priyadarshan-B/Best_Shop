@@ -213,7 +213,7 @@ label {
 }
 
 .quantity_field {
-  width: 60px;
+  width: 16%;
   padding: 7px;
   border: none;
   box-shadow: 0px 2px 7px;
@@ -225,7 +225,7 @@ label {
 }
 
 .size_field {
-  width: 60px;
+  width: 16%;
   padding: 7px;
   border: none;
   box-shadow: 0px 2px 7px;
@@ -364,4 +364,17 @@ label {
 
 .pinned-items {
   height: 100px;
+}
+
+.s-q-button{
+  border-radius: 50%;
+  width: max-content;
+}
+
+.sizeandquantity{
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-content: center;
+  align-items: center;
 }

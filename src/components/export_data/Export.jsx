@@ -9,18 +9,16 @@ import "react-toastify/dist/ReactToastify.css";
 import * as XLSX from "xlsx";
 import apiHost from "../../utils/api";
 import DownloadIcon from "@mui/icons-material/Download";
-import hintImage from "../../assets/img/hint.jpg";
-
+// import hintImage from "../../assets/img/hint.jpg";
 
 const ExportData = () => {
   const [exportValue, setExportValue] = useState("");
-  const [itemValue, setItemValue] = useState("");
-  const [mcategoryValue, setMcategoryValue] = useState("");
-  const [scategoryValue, setscategoryValue] = useState("");
-  const [brandValue, setBrandValue] = useState("");
-  const [colourValue, setColourValue] = useState("");
-  const [sampleFormat, setSampleFormat] = useState('');
-
+  // const [itemValue, setItemValue] = useState("2");
+  // const [mcategoryValue, setMcategoryValue] = useState("1");
+  // const [scategoryValue, setscategoryValue] = useState("3");
+  // const [brandValue, setBrandValue] = useState("4");
+  // const [colourValue, setColourValue] = useState("5");
+  const [sampleFormat, setSampleFormat] = useState("");
 
   // curreny-format
 
@@ -32,10 +30,14 @@ const ExportData = () => {
           const data = await response.json();
           setSampleFormat(data[0][0]);
         } else {
-          console.error('Failed to fetch data:', response.status, response.statusText);
+          console.error(
+            "Failed to fetch data:",
+            response.status,
+            response.statusText
+          );
         }
       } catch (error) {
-        console.error('Error during fetch:', error);
+        console.error("Error during fetch:", error);
       }
     };
 
@@ -54,14 +56,14 @@ const ExportData = () => {
   const downloadExcel = () => {
     const inputData = {
       dist_id: parseInt(exportValue),
-      item_name: parseInt(itemValue),
-      main_category: parseInt(mcategoryValue),
-      sub_category: parseInt(scategoryValue),
-      brand: parseInt(brandValue),
-      colour: parseInt(colourValue),
+      // item_name: parseInt(itemValue),
+      // main_category: parseInt(mcategoryValue),
+      // sub_category: parseInt(scategoryValue),
+      // brand: parseInt(brandValue),
+      // colour: parseInt(colourValue),
     };
 
-    fetch(`${apiHost}/genearte-excel`, {
+    fetch(`${apiHost}/generate-excel`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -107,17 +109,15 @@ const ExportData = () => {
 
         <div className="dashboard-body">
           <div className="export-container-card">
-            <div className="distributor-id-field">
-              <label>Distributor ID:</label>
-              <input
-                className="dist_input_id"
-                type="number"
-                value={exportValue}
-                onChange={(e) => setExportValue(e.target.value)}
-                placeholder="Distributor ID"
-              />
-            </div>
-            <div className="container-except-di">
+            <label>Distributor ID:</label>
+            <input
+              className="dist_input_id"
+              type="number"
+              value={exportValue}
+              onChange={(e) => setExportValue(e.target.value)}
+              placeholder="Distributor ID"
+            />
+            {/* <div className="container-except-di">
               <div className="item-info-box">
                 <label>Item Name:</label>
                 <input
@@ -175,15 +175,10 @@ const ExportData = () => {
                   />
                 </div>
                 <label>Current Format</label>
-                {/* <input
-                  className="dist_input"
-                  type="text"
-                  value={currentValue}
-                  onChange={(e) => setCurrentValue(e.target.value)}
-                /> */}
+                
                 <p>{sampleFormat}</p>
               </div>
-            </div>
+            </div> */}
             <button onClick={downloadExcel} className="dist_button">
               <DownloadIcon style={{ marginRight: "10px" }} />
               Download As Excel

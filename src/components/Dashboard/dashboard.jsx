@@ -13,8 +13,8 @@ const DashboardWrapper = () => {
 const Dashboard = () => {
   const [chartData, setChartData] = useState({
     series: [
-      { name: "Price of the Product", data: [0, 0, 0], yaxis: 0 },
-      { name: "Product Count", data: [0, 0, 0], yaxis: 1 },
+      { name: "Product Count", data: [0, 0, 0], yaxis: 0 },
+      { name: "Price of the Product", data: [0, 0, 0], yaxis: 1 },
       { name: "Rate of the Product", data: [0, 0, 0], yaxis: 2 },
     ],
     options: {
@@ -28,7 +28,7 @@ const Dashboard = () => {
           // borderRadius: '5px 5px 0px 0px',
           columnWidth: "55%",
           endingShape: "rounded",
-          borderRadius: "5 ",
+          borderRadius: "2",
           dataLabels: {
             position: "top",
           },
@@ -44,8 +44,8 @@ const Dashboard = () => {
       },
       xaxis: {
         categories: [
-          "Price of the Product",
           "Product Count",
+          "Price of the Product",
           "Rate of the Product",
         ],
         labels: {
@@ -61,7 +61,7 @@ const Dashboard = () => {
       tooltip: {
         y: {
           formatter: function (val) {
-            return "₹ " + val;
+            return "" + val;
           },
         },
       },
